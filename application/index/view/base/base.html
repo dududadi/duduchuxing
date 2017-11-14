@@ -17,24 +17,18 @@
 
     {/block}
 </head>
-<body>
-    <nav class="nav">
+<body ng-app="myApp" ng-controller="myCtrl">
         {block name="nav"}
             这里是nav。
         {/block}
-    </nav>
 
-    <div class="content">
         {block name="content"}
             这里是content。
         {/block}
-    </div>
 
-    <footer class="footer">
         {block name="footer"}
             这里是footer。
         {/block}
-    </footer>
 
     {block name="js"}
 
