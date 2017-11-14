@@ -1,25 +1,56 @@
+/* 修改背景颜色 */
 .navbar-default {
-    height: 70px;
     background-color: #fff;
+}
+
+/* 添加下边框 */
+.navbar-header {
     border-bottom: 1px solid #FC9A69;
 }
 
+/* 修改logo图大小 */
 .navbar-brand {
     padding: 10px 25px;
     height: 70px;
 }
 
-.navbar-brand>img {
+.navbar-brand > img {
     height: 50px;
 }
 
+/* 修改小屏幕下下拉弹窗按钮样式 */
+.navbar-toggle {
+    margin-top: 18px;
+}
+
+.navbar-toggle:hover,
+.navbar-toggle:active,
+.navbar-toggle:visited,
+.navbar-toggle:focus {
+    background-color: white !important;
+}
+
+/* 修改菜单链接样式 */
 .nav li a {
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding: 25px 30px;
     font-size: 16px;
 }
 
 .nav li a:hover,
 .nav li a:active {
     color: #FC9A69 !important;
+}
+
+/* 修改下拉菜单样式 */
+.dropdown-menu {
+    padding: 0;
+}
+
+.dropdown li a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.navbar-collapse {
+    max-height: 680px !important;
 }
