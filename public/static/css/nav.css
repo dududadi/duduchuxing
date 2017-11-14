@@ -1,0 +1,25 @@
+.navbar-default {
+    height: 70px;
+    background-color: #fff;
+    border-bottom: 1px solid #FC9A69;
+}
+
+.navbar-brand {
+    padding: 10px 25px;
+    height: 70px;
+}
+
+.navbar-brand>img {
+    height: 50px;
+}
+
+.nav li a {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-size: 16px;
+}
+
+.nav li a:hover,
+.nav li a:active {
+    color: #FC9A69 !important;
+}
