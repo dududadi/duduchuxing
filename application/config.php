@@ -34,7 +34,8 @@ return [
         '__IMG__'       => $root.'/static/img',
         '__FONT__'      => $root.'/static/font',
         '__BOOTSTRAP__' => $root.'/static/bootstrap',
-        '__fullPage__'  => $root.'/static/fullPage'
+        '__FULLPAGE__'  => $root.'/static/fullPage',
+        '__HUI__' => $root.'/static/hui'
     ],
 
 ];
