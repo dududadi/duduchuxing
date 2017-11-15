@@ -3,7 +3,17 @@
 
 {block name='css'}
 <link rel="stylesheet" href="__CSS__/nav.css" type="text/css">
+<link rel="stylesheet" href="__CSS__/footer.css" type="text/css">
 <style>
+    #all{
+        height: 2400px
+    }
+    #banner{
+        width: auto;
+        height: 657px;
+        background: url(__IMG__/ycw/taxi_banner.jpg) no-repeat center;
+        background-size: cover;
+    }
     .rowEx{
         margin-right:0;
         margin-left:0;
@@ -17,27 +27,30 @@
     .white{
         color: white;
     }
-    .left{
+    .left_div,.left_bis{
         float: left;
         width:25%;
         height: 300px;
         min-height: 300px;
-        background: #fc9153;
     }
-    .right{
+    .right_div,.right_bis{
         float: left;
         width:75%;
         height: auto;
         min-height: 300px;
     }
 
+    #info{
+        box-shadow:0 1px 3px rgba(0,0,0,.25);
+    }
+
+    /*大屏显示*/
     @media (min-width: 992px) {
         .txt_h2{
             margin: 80px 0 0 55px;
         }
 
         .line_b{
-            background: #fff;
             display: inline-block;
             width: 75px;
             height: 1px;
@@ -63,9 +76,55 @@
             font-size: 14px;
             padding: 65px 11% 20px;
         }
+
+        .line{
+            position: relative;
+            height: 1px;
+            background: #bdbdbd;
+            float: left;
+            width: 123.405px;
+            top: 32.5px;
+            margin-left: 10.735px;
+            margin-right: 10.735px;
+        }
+        .box_item{
+            position: relative;
+            text-align: center;
+            float: left;
+            width: 15%;
+        }
+        .box_item>img{
+            width: 80%;
+            vertical-align: middle;
+        }
+        .box_item>p{
+            position: absolute;
+            left: 50%;
+            width: 200px;
+            line-height: 25px;
+            margin-left: -100px;
+        }
+        .box{
+            padding: 42px 10% 0 10%;
+            margin: 95px 0;
+        }
+        .bix_img{
+            float: left;
+            display: inline-block;
+            padding: 0 8%;
+        }
+
     }
 
+    /*小屏显示*/
     @media screen and (max-width: 992px) {
+
+        .ban_min_h2{
+
+        }
+        .ban_min_h4{
+
+        }
         .pd_01{
             display: block;
             width: 100%;
@@ -90,21 +149,96 @@
             margin: 0;
         }
 
-        .left{
+        .left_div{
             float: left;
             width:35%;
             height: 8rem;
             min-height: 8rem;
-            background: #fc9153;
         }
 
-        .right{
+        .right_div{
             float: left;
             width:65%;
             height: 8rem;
             min-height: 8rem;
         }
+
+        .left_bis{
+            width: 100%;
+            height: 4rem;
+            margin-bottom: 2rem;
+            min-height: 80px;
+        }
+        .right_bis{
+            width: 100%;
+            float: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .minp{
+            padding: 2rem 5% 0;
+        }
+        .line{
+            position: relative;
+            height: 1px;
+            background: #bdbdbd;
+            float: left;
+            width: 135.4px;
+            top: 47px;
+            margin-left: 13.8px;
+            margin-right: 13.8px;
+        }
+        .box_item{
+            position: relative;
+            text-align: center;
+            float: left;
+            width: 15%;
+            margin: 0 0 2rem 0;
+            padding: 0 0 5rem 0;
+        }
+        .box_item>img{
+            width: 80%;
+            vertical-align: middle;
+        }
+        .box_item>p{
+            position: absolute;
+            left: 50%;
+            width: 200px;
+            line-height: 25px;
+            margin-left: -100px;
+        }
+        .box{
+            padding: 42px 10% 0 10%;
+        }
+
+        .bix_img_min{
+            float: left;
+            display: inline-block;
+            padding: 0 4%;
+        }
+
+        .img_center{
+            margin-left: 40px;
+        }
     }
+    @media screen and (max-width: 420px){
+        #all{
+            height: 2200px;
+        }
+
+        .line{
+            position: relative;
+            height: 1px;
+            background: #bdbdbd;
+            float: left;
+            width: 50px;
+            top: 15px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+
 </style>
 {/block}
 {block name="title"}
@@ -116,40 +250,172 @@
 {/block}
 
 {block name="content"}
-
-<div class="row rowEx rlt">
-    <img class="img-responsive" src="__IMG__/ycw/taxi_banner.jpg" style="width: 100%" alt="taxi_banner">
-    <div class="abs" style="top: 22%;left: 10%;">
-        <p class="h2 white">嘟嘟出租车</p>
-        <p class="h2 white">值得信赖的出行服务</p>
-        <p class="h4 white">24小时全城通,高效的活地图</p>
-        <p class="hidden-xs hidden-sm hidden-md"><img src="http://www.didichuxing.com/r/cms/www/default/images/taxi_ewm.jpg" alt="嘟嘟出租车微信服务号"></p>
-    </div>
-</div>
-<div class="row rowEx rlt" style="width: 90%;margin: -94px 0 0 10%;background: #fff;">
-    <div class="row rowEx abs clearfix" style="width: 100%;height: 100%">
-        <div class="left">
-            <h2 class="txt_h2 rlt">
-                <span class="span_h2 white">嘟嘟出租车</span>
-                <b class="abs line_b"></b>
-            </h2>
-        </div><!--left end-->
-        <div class="right rlt">
-            <img class="img-responsive abs" style="width: 100%;height: 100%" src="http://www.didichuxing.com/r/cms/www/default/images/taxi_top_pic01.jpg" alt="嘟嘟出租车">
-            <p class="pd_02 white abs hidden-sm hidden-xs"><span>嘟嘟出租车在你身边</span><br>滴滴出租车是滴滴出行的初创业务，成立于2012年9月9日，通过"互联网+交通"思维，运用大数据匹配全天24小时出行需求，颠覆以往路边扬招的传统打车方式，让城市出行变得高效、智能、安全，不断提升司机积极性和效率。</p>
-            <span class="pd_01 white abs hidden-md hidden-lg">嘟嘟出租车在你身边</span>
-        </div><!--left end-->
-        <div class="row rowEx hidden-md hidden-lg" style="width: 100%;padding: 2rem 5% 0;background: #f6f6f6;float: left">
-            <div class="pd_03">
-                <p>滴滴出租车是滴滴出行的初创业务，成立于2012年9月9日，通过"互联网+交通"思维，运用大数据匹配全天24小时出行需求，颠覆以往路边扬招的传统打车方式，让城市出行变得高效、智能、安全，不断提升司机积极性和效率。</p>
-            </div>
+<div id="all">
+    <div id="banner" class="row rowEx rlt">
+        <img class="img-responsive" src="" style="width: 100%" alt="taxi_banner">
+        <div class="abs" style="top: 22%;left: 10%;">
+            <p class="h2 white ban_min_h2">嘟嘟出租车</p>
+            <p class="h2 white ban_min_h2">值得信赖的出行服务</p>
+            <p class="h4 white ban_min_h4">24小时全城通,高效的活地图</p>
+            <p class="hidden-xs hidden-sm hidden-md"><img src="http://www.didichuxing.com/r/cms/www/default/images/taxi_ewm.jpg" alt="嘟嘟出租车微信服务号"></p>
         </div>
     </div>
+    <div class="row rowEx rlt" style="width: 90%;margin: -94px 0 0 10%;background: #fff;">
+        <div class="abs" style="width: 100%;height: 100%;">
+            <div id="info" class="row rowEx clearfix" >
+                <div class="left_div" style="background: #fc9153;">
+                    <h2 class="txt_h2 rlt">
+                        <span class="span_h2 white">嘟嘟出租车</span>
+                        <b class="abs line_b" style="background: #fff;"></b>
+                    </h2>
+                </div><!--left end-->
+                <div class="right_div rlt">
+                    <img class="img-responsive abs" style="width: 100%;height: 100%" src="http://www.didichuxing.com/r/cms/www/default/images/taxi_top_pic01.jpg" alt="嘟嘟出租车">
+                    <p class="pd_02 white abs hidden-sm hidden-xs"><span>嘟嘟出租车在你身边</span><br>嘟嘟出租车是滴滴出行的初创业务，成立于2017年11月13日，通过"互联网+交通"思维，运用大数据匹配全天24小时出行需求，颠覆以往路边扬招的传统打车方式，让城市出行变得高效、智能、安全，不断提升司机积极性和效率。</p>
+                    <span class="pd_01 white abs visible-xs visible-sm" style="display: none">嘟嘟出租车在你身边</span>
+                </div><!--left end-->
+                <div class="row rowEx visible-xs visible-sm" style="display:none;width: 100%;padding: 2rem 5% 0;background: #f6f6f6;float: left">
+                    <div class="pd_03">
+                        <p>嘟嘟出租车是嘟嘟出行的初创业务，成立于2017年11月13日，通过"互联网+交通"思维，运用大数据匹配全天24小时出行需求，颠覆以往路边扬招的传统打车方式，让城市出行变得高效、智能、安全，不断提升司机积极性和效率。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row rowEx clearfix minp" >
+                <div class="left_bis">
+                    <h2 class="txt_h2 rlt">
+                        <span class="span_h2">业务特性</span>
+                        <b class="abs line_b" style="background: #999;"></b>
+                    </h2>
+                </div><!--common_row_left end-->
+                <div class="right_bis">
+                    <div class="box">
+                        <div class="box_item">
+                            <img src="http://www.didichuxing.com/r/cms/www/default/images/taxi_flow_pic01.png" alt="滴滴出租车">
+                            <p>城市精神</p>
+                        </div>
+                        <div class="line"></div>
+                        <div class="box_item">
+                            <img src="http://www.didichuxing.com/r/cms/www/default/images/taxi_flow_pic02.png" alt="滴滴出租车">
+                            <p>高效安全</p>
+                        </div>
+                        <div class="line"></div>
+                        <div class="box_item">
+                            <img src="http://www.didichuxing.com/r/cms/www/default/images/taxi_flow_pic03.png" alt="滴滴出租车">
+                            <p>职业司机服务</p>
+                        </div>
+                    </div>
+                </div><!--common_row_right end-->
+            </div>
+            <div class="row rowEx clearfix minp" style="background-color: #f6f6f6;" >
+                <div class="left_bis">
+                    <h2 class="txt_h2 rlt">
+                        <span class="span_h2">颠覆传统</span>
+                        <span class="span_h2">市场领先</span>
+                        <b class="abs line_b" style="background: #999;"></b>
+                    </h2>
+                </div><!--common_row_left end-->
+                <div class="right_bis">
+                    <div class="box">
+                        <div class="clearfix">
+                            <div class="bix_img bix_img_min">
+                                <img class="img-responsive" src="http://www.didichuxing.com/r/cms/www/default/images/lead_marked_pic01.png" alt="滴滴出租车">
+                                <p>
+                                    <span class="h1">360</span>
+                                    <span class="h4">座覆盖城市</span>
+                                </p>
+                            </div>
+                            <div class="bix_img bix_img_min">
+                                <img class="img-responsive" src="http://www.didichuxing.com/r/cms/www/default/images/lead_marked_pic02.png" alt="滴滴出租车">
+                                <p>
+                                    <span class="h1">168</span>
+                                    <span class="h4">万注册司机</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--common_row_right end-->
+            </div>
+            <div class="row rowEx clearfix minp"  >
+                <div class="left_bis">
+                    <h2 class="txt_h2 rlt">
+                        <span class="span_h2">特色功能</span>
+                        <span class="span_h2">细腻体验</span>
+                        <b class="abs line_b" style="background: #999;"></b>
+                    </h2>
+                </div><!--common_row_left end-->
+                <div class="right_bis">
+                    <div class="box">
+                        <div class="clearfix">
+                            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                <!-- Indicators -->
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                                </ol>
 
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item active">
+                                        <img class="img_center" src="__IMG__/ycw/phone_pic01.png" alt="图片一">
+                                        <div class="carousel-caption hidden-xs" style="color: black;left: 178px;top: 30px;">
+                                            <p class="number">
+                                                <span style="font-size: 108px">01</span>
+                                            </p>
+                                            <p>动态调价</p>
+                                            <p>使用价格手段，平衡市场供需。</p>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <img class="img_center" src="__IMG__/ycw/phone_pic02.png" alt="图片二">
+                                        <div class="carousel-caption hidden-xs" style="color: black;left: 178px;top: 30px;">
+                                            <p>
+                                                <span style="font-size: 108px">02</span>
+                                            </p>
+                                            <p>老人打车</p>
+                                            <p>服务百万老人的出行需求，解决老人出行痛点</p>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <img class="img_center" src="__IMG__/ycw/phone_pic03.png" alt="图片三">
+                                        <div class="carousel-caption hidden-xs" style="color: black;left: 178px;top: 30px;">
+                                            <p>
+                                                <span style="font-size: 108px">03</span>
+                                            </p>
+                                            <p>答谢好司机</p>
+                                            <p>为乘客提供一个感谢好司机服务的平台，鼓励司机提供更优质的服务。</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Controls -->
+                                <a class="left carousel-control" style="background-image: none;" href="#carousel-example-generic" role="button" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                    <span class="sr-only">上一张图</span>
+                                </a>
+                                <a class="right carousel-control" style="background-image: none;" href="#carousel-example-generic" role="button" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                    <span class="sr-only">下一张图</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--common_row_right end-->
+            </div>
+        </div>
+
+    </div>
 </div>
+
+
+
 
 {/block}
 
 {block name="footer"}
 {include file="public/footer" /}
+{/block}
+
+{block name="js"}
+<script type="text/javascript" src="__JS__/footer.js"></script>
 {/block}
