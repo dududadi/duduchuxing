@@ -4,9 +4,6 @@
 {block name='css'}
 <link rel="stylesheet" href="__CSS__/nav.css" type="text/css">
 <style>
-    .bodb {
-        position: relative;
-    }
     .rowEx{
         margin-right:0;
         margin-left:0;
@@ -24,7 +21,89 @@
         float: left;
         width:25%;
         height: 300px;
+        min-height: 300px;
         background: #fc9153;
+    }
+    .right{
+        float: left;
+        width:75%;
+        height: auto;
+        min-height: 300px;
+    }
+
+    @media (min-width: 992px) {
+        .txt_h2{
+            margin: 80px 0 0 55px;
+        }
+
+        .line_b{
+            background: #fff;
+            display: inline-block;
+            width: 75px;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+        }
+        .span_h2{
+            display: inline-block;
+            font-size: 28px;
+            line-height: 45px;
+            -webkit-margin-before: 0.83em;
+            -webkit-margin-after: 0.83em;
+            -webkit-margin-start: 0px;
+            -webkit-margin-end: 0px;
+        }
+        .pd_02{
+            display: block;
+            -webkit-margin-before: 1em;
+            -webkit-margin-after: 1em;
+            -webkit-margin-start: 0px;
+            -webkit-margin-end: 0px;
+            line-height: 28px;
+            font-size: 14px;
+            padding: 65px 11% 20px;
+        }
+    }
+
+    @media screen and (max-width: 992px) {
+        .pd_01{
+            display: block;
+            width: 100%;
+            line-height: 8rem;
+            font-size: 1.4rem;
+            color: #fff;
+            text-align: center;
+
+        }
+        .pd_03{
+            display: block;
+            font-size: 1rem;
+            line-height: 2rem;
+            color: #666;
+        }
+        .txt_h2{
+            height: 8rem;
+            text-align: center;
+            min-height: 8rem;
+            font-size: 1.4rem;
+            line-height: 8rem;
+            margin: 0;
+        }
+
+        .left{
+            float: left;
+            width:35%;
+            height: 8rem;
+            min-height: 8rem;
+            background: #fc9153;
+        }
+
+        .right{
+            float: left;
+            width:65%;
+            height: 8rem;
+            min-height: 8rem;
+        }
     }
 </style>
 {/block}
@@ -44,25 +123,31 @@
         <p class="h2 white">嘟嘟出租车</p>
         <p class="h2 white">值得信赖的出行服务</p>
         <p class="h4 white">24小时全城通,高效的活地图</p>
-        <p class="hidden-xs"><img src="http://www.didichuxing.com/r/cms/www/default/images/taxi_ewm.jpg" alt="嘟嘟出租车微信服务号"></p>
+        <p class="hidden-xs hidden-sm hidden-md"><img src="http://www.didichuxing.com/r/cms/www/default/images/taxi_ewm.jpg" alt="嘟嘟出租车微信服务号"></p>
     </div>
 </div>
 <div class="row rowEx rlt" style="width: 90%;margin: -94px 0 0 10%;background: #fff;">
-    <div class="row rowEx abs" >
+    <div class="row rowEx abs clearfix" style="width: 100%;height: 100%">
         <div class="left">
-            <h2 class="public_h2 po_re">
-                <span>嘟嘟出租车</span>
-                <b class="po_ab line_b"></b>
+            <h2 class="txt_h2 rlt">
+                <span class="span_h2 white">嘟嘟出租车</span>
+                <b class="abs line_b"></b>
             </h2>
         </div><!--left end-->
-        <div class="right po_re">
-            <img class="img-responsive" src="http://www.didichuxing.com/r/cms/www/default/images/taxi_top_pic01.jpg" alt="嘟嘟出租车">
-            <p class="po_ab"><span class="weight_span">嘟嘟出租车在你身边</span><br>滴滴出租车是滴滴出行的初创业务，成立于2012年9月9日，通过"互联网+交通"思维，运用大数据匹配全天24小时出行需求，颠覆以往路边扬招的传统打车方式，让城市出行变得高效、智能、安全，不断提升司机积极性和效率。</p>
-            <span class="weight_span01">滴滴出租车在你身边</span>
+        <div class="right rlt">
+            <img class="img-responsive abs" style="width: 100%;height: 100%" src="http://www.didichuxing.com/r/cms/www/default/images/taxi_top_pic01.jpg" alt="嘟嘟出租车">
+            <p class="pd_02 white abs hidden-sm hidden-xs"><span>嘟嘟出租车在你身边</span><br>滴滴出租车是滴滴出行的初创业务，成立于2012年9月9日，通过"互联网+交通"思维，运用大数据匹配全天24小时出行需求，颠覆以往路边扬招的传统打车方式，让城市出行变得高效、智能、安全，不断提升司机积极性和效率。</p>
+            <span class="pd_01 white abs hidden-md hidden-lg">嘟嘟出租车在你身边</span>
         </div><!--left end-->
+        <div class="row rowEx hidden-md hidden-lg" style="width: 100%;padding: 2rem 5% 0;background: #f6f6f6;float: left">
+            <div class="pd_03">
+                <p>滴滴出租车是滴滴出行的初创业务，成立于2012年9月9日，通过"互联网+交通"思维，运用大数据匹配全天24小时出行需求，颠覆以往路边扬招的传统打车方式，让城市出行变得高效、智能、安全，不断提升司机积极性和效率。</p>
+            </div>
+        </div>
     </div>
 
 </div>
+
 {/block}
 
 {block name="footer"}
