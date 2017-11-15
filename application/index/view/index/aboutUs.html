@@ -1,7 +1,9 @@
+{/* 继承模板 */}
+{extend name="base/base" /}
+
 {block name="css"}
-    <link rel="stylesheet" href="__CSS__/nav.css">
-    <link rel="stylesheet" href="__CSS__/index.css">
-    <link rel="stylesheet" href="__STATIC__/fullPage.js-master/jquery.fullPage.css">
+	<link rel="stylesheet" href="__CSS__/nav.css">
+	<link rel="stylesheet" href="__CSS__/footer.css">
     <link rel="stylesheet" href="__CSS__/aboutUs.css">
 {/block}
 {block name="title"}
@@ -45,4 +47,12 @@
 			<p class="lead">新的项目，新的挑战，框架咋看一下似乎是搭建成功了，其实内涵大凶险，数据库也表现出了自己凶恶的爪牙，但是乐观家族是不可战胜的，组员阿伟甚至放下豪言：我一晚上把5个页面全部干掉。虽然偶尔反向乐观了，但大体还是是乐观的。</p>
 		</div>
 	</div>
+{/block}
+
+{block name="footer"}
+	{include file="public/footer"}
+{/block}
+
+{block name="js"}
+	<script src="__JS__/footer.js"></script>
 {/block}
