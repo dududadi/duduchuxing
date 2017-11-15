@@ -1,1 +1,69 @@
-123
+{/* 继承模板 */}
+{extend name="base/base" /}
+
+{block name='css'}
+<style>
+    .bodb {
+        position: relative;
+    }
+    .rowEx{
+        margin-right:0;
+        margin-left:0;
+    }
+    .rlt{
+        position: relative;
+    }
+    .abs{
+        position: absolute;
+    }
+    .white{
+        color: white;
+    }
+    .left{
+        float: left;
+        width:25%;
+        height: 300px;
+        background: #fc9153;
+    }
+</style>
+{/block}
+{block name="title"}
+出租车
+{/block}
+
+{block name="nav"}
+{include file="public/nav" /}
+{/block}
+
+{block name="content"}
+
+<div class="row rowEx rlt">
+    <img class="img-responsive" src="__IMG__/ycw/taxi_banner.jpg" style="width: 100%" alt="taxi_banner">
+    <div class="abs" style="top: 22%;left: 10%;">
+        <p class="h2 white">嘟嘟出租车</p>
+        <p class="h2 white">值得信赖的出行服务</p>
+        <p class="h4 white">24小时全城通,高效的活地图</p>
+        <p class="hidden-xs"><img src="http://www.didichuxing.com/r/cms/www/default/images/taxi_ewm.jpg" alt="嘟嘟出租车微信服务号"></p>
+    </div>
+</div>
+<div class="row rowEx rlt" style="width: 90%;margin: -94px 0 0 10%;background: #fff;">
+    <div class="row rowEx abs" >
+        <div class="left">
+            <h2 class="public_h2 po_re">
+                <span>嘟嘟出租车</span>
+                <b class="po_ab line_b"></b>
+            </h2>
+        </div><!--left end-->
+        <div class="right po_re">
+            <img class="img-responsive" src="http://www.didichuxing.com/r/cms/www/default/images/taxi_top_pic01.jpg" alt="嘟嘟出租车">
+            <p class="po_ab"><span class="weight_span">嘟嘟出租车在你身边</span><br>滴滴出租车是滴滴出行的初创业务，成立于2012年9月9日，通过"互联网+交通"思维，运用大数据匹配全天24小时出行需求，颠覆以往路边扬招的传统打车方式，让城市出行变得高效、智能、安全，不断提升司机积极性和效率。</p>
+            <span class="weight_span01">滴滴出租车在你身边</span>
+        </div><!--left end-->
+    </div>
+
+</div>
+{/block}
+
+{block name="footer"}
+{include file="public/footer" /}
+{/block}
