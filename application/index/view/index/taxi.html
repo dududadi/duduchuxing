@@ -5,6 +5,10 @@
 <link rel="stylesheet" href="__CSS__/nav.css" type="text/css">
 <link rel="stylesheet" href="__CSS__/footer.css" type="text/css">
 <style>
+    .show1,.show2,.show3,.show4{
+        /*visibility: hidden;*/
+        display: none;
+    }
     #all{
         height: 2400px
     }
@@ -253,16 +257,17 @@
 <div id="all">
     <div id="banner" class="row rowEx rlt">
         <img class="img-responsive" src="" style="width: 100%" alt="taxi_banner">
-        <div class="abs" style="top: 22%;left: 10%;">
-            <p class="h2 white ban_min_h2">嘟嘟出租车</p>
-            <p class="h2 white ban_min_h2">值得信赖的出行服务</p>
-            <p class="h4 white ban_min_h4">24小时全城通,高效的活地图</p>
+        <div class="abs" style="top: 30%;left: 15%;">
+            <p style="color:lightgoldenrodyellow;text-shadow:1px 1px 1px  black;" class="h2 white ban_min_h2">嘟嘟出租车</p>
+            <p style="color:lightgoldenrodyellow;text-shadow:1px 1px 1px  black;" class="h2 white ban_min_h2">值得信赖的出行服务</p>
+            <p style="color:lightgoldenrodyellow;text-shadow:1px 1px 1px  black;" class="h4 white ban_min_h4">24小时全城通,高效的活地图</p>
             <p class="hidden-xs hidden-sm hidden-md"><img src="http://www.didichuxing.com/r/cms/www/default/images/taxi_ewm.jpg" alt="嘟嘟出租车微信服务号"></p>
         </div>
     </div>
     <div class="row rowEx rlt" style="width: 90%;margin: -94px 0 0 10%;background: #fff;">
         <div class="abs" style="width: 100%;height: 100%;">
-            <div id="info" class="row rowEx clearfix" >
+            <!--嘟嘟出租车-->
+            <div id="info" class="show1 row rowEx clearfix" >
                 <div class="left_div" style="background: #fc9153;">
                     <h2 class="txt_h2 rlt">
                         <span class="span_h2 white">嘟嘟出租车</span>
@@ -280,7 +285,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row rowEx clearfix minp" >
+            <!--业务特性-->
+            <div class="show2 row rowEx clearfix minp" >
                 <div class="left_bis">
                     <h2 class="txt_h2 rlt">
                         <span class="span_h2">业务特性</span>
@@ -306,7 +312,8 @@
                     </div>
                 </div><!--common_row_right end-->
             </div>
-            <div class="row rowEx clearfix minp" style="background-color: #f6f6f6;" >
+            <!--颠覆传统 市场领先-->
+            <div class="show3 row rowEx clearfix minp" style="background-color: #f6f6f6;" >
                 <div class="left_bis">
                     <h2 class="txt_h2 rlt">
                         <span class="span_h2">颠覆传统</span>
@@ -335,7 +342,8 @@
                     </div>
                 </div><!--common_row_right end-->
             </div>
-            <div class="row rowEx clearfix minp"  >
+            <!--特色功能 细腻体验-->
+            <div class="show4 row rowEx clearfix minp"  >
                 <div class="left_bis">
                     <h2 class="txt_h2 rlt">
                         <span class="span_h2">特色功能</span>
@@ -407,9 +415,6 @@
     </div>
 </div>
 
-
-
-
 {/block}
 
 {block name="footer"}
@@ -418,4 +423,29 @@
 
 {block name="js"}
 <script type="text/javascript" src="__JS__/footer.js"></script>
+<script>
+    //页面内容渐进
+    $(function(){
+        //var show1_height = $(".show1").offset().top+71;
+        $(window).scroll(function(){
+            var this_scrollTop = $(this).scrollTop();
+            if(this_scrollTop>1200){
+                $(".show4").slideDown(600);
+                //$(".show1").animate({visibility:visible},'slow','swing');
+            }
+            if(this_scrollTop>850){
+                $(".show3").slideDown(600);
+                //$(".show1").animate({visibility:visible},'slow','swing');
+            }
+            if(this_scrollTop>600){
+                $(".show2").slideDown(600);
+                //$(".show1").animate({visibility:visible},'slow','swing');
+            }
+            if(this_scrollTop>200){
+                $(".show1").slideDown(600);
+                //$(".show1").animate({visibility:visible},'slow','swing');
+            }
+        });
+    });
+</script>
 {/block}
