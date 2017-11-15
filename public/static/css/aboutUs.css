@@ -1,0 +1,8 @@
+#about_me{
+	background-image: url("img/hy/banner.jpg");
+	height: 400px;
+	background-size:100%
+	background-repeat:no-repeat;
+	/*width: 100%;*/
+	overflow: hidden;
+}
