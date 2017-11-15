@@ -2,7 +2,9 @@
 {extend name="base/base" /}
 
 {block name="css"}
-
+    <link rel="stylesheet" href="__CSS__/nav.css">
+    <link rel="stylesheet" href="__CSS__/index.css">
+    <link rel="stylesheet" href="__STATIC__/fullPage.js-master/jquery.fullPage.css">
 {/block}
 
 
@@ -15,39 +17,88 @@
 {/block}
 
 {block name="content"}
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    v
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
-    <h1>salfjasdlf</h1>
-    <h2>fasljdlakjsdf</h2>
+    <body>
+        <div id="ljf">
+            <div class="main">
+                <div class="section">
+                    <div class="banner" style="max-height: 100%;">
+                        <div class="slide active" style="background-image: url(__IMG__/ljf/index/banner1.jpg);">
+                            <img src="__IMG__/ljf/index/banner1-word.png" style="top: 10%;left: 5%;">
+                        </div>
+                        <div class="slide" style="background-image: url(__IMG__/ljf/index/banner2.jpg);">
+                            <img src="__IMG__/ljf/index/banner2-word.png" style="top: 10%;right: 5%;">
+                        </div>
+                        <div class="slide" style="background-image: url(__IMG__/ljf/index/banner3.jpg);">
+                            <img src="__IMG__/ljf/index/banner3-word.png" style="top: 18%;left: 15%;">
+                        </div>
+                        <div class="slide" style="background-image: url(__IMG__/ljf/index/banner4.jpg);"></div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="client">
+                        <div style="background-image: url(__IMG__/ljf/index/passenger_big.jpg);">
+                            <div class="content clearfix">
+                                <img src="__IMG__/ljf/index/client_characters.jpg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="client">
+                        <div style="background-image: url(__IMG__/ljf/index/driver_big.jpg);">
+                            <div class="content clearfix">
+                                <img src="__IMG__/ljf/index/driver_characters.jpg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="news">
+                        <div class="title">
+                            <h2>新闻资讯</h2>
+                            <hr>
+                        </div>
+                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#myCarousel" data-slide-to="1"></li>
+                                <li data-target="#myCarousel" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item clearfix active">
+                                    <div class="item-left pull-left">
+                                        <img src="__IMG__/ljf/index/news1.jpg">
+                                    </div>
+                                    <div class="item-right pull-left">
+                                        <h3 class="news-title">滴滴完成超55亿美元新一轮融资 布局国际化与前沿智能交通科技</h3>
+                                        <p class="news-detail">4月28日，全球领先的出行平台滴滴出行今日宣布完成新一轮超过55亿美元融资，以支持其全球化战略的推进和前沿技术领域的投资。</p>
+                                    </div>
+                                </div>
+                                <div class="item clearfix">
+                                    <div class="item-left pull-left">
+                                        <img src="__IMG__/ljf/index/news2.jpg">
+                                    </div>
+                                    <div class="item-right pull-left">
+                                        <h3 class="news-title">程维联合国英文演讲：滴滴已成立全球新能源汽车服务公司</h3>
+                                        <p class="news-detail">美国东部时间11月1日，滴滴创始人、董事长兼CEO程维在“建设全球能源互联网，助推联合国2030可持续发展”论坛上表示，滴滴已经携手全球能源互联网发展合作组织（GEIDCO）合资成立全球新能源汽车服务公司。</p>
+                                    </div>
+                                </div>
+                                <div class="item clearfix">
+                                    <div class="item-left pull-left">
+                                        <img src="__IMG__/ljf/index/news3.jpg">
+                                    </div>
+                                    <div class="item-right pull-left">
+                                        <h3 class="news-title">滴滴平台正式获得网约车牌照 将更好服务亿万滴滴用户</h3>
+                                        <p class="news-detail">3月2日消息，滴滴出行今天宣布，经过天津市交通运输委员会等多部门审查，滴滴平台已获得天津市颁发的《网络预约出租车汽车经营许可证》，这一获批意味着滴滴网约车平台符合国家政策，得到政府认可。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 {/block}
 
 {block name="footer"}
@@ -55,5 +106,6 @@
 {/block}
 
 {block name="js"}
-    
+    <script type="text/javascript" src="__STATIC__/fullPage.js-master/jquery.fullPage.js"></script>
+    <script type="text/javascript" src="__JS__/index.js"></script>
 {/block}
