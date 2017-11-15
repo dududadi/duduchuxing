@@ -1,0 +1,70 @@
+li{
+    list-style: none;
+}
+#ljf .main-bgc{
+    background-color: #FC9A69;
+}
+#ljf .section{
+
+}
+#ljf .banner .slide{
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+#ljf .banner .slide img{
+    width: 25%;
+    position: absolute;
+}
+#ljf .client{
+    height: 100%;
+    text-align: center;
+    position: relative;
+}
+#ljf .client >div{
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+}
+#ljf .client img{
+    margin-top: 35%;
+    margin-bottom: 5%;
+}
+#ljf .news .title{
+    padding: 30px 60px 0;
+}
+#ljf .news .title hr{
+    width: 80px;
+    margin-left: 0;
+    border-color: #000;
+}
+#ljf .section:last-child .fp-tableCell{
+    vertical-align: top;
+    padding: 30px 20px 0;
+    height: inherit!important;
+}
+#ljf .news .item-left img{
+    width: auto;
+    height: 320px;
+}
+#ljf .news .item-right{
+    padding: 25px 38px 0 20px;
+    background: #e8e8e8;
+    height: 320px;
+    max-width: 700px;
+    color: #666;
+}
+#ljf .news .item-right >*{
+    margin-left: 30px;
+    margin-right: 20px;
+}
+#ljf .news .item-right p{
+    margin-top: 45px;
+}
+#ljf #myCarousel{
+    width: 1312px!important;
+    margin: auto;
+    float: none;
+}
