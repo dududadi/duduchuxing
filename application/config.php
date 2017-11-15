@@ -33,7 +33,8 @@ return [
     'view_replace_str'       => [
         '__IMG__'       => $root.'/static/img',
         '__FONT__'      => $root.'/static/font',
-        '__BOOTSTRAP__' => $root.'/static/bootstrap'
+        '__BOOTSTRAP__' => $root.'/static/bootstrap',
+        '__fullPage__'  => $root.'/static/fullPage'
     ],
 
 ];

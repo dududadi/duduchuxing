@@ -1,5 +1,8 @@
-li{
+#ljf li{
     list-style: none;
+}
+#ljf img{
+    display: block;
 }
 #ljf .main-bgc{
     background-color: #FC9A69;
@@ -21,16 +24,93 @@ li{
     height: 100%;
     text-align: center;
     position: relative;
+    color: #fff;
 }
-#ljf .client >div{
+#ljf .client-bg{
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+#ljf .client .content{
+    width: 80%;
+    margin: auto;
+    position: relative;
     height: 100%;
 }
-#ljf .client img{
-    margin-top: 35%;
-    margin-bottom: 5%;
+#ljf .box{
+    padding: 25px 25px 40px;
+    background-color: #fff;
+    position: absolute;
+    width: 100%;
+    bottom: 30px;
+    box-shadow: 1px 1px 26px #bdbdbd;
+}
+#ljf .box-title{
+    width: 180px;
+    background-color: #fc9153;
+    float: left;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+#ljf .box-title hr{
+    margin-right: 65%;
+}
+#ljf .box-title span{
+    margin-top: 30px;
+    display: inline-block;
+}
+#ljf .client ul{
+    padding-left: 180px;
+    width: 100%;
+}
+#ljf .client ul hr{
+    border-color: #bdbdbd;
+    width: 18%;
+    margin: 0 3%;
+    display: inline-block;
+    vertical-align: middle;
+}
+#ljf .client-passenger ul hr{
+    width: 10%;
+    margin: 0 2%;
+}
+#ljf .client ul li{
+    display: inline-block;
+    position: relative;
+    width: 16%;
+}
+#ljf .client-passenger ul li{
+    width: 13%;
+}
+#ljf .client ul li .top{
+    width: 100%;
+    position: relative;
+    display: inline-block;
+}
+#ljf .client ul li .top >*{
+    display: inline-block;
+    vertical-align: middle;
+}
+#ljf .client ul li .top img{
+    max-width: 120px;
+    height: auto;
+    width: 100%;
+}
+#ljf .client ul li .bottom{
+    margin-top: 8px;
+    color: #000;
+    position: absolute;
+    height: 20px;
+    width: 100%;
+    left: 0;
+    bottom: -25px;
 }
 #ljf .news .title{
     padding: 30px 60px 0;
@@ -67,4 +147,69 @@ li{
     width: 1312px!important;
     margin: auto;
     float: none;
+}
+
+@media screen and (max-width: 830px) {
+    #ljf .client-passenger .box{
+        height: 180px;
+    }
+}
+@media screen and (max-width: 775px) {
+    #ljf .client ul hr{
+        width: 17%;
+    }
+    #ljf .client-passenger ul hr{
+        width: 10%;
+    }
+    #ljf .client-passenger ul li {
+        width: 12%;
+    }
+}
+@media screen and (max-width: 620px) {
+    #ljf .client ul hr{
+        width: 16%;
+    }
+    #ljf .box{
+        padding: 25px 25px 60px;
+    }
+
+    #ljf .client-passenger .content{
+        width: 100%;
+    }
+    #ljf .client-passenger .box{
+        width: 100%!important;
+    }
+    #ljf .client-passenger .box ul hr{
+        display: none!important;
+    }
+    #ljf .news .item-left{
+        display: none!important;
+    }
+}
+@media screen and (max-width: 530px) {
+    #ljf .client .content{
+        width: 100%;
+    }
+    #ljf .client .box{
+        width: 100%!important;
+    }
+    #ljf .box-title{
+        width: 80px;
+    }
+    #ljf .client ul{
+        padding-left: 80px;
+    }
+    #ljf .client .box .h3{
+        font-size: 14px!important;
+    }
+}
+@media screen and (max-width: 380px) {
+    #ljf .client .box{
+        font-size: 12px!important;
+        padding: 20px 0 0 0;
+        height: 180px;
+    }
+    #ljf .client .box ul hr{
+        display: none!important;
+    }
 }
