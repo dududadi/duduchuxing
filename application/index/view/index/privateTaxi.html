@@ -1,0 +1,462 @@
+{/* 继承模板 */}
+{extend name="base/base" /}
+
+{block name='css'}
+<link rel="stylesheet" href="__CSS__/nav.css" type="text/css">
+<link rel="stylesheet" href="__CSS__/footer.css" type="text/css">
+<style>
+    .show1,.show2,.show3,.show4{
+        /*visibility: hidden;*/
+        display: none;
+    }
+    #all{
+        height: 2400px
+    }
+    #banner{
+        width: auto;
+        height: 657px;
+        background: url(__IMG__/ycw/express_banner02.jpg) no-repeat center;
+        background-size: cover;
+    }
+    .rowEx{
+        margin-right:0;
+        margin-left:0;
+    }
+    .rlt{
+        position: relative;
+    }
+    .abs{
+        position: absolute;
+    }
+    .white{
+        color: white;
+    }
+    .left_div,.left_bis{
+        float: left;
+        width:25%;
+        height: 300px;
+        min-height: 300px;
+    }
+    .right_div,.right_bis{
+        float: left;
+        width:75%;
+        height: auto;
+        min-height: 300px;
+    }
+
+    #info{
+        box-shadow:0 1px 3px rgba(0,0,0,.25);
+    }
+
+    /*大屏显示*/
+    @media (min-width: 992px) {
+        .txt_h2{
+            margin: 80px 0 0 55px;
+        }
+
+        .line_b{
+            display: inline-block;
+            width: 75px;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+        }
+        .span_h2{
+            display: inline-block;
+            font-size: 28px;
+            line-height: 45px;
+            -webkit-margin-before: 0.83em;
+            -webkit-margin-after: 0.83em;
+            -webkit-margin-start: 0px;
+            -webkit-margin-end: 0px;
+        }
+        .pd_02{
+            display: block;
+            -webkit-margin-before: 1em;
+            -webkit-margin-after: 1em;
+            -webkit-margin-start: 0px;
+            -webkit-margin-end: 0px;
+            line-height: 28px;
+            font-size: 14px;
+            padding: 65px 11% 20px;
+        }
+
+        .line{
+            position: relative;
+            height: 1px;
+            background: #bdbdbd;
+            float: left;
+            width: 123.405px;
+            top: 32.5px;
+            margin-left: 10.735px;
+            margin-right: 10.735px;
+        }
+        .box_item{
+            position: relative;
+            text-align: center;
+            float: left;
+            width: 15%;
+        }
+        .box_item>img{
+            width: 80%;
+            vertical-align: middle;
+        }
+        .box_item>p{
+            position: absolute;
+            left: 50%;
+            width: 200px;
+            line-height: 25px;
+            margin-left: -100px;
+        }
+        .box{
+            padding: 42px 10% 0 10%;
+            margin: 95px 0;
+        }
+        .bix_img{
+            float: left;
+            display: inline-block;
+            padding: 0 8%;
+        }
+
+    }
+
+    /*小屏显示*/
+    @media screen and (max-width: 992px) {
+
+        .pd_01{
+            display: block;
+            width: 100%;
+            line-height: 8rem;
+            font-size: 1.4rem;
+            color: #fff;
+            text-align: center;
+
+        }
+        .pd_03{
+            display: block;
+            font-size: 1rem;
+            line-height: 2rem;
+            color: #666;
+        }
+        .txt_h2{
+            height: 8rem;
+            text-align: center;
+            min-height: 8rem;
+            font-size: 1.4rem;
+            line-height: 8rem;
+            margin: 0;
+        }
+
+        .left_div{
+            float: left;
+            width:35%;
+            height: 8rem;
+            min-height: 8rem;
+        }
+
+        .right_div{
+            float: left;
+            width:65%;
+            height: 8rem;
+            min-height: 8rem;
+        }
+
+        .left_bis{
+            width: 100%;
+            height: 4rem;
+            margin-bottom: 2rem;
+            min-height: 80px;
+        }
+        .right_bis{
+            width: 100%;
+            float: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .minp{
+            padding: 2rem 5% 0;
+        }
+        .line{
+            position: relative;
+            height: 1px;
+            background: #bdbdbd;
+            float: left;
+            width: 135.4px;
+            top: 47px;
+            margin-left: 13.8px;
+            margin-right: 13.8px;
+        }
+        .box_item{
+            position: relative;
+            text-align: center;
+            float: left;
+            width: 15%;
+            margin: 0 0 2rem 0;
+            padding: 0 0 5rem 0;
+        }
+        .box_item>img{
+            width: 80%;
+            vertical-align: middle;
+        }
+        .box_item>p{
+            position: absolute;
+            left: 50%;
+            width: 200px;
+            line-height: 25px;
+            margin-left: -100px;
+        }
+        .box{
+            padding: 42px 0 0 0;
+        }
+
+        .bix_img_min{
+            float: left;
+            display: inline-block;
+            padding: 0 4%;
+        }
+
+        .img_center{
+            margin-left: 40px;
+        }
+    }
+    @media screen and (max-width: 420px){
+        #all{
+            height: 2200px;
+        }
+        .box{
+            padding: 42px 0 0 0;
+        }
+        .line{
+            position: relative;
+            height: 1px;
+            background: #bdbdbd;
+            float: left;
+            width: 40px;
+            top: 15px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+    }
+
+</style>
+{/block}
+{block name="title"}
+快车
+{/block}
+
+{block name="nav"}
+{include file="public/nav" /}
+{/block}
+
+{block name="content"}
+<div id="all">
+    <div id="banner" class="row rowEx rlt">
+        <img class="img-responsive" src="" style="width: 100%" alt="taxi_banner">
+        <div class="abs" style="top: 30%;left: 15%;">
+            <p style="color:lightgoldenrodyellow;text-shadow:1px 1px 1px  black;" class="h2 white ban_min_h2">嘟嘟快车</p>
+            <p style="color:lightgoldenrodyellow;text-shadow:1px 1px 1px  black;" class="h2 white ban_min_h2">美好出行不再等待</p>
+            <p style="color:lightgoldenrodyellow;text-shadow:1px 1px 1px  black;" class="h4 white ban_min_h4">随时随地提供快捷、优质的出行服务</p>
+            <p class="hidden-xs hidden-sm hidden-md"><img src="http://www.didichuxing.com/r/cms/www/default/images/taxi_ewm.jpg" alt="嘟嘟快车微信服务号"></p>
+        </div>
+    </div>
+    <div class="row rowEx rlt" style="width: 90%;margin: -94px 0 0 10%;background: #fff;">
+        <div class="abs" style="width: 100%;height: 100%;">
+            <!--嘟嘟快车-->
+            <div id="info" class="show1 row rowEx clearfix" >
+                <div class="left_div" style="background: #fc9153;">
+                    <h2 class="txt_h2 rlt">
+                        <span class="span_h2 white">嘟嘟快车</span>
+                        <b class="abs line_b" style="background: #fff;"></b>
+                    </h2>
+                </div><!--left end-->
+                <div class="right_div rlt">
+                    <img class="img-responsive abs" style="width: 100%;height: 100%" src="http://www.didichuxing.com/r/cms/www/default/images/taxi_top_pic01.jpg" alt="嘟嘟快车">
+                    <p class="pd_02 white abs hidden-sm hidden-xs"><span>嘟嘟快车 一触即发</span><br>嘟嘟快车是一种连接美好事物的生活方式。<br>城市和现代化的生活让人们的生活半径不断扩大，生活节奏不断加快。人们在出行的时间成本、经济成本上遇到的阻力也越来越大。<br>滴滴快车以灵活快速的响应、经济实惠的价格和共享经济的业务模式，为大众提供更有效率、更经济、更舒适的出行服务，给人们的生活带来了美好的变化</p>
+                    <span class="pd_01 white abs visible-xs visible-sm" style="display: none">嘟嘟快车 一触即发</span>
+                </div><!--left end-->
+                <div class="row rowEx visible-xs visible-sm" style="display:none;width: 100%;padding: 2rem 5% 0;background: #f6f6f6;float: left">
+                    <div class="pd_03">
+                        <p>嘟嘟快车是一种连接美好事物的生活方式。<br>城市和现代化的生活让人们的生活半径不断扩大，生活节奏不断加快。人们在出行的时间成本、经济成本上遇到的阻力也越来越大。<br>滴滴快车以灵活快速的响应、经济实惠的价格和共享经济的业务模式，为大众提供更有效率、更经济、更舒适的出行服务，给人们的生活带来了美好的变化</p>
+                    </div>
+                </div>
+            </div>
+            <!--业务特性-->
+            <div class="show2 row rowEx clearfix minp" >
+                <div class="left_bis">
+                    <h2 class="txt_h2 rlt">
+                        <span class="span_h2">业务特性</span>
+                        <b class="abs line_b" style="background: #999;"></b>
+                    </h2>
+                </div><!--common_row_left end-->
+                <div class="right_bis">
+                    <div class="box">
+                        <div class="box_item">
+                            <img src="http://www.didichuxing.com/r/cms/www/default/images/express_arc_icon_01.png" alt="滴滴出租车">
+                            <p>随时随地</p>
+                        </div>
+                        <div class="line"></div>
+                        <div class="box_item">
+                            <img src="http://www.didichuxing.com/r/cms/www/default/images/express_arc_icon_02.png" alt="滴滴出租车">
+                            <p>一触即达</p>
+                        </div>
+                        <div class="line"></div>
+                        <div class="box_item">
+                            <img src="http://www.didichuxing.com/r/cms/www/default/images/express_arc_icon_04.png" alt="滴滴出租车">
+                            <p>标准服务</p>
+                        </div>
+                    </div>
+                </div><!--common_row_right end-->
+            </div>
+            <!--社会价值-->
+            <div class="show3 row rowEx clearfix minp" style="background-color: #f6f6f6;" >
+                <div class="left_bis">
+                    <h2 class="txt_h2 rlt">
+                        <span class="span_h2">社会价值</span>
+                        <b class="abs line_b" style="background: #999;"></b>
+                    </h2>
+                </div><!--common_row_left end-->
+                <div class="right_bis">
+                    <div class="box">
+                        <div class="clearfix">
+                            <div class="bix_img bix_img_min">
+                                <p style="float: left">
+                                    <span class="h4">城市</span><br>
+                                    <span class="h6">盘活社会闲置车辆资源<br>增加城市交通运力</span>
+                                </p>
+                            </div>
+                            <div class="bix_img bix_img_min">
+                                <img class="img-responsive" src="http://www.didichuxing.com/r/cms/www/default/images/express_d2_img.png" alt="嘟嘟快车">
+                            </div>
+                        </div>
+                    </div>
+                </div><!--common_row_right end-->
+            </div>
+            <!--特色功能 细腻体验-->
+            <div class="show4 row rowEx clearfix minp"  >
+                <div class="left_bis">
+                    <h2 class="txt_h2 rlt">
+                        <span class="span_h2">特色功能</span>
+                        <span class="span_h2">细腻体验</span>
+                        <b class="abs line_b" style="background: #999;"></b>
+                    </h2>
+                </div><!--common_row_left end-->
+                <div class="right_bis">
+                    <div class="box">
+                        <div class="clearfix">
+                            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                <!-- Indicators -->
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                                </ol>
+
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="item active">
+                                        <img class="img_center" src="__IMG__/ycw/express_slider_01.png" alt="图片一">
+                                        <div class="carousel-caption hidden-xs" style="color: black;left: 178px;top: 30px;">
+                                            <p class="number">
+                                                <span style="font-size: 108px">01</span>
+                                            </p>
+                                            <p>推荐上车点</p>
+                                            <p>省时省力，免去沟通烦恼</p>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <img class="img_center" src="__IMG__/ycw/express_slider_02.png" alt="图片二">
+                                        <div class="carousel-caption hidden-xs" style="color: black;left: 178px;top: 30px;">
+                                            <p>
+                                                <span style="font-size: 108px">02</span>
+                                            </p>
+                                            <p>极速接单</p>
+                                            <p>提升接单效率，应答更快速</p>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <img class="img_center" src="__IMG__/ycw/express_slider_03.png" alt="图片三">
+                                        <div class="carousel-caption hidden-xs" style="color: black;left: 178px;top: 30px;">
+                                            <p>
+                                                <span style="font-size: 108px">03</span>
+                                            </p>
+                                            <p>即时通讯IM</p>
+                                            <p>文字语音与车主一键沟通</p>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <img class="img_center" src="__IMG__/ycw/express_slider_04.png" alt="图片四">
+                                        <div class="carousel-caption hidden-xs" style="color: black;left: 178px;top: 30px;">
+                                            <p>
+                                                <span style="font-size: 108px">03</span>
+                                            </p>
+                                            <p>支付安全</p>
+                                            <p>主流平台保驾护航，支付更安心更省心</p>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <img class="img_center" src="__IMG__/ycw/express_slider_05.png" alt="图片五">
+                                        <div class="carousel-caption hidden-xs" style="color: black;left: 178px;top: 30px;">
+                                            <p>
+                                                <span style="font-size: 108px">03</span>
+                                            </p>
+                                            <p>双向互评</p>
+                                            <p>互相信任，构建融合性文明出行平台</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Controls -->
+                                <a class="left carousel-control" style="background-image: none;" href="#carousel-example-generic" role="button" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                    <span class="sr-only">上一张图</span>
+                                </a>
+                                <a class="right carousel-control" style="background-image: none;" href="#carousel-example-generic" role="button" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                    <span class="sr-only">下一张图</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--common_row_right end-->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{/block}
+
+{block name="footer"}
+{include file="public/footer" /}
+{/block}
+
+{block name="js"}
+<script type="text/javascript" src="__JS__/footer.js"></script>
+<script>
+    //页面内容渐进
+    $(function(){
+        //var show1_height = $(".show1").offset().top+71;
+        $(window).scroll(function(){
+            var this_scrollTop = $(this).scrollTop();
+            if(this_scrollTop>1200){
+                $(".show4").slideDown(600);
+                //$(".show1").animate({visibility:visible},'slow','swing');
+            }
+            if(this_scrollTop>850){
+                $(".show3").slideDown(600);
+                //$(".show1").animate({visibility:visible},'slow','swing');
+            }
+            if(this_scrollTop>600){
+                $(".show2").slideDown(600);
+                //$(".show1").animate({visibility:visible},'slow','swing');
+            }
+            if(this_scrollTop>200){
+                $(".show1").slideDown(600);
+                //$(".show1").animate({visibility:visible},'slow','swing');
+            }
+        });
+    });
+</script>
+{/block}
