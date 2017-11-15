@@ -1,0 +1,138 @@
+.backgroundF9FAFB {
+    background-color: #F9FAFB;
+}
+
+.borderBottomE4E4E4 {
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.img50 {
+    height: 50px;
+}
+
+.paddingTB60 {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+@media (max-width:768px) {
+    .marginB30 {
+        margin-bottom: 30px;
+    }
+}
+
+.attention_div,
+.attention_div_01 {
+    white-space: nowrap;
+}
+
+.attention_div h5,
+.attention_div_01 h5 {
+    display: inline-block;
+    text-align: left
+}
+
+.attention_div span,
+.attention_div_01 span {
+    display: block;
+    float: left;
+    width: 120px;
+    height: 40px;
+    border: 1px solid #ccc;
+    line-height: 40px;
+    text-align: center;
+    margin-right: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    position: relative;
+    padding-right: 30px;
+}
+
+.attention_div span:hover {
+    width: 150px;
+    height: 40px;
+    background: #fff;
+    text-align: center;
+    padding-right: 0;
+}
+
+.attention_div span:hover .min_ewm {
+    display: none;
+}
+
+.attention_div span .min_ewm,
+.attention_div_01 span .min_ewm {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.attention_div span .max_ewm {
+    display: none;
+    width: auto;
+    height: 130px;
+}
+
+.attention_div span:hover .max_ewm {
+    display: block;
+    margin: 0 auto;
+    padding: 0 10px 10px 10px;
+    opacity: 0
+}
+
+@media screen and (max-width:1024px) {
+    .attention_div span {
+        width: 120px;
+    }
+    .attention_div span:hover .max_ewm {
+        height: 80px !important;
+    }
+    .attention_div span:hover {
+        width: 120px;
+    }
+    .footer_attention .right {
+        width: 55%;
+    }
+    .footer_attention .right span {
+        width: 20%;
+    }
+    .footer_attention .right span:hover {
+        width: 27%;
+    }
+    .footer_attention{ min-width:inherit;}
+}
+
+.attention_div span .max_ewm {
+    display: none;
+    width: auto;
+    height: 130px;
+}
+
+.attention_div span:hover .max_ewm {
+    display: block;
+    margin: 0 auto;
+    padding: 0 10px 10px 10px;
+    opacity: 0
+}
+
+.attention_div span:hover .min_ewm {
+    display: none;
+}
+
+.attention_div span .min_ewm,
+.attention_div_01 span .min_ewm {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+@media screen and (max-width:768px) {
+    .attention_div {
+        margin-bottom: 100px;
+    }
+
+    .attention_div span {
+        margin-left: 100px;
+    }
+}
+

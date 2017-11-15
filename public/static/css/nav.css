@@ -1,56 +1,57 @@
 /* 修改背景颜色 */
-.navbar-default {
+.navbar-default-du {
     background-color: #fff;
-}
-
-/* 添加下边框 */
-.navbar-header {
     border-bottom: 1px solid #FC9A69;
 }
 
+/* 删除下边框 */
+.navbar-header-du {
+    border-bottom: none;
+}
+
 /* 修改logo图大小 */
-.navbar-brand {
+.navbar-brand-du {
     padding: 10px 25px;
     height: 70px;
 }
 
-.navbar-brand > img {
+.navbar-brand-du > img {
     height: 50px;
 }
 
 /* 修改小屏幕下下拉弹窗按钮样式 */
-.navbar-toggle {
-    margin-top: 18px;
+.navbar-toggle-du {
+    margin-top: 18px !important;
 }
 
-.navbar-toggle:hover,
-.navbar-toggle:active,
-.navbar-toggle:visited,
-.navbar-toggle:focus {
+.navbar-toggle-du:hover,
+.navbar-toggle-du:active,
+.navbar-toggle-du:visited,
+.navbar-toggle-du:focus {
     background-color: white !important;
 }
 
 /* 修改菜单链接样式 */
-.nav li a {
+.nav-du li a {
     padding: 25px 30px;
     font-size: 16px;
 }
 
-.nav li a:hover,
-.nav li a:active {
+.nav-du li a:hover,
+.nav-du li a:active {
     color: #FC9A69 !important;
 }
 
 /* 修改下拉菜单样式 */
-.dropdown-menu {
+.dropdown-menu-du {
     padding: 0;
 }
 
-.dropdown li a {
+.dropdown-du li a {
     padding-top: 15px;
     padding-bottom: 15px;
 }
 
-.navbar-collapse {
+.navbar-collapse-du {
     max-height: 680px !important;
 }
