@@ -319,9 +319,8 @@ DROP TABLE IF EXISTS d_role;
 CREATE TABLE d_role(
 role_id INT NOT NULL PRIMARY KEY auto_increment, -- 角色id
 role_name VARCHAR(10) NOT NULL, -- 名称
-role_description varchar(20) NOT NULL -- 描述
+-- role_description varchar(20) NOT NULL -- 描述
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
-
 
 -- 创建角色子菜单表
 DROP TABLE IF EXISTS d_role_menu;
@@ -332,3 +331,6 @@ sm_id INT NOT NULL, -- 子菜单id
 FOREIGN KEY(role_id) REFERENCES d_role(role_id),
 FOREIGN KEY(sm_id) REFERENCES d_smenu(sm_id)
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
+
+
+
