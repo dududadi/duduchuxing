@@ -36,25 +36,25 @@ INSERT INTO d_fmenu VALUES
 
 -- 子菜单
 INSERT INTO d_smenu VALUES
-(null,'admin/Monitor/driver','司机监控',1),
-(null,'admin/Monitor/user','乘客监控',1),
-(null,'admin/Monitor/history','历史路径',1),
-(null,'admin/Employee/list','员工列表',2),
-(null,'admin/Employee/add','添加员工',2),
-(null,'admin/Driver/list','司机列表',3),
-(null,'admin/Driver/verify','司机审核',3),
-(null,'admin/User/list','乘客列表',4),
-(null,'admin/OrderList/undeal','未成交订单',5),
-(null,'admin/OrderList/deal','成交订单',5),
-(null,'admin/OrderList/overdue','过期订单',5),
-(null,'admin/Role/list','角色列表',6),
-(null,'admin/Role/add','添加角色',6),
-(null,'admin/New/spread','推广信息',7),
-(null,'admin/New/publish','新闻发布',7),
-(null,'admin/New/edit','新闻编辑',7),
-(null,'admin/Chart/orderList','订单统计',8),
-(null,'admin/Chart/user','用户统计',8),
-(null,'admin/Chart/market','营销统计',8);
+(null,'司机监控','admin/Monitor/driver',   1),
+(null,'乘客监控','admin/Monitor/user',     1),
+(null,'历史路径','admin/Monitor/history',  1),
+(null,'员工列表','admin/Employee/list',    2),
+(null,'添加员工','admin/Employee/add',     2),
+(null,'司机列表','admin/Driver/list',      3),
+(null,'司机审核','admin/Driver/verify',    3),
+(null,'乘客列表','admin/User/list',        4),
+(null,'未成交订单', 'admin/OrderList/undeal' ,5),
+(null,'成交订单','admin/OrderList/deal',   5),
+(null,'过期订单','admin/OrderList/overdue',5),
+(null,'角色列表','admin/Role/list',        6),
+(null,'添加角色','admin/Role/add',         6),
+(null,'推广信息','admin/New/spread',       7),
+(null,'新闻发布','admin/New/publish',      7),
+(null,'新闻编辑','admin/New/edit',         7),
+(null,'订单统计','admin/Chart/orderList',  8),
+(null,'用户统计','admin/Chart/user',       8),
+(null,'营销统计','admin/Chart/market',     8);
 
 -- 角色子菜单表 超管初始化
 INSERT INTO d_role_menu VALUES
