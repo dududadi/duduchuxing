@@ -45,7 +45,9 @@ class Login extends Controller
             //跳转页面并友好提示
             $this ->error('验证失败，请重新输入验证码','admin/login/login',3);
         };
+    }
 
+    public function loginExit(){
 
     }
 }
