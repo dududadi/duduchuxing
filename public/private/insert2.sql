@@ -25,14 +25,14 @@ INSERT INTO d_role VALUES
 
 -- 父菜单
 INSERT INTO d_fmenu VALUES
-(1,'实时监控'), -- monitor
-(2,'员工管理'), -- employee
-(3,'司机管理'), -- driver
-(4,'乘客管理'), -- user
-(5,'订单管理'), -- order_list
-(6,'角色管理'), -- role
-(7,'资讯管理'), -- new
-(8,'查询报表'); -- chart
+(1,'实时监控','&#xe725;'), -- monitor
+(2,'员工管理','&#xe62d;'), -- employee
+(3,'司机管理','&#xe70d;'), -- driver
+(4,'乘客管理','&#xe62c;'), -- user
+(5,'订单管理','&#xe687;'), -- order_list
+(6,'角色管理','&#xe611;'), -- role
+(7,'资讯管理','&#xe616;'), -- new
+(8,'查询报表','&#xe61a;'); -- chart
 
 -- 子菜单
 INSERT INTO d_smenu VALUES

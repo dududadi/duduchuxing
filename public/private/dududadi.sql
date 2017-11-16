@@ -280,7 +280,8 @@ FOREIGN KEY(driv_id) REFERENCES d_driver(driv_id)
 DROP TABLE IF EXISTS d_fmenu;
 CREATE TABLE d_fmenu(
 fm_id INT NOT NULL PRIMARY KEY auto_increment, -- 父菜单id
-fm_name VARCHAR(10) -- 名称
+fm_name VARCHAR(10), -- 名称
+fm_ico CHAR(8) -- 图标
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 

@@ -8,9 +8,13 @@ class Index extends Controller {
     public function index() {
         $isLogin = 1;
 
-        $roleId = DB::name('employee')
+        $info = DB::name('employee')
+        -> join('d_role', 'd_employee.role_id = d_role.role_id')
+        -> join('d_province', 'd_employee.prov_num = d_province.prov_num')
+        -> join('d_city', 'd_employee.city_num = d_city.city_num')
+        -> join('d_area', 'd_employee.area_num = d_area.area_num')
         -> where('emp_id', $isLogin)
-        -> field('role_id')
+        -> field('d_role.role_name, d_employee.emp_id, d_employee.emp_reg_time, d_employee.emp_name, d_employee.emp_nickname, d_employee.emp_head_img, d_province.prov_name, d_city.city_name, d_area.area_name')
         -> find();
 
         $smenu = DB::name('employee')
@@ -27,7 +31,8 @@ class Index extends Controller {
 
         for ($i = 0; $i < count($fmenu); $i++) {
             $arr = [
-                'name' => $fmenu[$i]['fm_name'],
+                'name'  => $fmenu[$i]['fm_name'],
+                'ico'   => $fmenu[$i]['fm_ico'],
                 'smenu' => []
             ];
 
@@ -41,7 +46,8 @@ class Index extends Controller {
                 array_push($menuList, $arr);
             }
         }
-        
+
+        $this -> assign('info', $info);
         $this -> assign('menuList', $menuList);
         
         return $this -> fetch();
