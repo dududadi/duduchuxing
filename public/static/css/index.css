@@ -122,19 +122,23 @@
 }
 #ljf .section:last-child .fp-tableCell{
     vertical-align: top;
-    padding: 30px 20px 0;
+    padding: 30px 0 0;
     height: inherit!important;
 }
+#ljf .news .item-left{
+    width: 40%;
+    height: 100%;
+}
 #ljf .news .item-left img{
-    width: auto;
-    height: 320px;
+    width: 100%;
+    height: 100%;
 }
 #ljf .news .item-right{
-    padding: 25px 38px 0 20px;
+    padding: 20px 38px 10px 20px;
     background: #e8e8e8;
-    height: 320px;
-    max-width: 700px;
+    width: 60%;
     color: #666;
+    height: 100%;
 }
 #ljf .news .item-right >*{
     margin-left: 30px;
@@ -144,14 +148,47 @@
     margin-top: 45px;
 }
 #ljf #myCarousel{
-    width: 1312px!important;
+    width: 80%;
     margin: auto;
     float: none;
 }
+#ljf #myCarousel .fp-tableCell{
+    vertical-align: top;
+    margin-bottom: 0px;
+}
+#ljf #myCarousel .item{
+    height: 100%;
+}
+#ljf #download img{
+    width: 130px;
+}
 
+@media screen and (min-width: 970px) {
+    #ljf #myCarousel{
+        padding: 0 50px;
+    }
+    #ljf #myCarousel .carousel-inner{
+        height: 420px;
+    }
+    #ljf #download img{
+        width: 200px;
+    }
+}
+@media screen and (max-width: 970px) {
+    #ljf .news .item-left,#ljf .news .item-right{
+        width: 100%;
+        height: 100%;
+    }
+    #ljf #myCarousel{
+        padding: 0 30px;
+    }
+}
 @media screen and (max-width: 830px) {
     #ljf .client-passenger .box{
         height: 180px;
+    }
+    #ljf #myCarousel{
+        padding: 0 20px;
     }
 }
 @media screen and (max-width: 775px) {
@@ -163,6 +200,9 @@
     }
     #ljf .client-passenger ul li {
         width: 12%;
+    }
+    #ljf #myCarousel{
+        padding: 0;
     }
 }
 @media screen and (max-width: 620px) {
@@ -182,8 +222,17 @@
     #ljf .client-passenger .box ul hr{
         display: none!important;
     }
+    #ljf .client-passenger .box ul li{
+        margin-right: 9%;
+    }
+    #ljf .client-passenger .box ul li:last-child{
+        margin-right: 0;
+    }
     #ljf .news .item-left{
         display: none!important;
+    }
+    #ljf .news .item-right{
+        height: inherit!important;
     }
 }
 @media screen and (max-width: 530px) {
