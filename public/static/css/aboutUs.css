@@ -1,9 +1,13 @@
 #about_me{
-	background-image: url("../img/hy/banner.jpg");
+	background-image: url("../img/hy/aboutus-banner.jpg");
 	height: 400px;
-	background-size:100%;
+	/*background-size:100%;*/
+	background-position: center;
 	background-repeat:no-repeat;
-	/*width: 100%;*/
+	width: 100%;
 	overflow: hidden;
 	margin-top: 71px;
+}
+#about_me h1,#about_me h2{
+	margin-top:100px;
 }
