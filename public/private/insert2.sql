@@ -25,36 +25,36 @@ INSERT INTO d_role VALUES
 
 -- 父菜单
 INSERT INTO d_fmenu VALUES
-(1,'实时监控'),
-(2,'员工管理'),
-(3,'司机管理'),
-(4,'乘客管理'),
-(5,'订单管理'),
-(6,'角色管理'),
-(7,'资讯管理'),
-(8,'查询报表');
+(1,'实时监控'), -- monitor
+(2,'员工管理'), -- employee
+(3,'司机管理'), -- driver
+(4,'乘客管理'), -- user
+(5,'订单管理'), -- order_list
+(6,'角色管理'), -- role
+(7,'资讯管理'), -- new
+(8,'查询报表'); -- chart
 
 -- 子菜单
 INSERT INTO d_smenu VALUES
-(null,'','司机监控',1),
-(null,'','乘客监控',1),
-(null,'','历史路径',1),
-(null,'','员工列表',2),
-(null,'','添加员工',2),
-(null,'','司机列表',3),
-(null,'','司机审核',3),
-(null,'','乘客列表',4),
-(null,'','未成交订单',5),
-(null,'','成交订单',5),
-(null,'','过期订单',5),
-(null,'','角色列表',6),
-(null,'','添加角色',6),
-(null,'','推广信息',7),
-(null,'','新闻发布',7),
-(null,'','新闻编辑',7),
-(null,'','订单统计',8),
-(null,'','用户统计',8),
-(null,'','营销统计',8);
+(null,'admin/Monitor/driver','司机监控',1),
+(null,'admin/Monitor/user','乘客监控',1),
+(null,'admin/Monitor/history','历史路径',1),
+(null,'admin/Employee/list','员工列表',2),
+(null,'admin/Employee/add','添加员工',2),
+(null,'admin/Driver/list','司机列表',3),
+(null,'admin/Driver/verify','司机审核',3),
+(null,'admin/User/list','乘客列表',4),
+(null,'admin/OrderList/undeal','未成交订单',5),
+(null,'admin/OrderList/deal','成交订单',5),
+(null,'admin/OrderList/overdue','过期订单',5),
+(null,'admin/Role/list','角色列表',6),
+(null,'admin/Role/add','添加角色',6),
+(null,'admin/New/spread','推广信息',7),
+(null,'admin/New/publish','新闻发布',7),
+(null,'admin/New/edit','新闻编辑',7),
+(null,'admin/Chart/orderList','订单统计',8),
+(null,'admin/Chart/user','用户统计',8),
+(null,'admin/Chart/market','营销统计',8);
 
 -- 角色子菜单表 超管初始化
 INSERT INTO d_role_menu VALUES
@@ -81,7 +81,4 @@ INSERT INTO d_role_menu VALUES
 -- 员工表
 INSERT INTO d_employee VALUES
 (null,NOW(),'e10adc3949ba59abbe56e057f20f883e','duduboy','嘟嘟王子',1,110000,110100,110101,'使用','defaultHead.jpg');
-
-
-
 
