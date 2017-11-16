@@ -10,3 +10,12 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+public function islogin($name,$request)
+{
+	/*$res=isset($_SESSION["$name"]);*/
+	$res=$request->seetion($name);
+	if($res)
+	{
+		
+	}
+}
