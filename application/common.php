@@ -10,12 +10,13 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
-// public function islogin($name,$request)
-// {
-// 	/*$res=isset($_SESSION["$name"]);*/
-// 	$res=$request->seetion($name);
-// 	if($res)
-// 	{
-		
-// 	}
-// }
+
+//判断session是否存在
+function sessionAssist($name) {
+    return session('?'. $name);
+}
+
+//判断cookie是否存在
+function cookieAssist($name) {
+    return cookie('?'. $name);
+}

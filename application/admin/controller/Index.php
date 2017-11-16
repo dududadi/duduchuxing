@@ -3,10 +3,20 @@ namespace app\admin\controller;
 
 use think\Controller;
 use think\Db;
+use think\Session;
+use think\Cookie;
 
 class Index extends Controller {
+    //构造函数
+    public function _initialize() {
+        if (!sessionAssist('isLogin')) {
+            $this -> redirect('Login/index');
+        }
+    }
+
+    //页面创建
     public function index() {
-        $isLogin = 1;
+        $isLogin = Session::get('isLogin');
 
         $info = DB::name('employee')
         -> join('d_role', 'd_employee.role_id = d_role.role_id')
@@ -53,19 +63,15 @@ class Index extends Controller {
         return $this -> fetch();
     }
 
-    public function welcome() {
-        return $this -> fetch();
-    }
+    //退出登录
+    public function loginExit() {
+        //清除关键session
+        Session::delete('isLogin');
 
-    public function articleList() {
-        return $this -> fetch('index/article-list');
-    }
+        //清除关键cookie
+        Cookie::delete('isLogin');
 
-    public function aboutUs() {
-        return $this -> fetch();
-    }
-
-    public function contactUs() {
-        return $this -> fetch();
+        //跳转页面并友好提示
+        $this ->success('已退出','admin/login/index',3);
     }
 }
