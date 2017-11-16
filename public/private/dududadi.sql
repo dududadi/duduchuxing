@@ -318,7 +318,7 @@ FOREIGN KEY(fm_id) REFERENCES d_fmenu(fm_id)
 DROP TABLE IF EXISTS d_role;
 CREATE TABLE d_role(
 role_id INT NOT NULL PRIMARY KEY auto_increment, -- 角色id
-role_name VARCHAR(10) NOT NULL, -- 名称
+role_name VARCHAR(10) NOT NULL -- 名称
 -- role_description varchar(20) NOT NULL -- 描述
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
