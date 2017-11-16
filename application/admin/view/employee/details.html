@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="__HUI__/lib/html5shiv.js"></script>
+    <script type="text/javascript" src="__HUI__/lib/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui.admin/css/style.css" />
+    <!--[if IE 6]>
+    <script type="text/javascript" src="__HUI__/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <title>用户查看</title>
+</head>
+<body>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__HUI__/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="__HUI__/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__HUI__/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="__HUI__/static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+</body>
+<script>
+    var key = '{$data.id}';
+    var data = JSON.parse('{$data.data}')[key];
+    console.log(data);
+    var $content = $('<div class="cl pd-20" style=" background-color:#5bacb6">\n' +
+        '    <img class="avatar size-XL l" src="__HUI__/static/h-ui/images/ucnter/avatar-default.jpg">\n' +
+        '    <dl style="margin-left:80px; color:#fff">\n' +
+        '        <dt>\n' +
+        '            <span class="f-18">'+data.emp_name+'</span>\n' +
+        '        </dt>\n' +
+        '    </dl>\n' +
+        '</div>\n' +
+        '<div class="pd-20">\n' +
+        '    <table class="table">\n' +
+        '        <tbody>\n' +
+        '        <tr>\n' +
+        '            <th class="text-r" width="80">当前状态：</th>\n' +
+        '            <td>'+data.emp_status+'</td>\n' +
+        '        </tr>\n' +
+        '        <tr>\n' +
+        '            <th class="text-r" width="80">昵称：</th>\n' +
+        '            <td>'+data.emp_nickname+'</td>\n' +
+        '        </tr>\n' +
+        '        <tr>\n' +
+        '            <th class="text-r">加入时间：</th>\n' +
+        '            <td>'+data.emp_reg_time+'</td>\n' +
+        '        </tr>\n' +
+        '        <tr>\n' +
+        '            <th class="text-r">角色：</th>\n' +
+        '            <td>'+data.role_name+'</td>\n' +
+        '        </tr>\n' +
+        '        <tr>\n' +
+        '            <th class="text-r">所属省：</th>\n' +
+        '            <td>'+data.prov_name+'</td>\n' +
+        '        </tr>\n' +
+        '        <tr>\n' +
+        '            <th class="text-r">所属市：</th>\n' +
+        '            <td>'+data.city_name+'</td>\n' +
+        '        </tr>\n' +
+        '        <tr>\n' +
+        '            <th class="text-r">所属区/县：</th>\n' +
+        '            <td>'+data.area_name+'</td>\n' +
+        '        </tr>\n' +
+        '        </tbody>\n' +
+        '    </table>\n' +
+        '</div>');
+    $('body').append($content);
+</script>
+</html>
