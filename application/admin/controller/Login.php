@@ -3,18 +3,24 @@ namespace app\admin\controller;
 
 use think\Controller;           //引用官方封装的控制类
 use think\Session;              //引用官方封装的Session类
+use think\Cookie;               //引用官方封装的Cookie类
 use think\Db;                   //引用官方封装的数据库单例类
 class Login extends Controller
 {
     public function login() {
+
+        if(Cookie::has('isLogin')){
+            //判断当前用户是否存在凭证，有则直接跳转主页
+            $user=cookie('isLogin');
+            //将当前用户ID存入session中
+            Session::set('isLogin',$user);
+            return $this -> fetch('index/index');
+        }
         return $this -> fetch('index/login');
     }
-
-
-
+    
     public function checkUser()
     {
-
         $captcha=input('post.code',''); //获取页面传递的验证码
 
         if(captcha_check($captcha)){
@@ -32,7 +38,13 @@ class Login extends Controller
                 //结果不为空  则session缓存更新
                 Session::set('isLogin',$res['emp_id']);
                 //跳转页面并友好提示
-                $this ->success('登录成功','admin/index/index',3);
+                if(!empty(input('post.online','')))
+                {
+                    //结果不为空，则说明选择了七天登录，所以存下当前ID作为cookie凭证，并设置7天期限
+                    cookie('isLogin', "{$res['emp_id']}", 86400);
+                }
+
+                $this ->success('登录成功','admin/index/index',3);//跳转页面并友好提示
             }
             else
             {
@@ -48,6 +60,11 @@ class Login extends Controller
     }
 
     public function loginExit(){
-
+        //清除关键session
+        Session::delete('isLogin');
+        //清除关键cookie
+        cookie('isLogin',null);
+        //跳转页面并友好提示
+        $this ->success('已退出','admin/login/login',3);
     }
 }
