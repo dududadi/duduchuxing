@@ -14,6 +14,11 @@ class Index extends Controller {
         }
     }
 
+    //错误方法访问
+    function _empty(){ 
+        $this -> redirect('Index/index');
+    }
+
     //页面创建
     public function index() {
         $isLogin = Session::get('isLogin');
