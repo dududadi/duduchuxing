@@ -13,6 +13,16 @@ class Login extends Controller
 
     public function checkUser()
     {
+        if(captcha_check($captcha)){
+            //验证成功
+
+
+        }else{
+            //验证失败
+
+            return $this -> fetch('index/login');
+        };
+
 
     }
 }
