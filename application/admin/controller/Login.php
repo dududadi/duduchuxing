@@ -5,6 +5,7 @@ use think\Controller;           //引用官方封装的控制类
 use think\Session;              //引用官方封装的Session类
 use think\Cookie;               //引用官方封装的Cookie类
 use think\Db;                   //引用官方封装的数据库单例类
+use app\admin\controller\Index; //引用小组封装的index类
 class Login extends Controller
 {
     public function login() {
@@ -14,11 +15,13 @@ class Login extends Controller
             $user=cookie('isLogin');
             //将当前用户ID存入session中
             Session::set('isLogin',$user);
-            return $this -> fetch('index/index');
+
+            $con= new Index();          //实例化一个index类
+            $con->index();              //调用方法
         }
         return $this -> fetch('index/login');
     }
-    
+
     public function checkUser()
     {
         $captcha=input('post.code',''); //获取页面传递的验证码
