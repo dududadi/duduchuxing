@@ -8,4 +8,11 @@ class Login extends Controller
     public function login() {
         return $this -> fetch('index/login');
     }
+
+
+
+    public function checkUser()
+    {
+
+    }
 }
