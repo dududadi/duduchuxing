@@ -70,14 +70,13 @@
 		<div class="modal-content radius">
 			<div class="modal-header">
 				<h3 class="modal-title">登录成功</h3>
-				<a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
+				<a class="close" data-dismiss="modal" aria-hidden="true" onclick="skip()">×</a>
 			</div>
 			<div class="modal-body">
 				<p>成了！</p>
 			</div>
 			<div class="modal-footer">
 				<button onclick="skip()" class="btn btn-primary">确定</button>
-				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
 			</div>
 		</div>
 	</div>
@@ -108,15 +107,15 @@
 				{
 					case 1:
 						modaldemo();
-						
-						//window.location.href="{:url('admin/index/index')}";
 					break;
 					
 					case 2:
-					
+						alert("账户或密码错误");
+						history.go(0) 
 					break;
 					case 3:
-					
+						alert("验证失败，请重新验证");
+						history.go(0) 
 					break;
 				}
 			},
@@ -129,10 +128,6 @@
 	function modaldemo()
 	{
 		$("#modal-demo").modal("show");
-	}
-	function modalalertdemo()
-	{
-		$.Huimodalalert('我是消息框，2秒后我自动滚蛋！',2);
 	}
 	/*点击确定跳转*/
 	function skip()
