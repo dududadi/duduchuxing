@@ -18,10 +18,10 @@ INSERT INTO d_recharge_pay_type VALUES
 
 -- 角色表 超级管理员初始化
 INSERT INTO d_role VALUES
-(null,'超级管理员'),
-(null,'客服'),
-(null,'业务员'),
-(null,'经理');
+(null,'超级管理员','拥有至高无上的权利'),
+(null,'客服','用户管理、订单管理、司机管理'),
+(null,'业务员','资讯管理'),
+(null,'经理','地区监控、员工管理');
 
 -- 父菜单
 INSERT INTO d_fmenu VALUES
@@ -49,9 +49,9 @@ INSERT INTO d_smenu VALUES
 (null,'过期订单','admin/OrderList/overdue',5),
 (null,'角色列表','admin/Role/lists',        6),
 (null,'添加角色','admin/Role/add',         6),
-(null,'推广信息','admin/New/spread',       7),
-(null,'新闻发布','admin/New/publish',      7),
-(null,'新闻编辑','admin/New/edit',         7),
+(null,'推广信息','admin/News/spread',       7),
+(null,'新闻发布','admin/News/publish',      7),
+(null,'新闻编辑','admin/News/edit',         7),
 (null,'订单统计','admin/Chart/orderList',  8),
 (null,'用户统计','admin/Chart/user',       8),
 (null,'营销统计','admin/Chart/market',     8);

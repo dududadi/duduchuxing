@@ -301,7 +301,8 @@ emp_status enum('锁定','使用') NOT NULL, -- 状态
 emp_head_img varchar(255) not null, -- 头像
 FOREIGN KEY(prov_num) REFERENCES d_province(prov_num),
 FOREIGN KEY(city_num) REFERENCES d_city(city_num),
-FOREIGN KEY(area_num) REFERENCES d_area(area_num)
+FOREIGN KEY(area_num) REFERENCES d_area(area_num),
+FOREIGN KEY(role_id) REFERENCES d_role(role_id)
 )ENGINE=INNODB DEFAULT charset=utf8;
 
 
@@ -319,8 +320,8 @@ FOREIGN KEY(fm_id) REFERENCES d_fmenu(fm_id)
 DROP TABLE IF EXISTS d_role;
 CREATE TABLE d_role(
 role_id INT NOT NULL PRIMARY KEY auto_increment, -- 角色id
-role_name VARCHAR(10) NOT NULL -- 名称
--- role_description varchar(20) NOT NULL -- 描述
+role_name VARCHAR(10) NOT NULL, -- 名称
+role_description varchar(20) NOT NULL -- 描述
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 -- 创建角色子菜单表
