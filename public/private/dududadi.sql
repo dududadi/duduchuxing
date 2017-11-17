@@ -51,7 +51,7 @@ user_name VARCHAR(32) NOT NULL, -- 真实姓名
 user_id_num VARCHAR(18),  -- 身份证号
 user_tel CHAR(11) NOT NULL, -- 手机号
 user_score FLOAT NOT NULL, -- 评分
-user_money DECIMAL(5,2) NOT NULL, -- 余额
+user_money DECIMAL(7,2) NOT NULL, -- 余额
 user_status enum('锁定','使用') NOT NULL, -- 状态
 user_head_img VARCHAR(100) NOT NULL, -- 头像
 user_address text, -- 详细地址
@@ -153,7 +153,7 @@ rpt_id INT(2) NOT NULL, -- 付款类型id
 user_id INT NOT NULL , -- 用户id
 umr_time datetime NOT NULL, -- 时间
 umr_result enum('成功','失败') NOT NULL, -- 结果
-umr_money DECIMAL(5,2), -- 金额
+umr_money DECIMAL(7,2), -- 金额
 behavior enum('充值','支付'), -- 行为
 FOREIGN KEY(rpt_id) REFERENCES d_recharge_pay_type(rpt_id),
 FOREIGN KEY(user_id) REFERENCES d_user(user_id)
