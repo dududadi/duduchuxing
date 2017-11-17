@@ -11,8 +11,19 @@ class Driver extends Controller
 {
     public function lists()
     {
-        //渲染出司机列表的页面
-        return $this->fetch();
+        $list = Db::name('driver')
+            ->alias('d')        //给表起别名
+            ->join('province p','p.prov_num = d.prov_num') //联表查询
+            ->join('city c','c.city_num = d.city_num')  //联表查询
+            ->join('area a','a.area_num = d.area_num')  //联表查询
+            ->join('business_type b','b.bt_id = d.bt_id')  //联表查询
+            -> field('driv_id') //需要查询的字段
+            -> paginate(10 , false , ['type'=>'Hui']);
+
+
+        $this->assign('list',$list);//向页面传值
+        //查询需要显示的数据，并展示在页面上
+        return $this->fetch();//渲染出司机列表的页面
     }
 
     public function verify()
@@ -22,6 +33,21 @@ class Driver extends Controller
     }
 
 
+    public function list_show()
+    {
+
+    }
+
+
+    public function member_show()
+    {
+        return $this->fetch('member-show');
+    }
+
+    public function lists_stop()
+    {
+        $uid=trim(input('post.uid',''));
+    }
 
 
 
