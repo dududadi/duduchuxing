@@ -21,7 +21,7 @@ class Login extends Controller {
         }
     }
 
-    public function index() {
+    public function login() {
         return $this -> fetch('Index/login');
     }
 
