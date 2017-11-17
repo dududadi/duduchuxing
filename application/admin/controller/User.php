@@ -25,36 +25,38 @@ class User extends Controller {
         }
         
         if (!sessionAssist('usermaxDate')) {
-            Session::set('usermaxDate', '2099-12-31');
+            Session::set('usermaxDate', date("Y-m-d"));
 
-            $maxDate = '2099-12-31';
+            $maxDate = date("Y-m-d");
         } else {
             $maxDate = Session::get('usermaxDate');
         }
 
+        
+
         if (!sessionAssist('userKey')) {
             Session::set('userKey', '');
 
-            $key = '';
+            $keyDate = '';
         } else {
-            $key = Session::get('userKey');
-        }             
+            $keyDate = Session::get('userKey');
+        }   
 
         $userList = DB::name('user')
         -> join('d_province', 'd_province.prov_num = d_user.prov_num')
         -> join('d_city', 'd_city.city_num = d_user.city_num')
         -> join('d_area', 'd_area.area_num = d_user.area_num')
-        -> where('user_reg_time', 'gt', $minDate)
-        -> where('user_reg_time', 'lt', $maxDate)
-        -> where('user_name like "%'. $key. '%"')
-        -> whereOr('user_tel like "%'. $key. '%"')
-        -> whereOr('user_id_num like "%'. $key. '%"')
+        -> where('user_reg_time', '>', $minDate)
+        -> where('user_reg_time', '<',  date("Y-m-d", strtotime("+1 day",strtotime($maxDate))))
+        -> where('user_name like "%'. $keyDate. '%" or user_tel like "%'. $keyDate. '%" or user_id_num like "%'. $keyDate. '%"')
+        // -> whereOr('user_tel like "%'. $key. '%"')
+        // -> whereOr('user_id_num like "%'. $key. '%"')
         -> field('user_id, user_reg_time, user_name, user_id_num, user_tel, user_score, user_money, user_status, user_head_img, user_address, prov_name, city_name, area_name')
-        -> paginate(1);
+        -> paginate(5);
 
         $this -> assign('maxDate', $maxDate);
         $this -> assign('minDate', $minDate);
-        $this -> assign('keyDate', $key);
+        $this -> assign('keyDate', $keyDate);
         $this -> assign('userList', $userList);
 
         return $this -> fetch(); 
@@ -62,15 +64,58 @@ class User extends Controller {
 
     public function setCondition() {
         $minDate = Request::instance()
-        -> post('minDate', '1970-1-1');
+        -> post('minDate', '1970-1-2');
         $maxDate = Request::instance()
-        -> post('maxDate', '2099-12-31');
-        $key = Request::instance()
-        -> post('key', '');
+        -> post('maxDate', date("Y-m-d"));
+        $keyDate = Request::instance()
+        -> post('keyDate', '');
 
         Session::set('userminDate', $minDate);
         Session::set('usermaxDate', $maxDate);
-        Session::set('userKey', $key);
+        Session::set('userKey', $keyDate);
+
+        return 0;
+    }
+
+    public function show() {
+        $arr = Request::instance()
+        -> param();
+
+        $tel = $arr['tel'];
+
+        $user = DB::name('user')
+        -> join('d_province', 'd_province.prov_num = d_user.prov_num')
+        -> join('d_city', 'd_city.city_num = d_user.city_num')
+        -> join('d_area', 'd_area.area_num = d_user.area_num')
+        -> where('user_tel', $tel)
+        -> field('user_id, user_reg_time, user_name, user_id_num, user_tel, user_score, user_money, user_status, user_head_img, user_address, prov_name, city_name, area_name')
+        -> find();
+
+        $this -> assign('user', $user);
+
+        return $this -> fetch();
+    }
+
+    public function changeStatusOne() {
+        $id = Request::instance()
+        -> post('id', '');
+        $status = Request::instance()
+        -> post('status', '');
+
+        $res = Db::name('user')
+        -> where('user_id', $id)
+        -> setField('user_status', $status);
+
+        return 0;
+    }
+
+    public function resetPsw() {
+        $id = Request::instance()
+        -> post('id', '');
+
+        $res = Db::name('user')
+        -> where('user_id', $id)
+        -> setField('user_psw', md5('duduchuxing'));
 
         return 0;
     }

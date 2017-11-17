@@ -151,28 +151,23 @@
         </a>
     </nav>
     <div class="page-container">
-        <div class="text-c"> 日期范围：
-            <input type="text" onfocus="WdatePicker({ maxDate:'#F{ $dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate"
-                style="width:120px;" ng-model="minDate"> -
-            <input type="text" onfocus="WdatePicker({ minDate:'#F{ $dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate"
-                style="width:120px;" ng-model="maxDate">
-            <input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="keydate" name="" ng-model="keyDate">
+        <div class="text-c"> 注册日期：
+            <input type="text" onfocus="WdatePicker({ maxDate:'#F{ $dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;" ng-model="minDate"> -
+            <input type="text" onfocus="WdatePicker({ minDate:'#F{ $dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;" ng-model="maxDate">
+            <input type="text" class="input-text" style="width:250px" placeholder="输入用户名称、电话、身份证" id="keydate"  ng-model="keyDate">
             <button type="button" class="btn btn-success radius" ng-click="setCondition()">
                 <i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
         </div>
         <div class="cl pd-5 bg-1 bk-gray mt-20">
             <span class="l">
                 <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
-                    <i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-                <a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')"
-                    class="btn btn-primary radius">
-                    <i class="Hui-iconfont">&#xe600;</i> 添加用户</a>
+                    <i class="Hui-iconfont">&#xe6e2;</i> 批量使用/锁定</a>
             </span>
             <span class="r">共有数据：
                 <strong>{$userList -> total()}</strong> 条</span>
         </div>
-        <div class="mt-20">
-            <table class="table table-border table-bordered table-hover table-bg table-sort">
+        <div class="mt-20" style="margin-top: 10px;">
+            <table class="table table-border table-bordered table-hover table-bg table-sort" style="margin-top: 10px;">
                 <thead>
                     <tr class="text-c">
                         <th width="25">
@@ -198,7 +193,7 @@
                             </td>
                             <td>{$user.user_id}</td>
                             <td>
-                                <u style="cursor:pointer" class="text-primary" onclick="member_show('张三','member-show.html','10001','360','400')">{$user.user_name}</u>
+                                <u style="cursor:pointer" class="text-primary" onclick="member_show('{$user.user_name}', '{:url('admin/User/show', ['tel' => $user.user_tel])}','10001','360','400')">{$user.user_name}</u>
                             </td>
                             <td>{$user.user_tel}</td>
                             <td>{$user.user_id_num}</td>
@@ -216,20 +211,21 @@
                                     {/case}
                                     {default /}
                                 {/switch}
-                                
                             </td>
-                            <td></td>
-                            <!-- <td class="td-manage">
-                                <a style="text-decoration:none" onClick="member_stop(this,'10001')" href="javascript:;" title="停用">
+                            <td class="td-manage">
+                                <a style="text-decoration:none" ng-click="changeStatusOne('{$user.user_id}', '{$user.user_status}')" href="javascript:;" title="使用/锁定">
                                     <i class="Hui-iconfont">&#xe631;</i>
                                 </a>
+                                <a style="text-decoration:none" class="ml-5" ng-click="resetPsw('{$user.user_id}')" href="javascript:;" title="重置密码">
+                                    <i class="Hui-iconfont">&#xe63f;</i>
+                                </a>
+                            </td>
+                            <!-- <td class="td-manage">
+                                
                                 <a title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html','4','','510')" class="ml-5" style="text-decoration:none">
                                     <i class="Hui-iconfont">&#xe6df;</i>
                                 </a>
-                                <a style="text-decoration:none" class="ml-5" onClick="change_password('修改密码','change-password.html','10001','600','270')"
-                                    href="javascript:;" title="修改密码">
-                                    <i class="Hui-iconfont">&#xe63f;</i>
-                                </a>
+                                
                                 <a title="删除" href="javascript:;" onclick="member_del(this,'1')" class="ml-5" style="text-decoration:none">
                                     <i class="Hui-iconfont">&#xe6e2;</i>
                                 </a>
@@ -277,6 +273,10 @@
             });
         });
 
+        function member_show(title,url,id,w,h){
+            layer_show(title,url,w,h);
+        }
+
         var $dateMin = $("#datemin");
         var $dateMax = $("#dateMax");
         var $keyDate = $("#keydate");
@@ -293,12 +293,38 @@
                     method: "post",
                     url: "{:url('admin/User/setCondition')}",
                     data: {
-                        maxDate : $scope.maxDate,
-                        minDate : $scope.minDate,
-                        key : $scope.keyDate
+                        maxDate : $("#datemax").val(),
+                        minDate : $("#datemin").val(),
+                        keyDate : $scope.keyDate
                     }
                 }).then(function(res) {
                     window.location.href = "{:url('admin/User/lists')}";
+                })
+            }
+
+            $scope.changeStatusOne = function($id, $status) {
+                $http({
+                    method: "post",
+                    url: "{:url('admin/User/changeStatusOne')}",
+                    data: {
+                        id : $id,
+                        status : $status == '使用' ? '锁定' : '使用'
+                    }
+                }).then(function (res) {
+                    console.log(res.data);
+                    window.location.reload();
+                })
+            }
+
+            $scope.resetPsw = function($id) {
+                $http({
+                    method: "post",
+                    url: "{:url('admin/User/resetPsw')}",
+                    data: {
+                        id: $id
+                    }
+                }).then(function (res) {
+                    alert('重置成功');
                 })
             }
         })
