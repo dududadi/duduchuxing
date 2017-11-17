@@ -48,18 +48,18 @@ class Login extends Controller {
                     cookie('isLogin', $res['emp_id'], 604800);
                 }
 
-                echo 1;//登录成功
+                return 1;//登录成功
             }
             else
             {
                 //登录失败,账号或密码输入错误
-                echo 2;
+                return 2;
             }
 
         }else{
             //验证失败，请重新输入验证码
             //跳转页面并友好提示
-            echo 3;
+            return 3;
         };
     }
 }
