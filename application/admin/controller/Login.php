@@ -26,12 +26,12 @@ class Login extends Controller {
     }
 
     public function checkUser() {
-        $captcha=input('post.code',''); //获取页面传递的验证码
+        $captcha=trim(input('post.code','')); //获取页面传递的验证码
 
         if(captcha_check($captcha)){
             //判断表单是否有传值过来  没有就赋值为空
-            $user = input('post.user','');//获取页面传递的ID
-            $upas = input('post.password','');//获取页面传递的密码
+            $user = trim(input('post.user',''));//获取页面传递的ID
+            $upas = trim(input('post.password',''));//获取页面传递的密码
 
             $res = Db::name('employee')
             -> where(['emp_id'=>$user,'emp_psw'=>md5($upas)])
@@ -48,18 +48,18 @@ class Login extends Controller {
                     cookie('isLogin', $res['emp_id'], 604800);
                 }
 
-                $this ->success('登录成功','admin/index/index',3);//跳转页面并友好提示
+                echo 1;//登录成功
             }
             else
             {
-                //跳转页面并友好提示
-                $this ->error('登录失败,账号或密码输入错误','admin/login/index',3);
+                //登录失败,账号或密码输入错误
+                echo 2;
             }
 
         }else{
-            //验证失败
+            //验证失败，请重新输入验证码
             //跳转页面并友好提示
-            $this ->error('验证失败，请重新输入验证码','admin/login/index',3);
+            echo 3;
         };
     }
 }
