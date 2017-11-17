@@ -33,33 +33,26 @@
       <div class="row cl">
         <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
         <div class="formControls col-xs-8">
-          <input id="" name="user" type="text" placeholder="账户" class="input-text size-L">
+          <input name="user" type="text" placeholder="账户" class="input-text size-L">
         </div>
       </div>
       <div class="row cl">
         <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
         <div class="formControls col-xs-8">
-          <input id="" name="password" type="password" placeholder="密码" class="input-text size-L">
+          <input autocomplete="new-password" name="password" type="password" placeholder="密码" class="input-text size-L">
         </div>
       </div>
-      <!--<div class="row cl">
-        <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
-        <div class="formControls col-xs-8">
-          
-        </div>
-      </div>-->
       <div class="row cl">
         <div class="formControls col-xs-8 col-xs-offset-3" style="position: relative;">
           <input name="code" class="input-text size-L" type="text" placeholder="验证码" onblur="if(this.value==''){this.value='验证码:'};" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;">
 		  <div id="codeDiv" class="size-L" style="position: absolute; top: 1px;left: 180px;">{:captcha_img()}</div>
-		  <img src=""> <a id="kanbuq" href="javascript:;">看不清，换一张</a>
         </div>
       </div>
       <div class="row cl">
         <div class="formControls col-xs-8 col-xs-offset-3">
           <label for="online">
             <input type="checkbox" name="online" id="online" value="seven">
-            使我保持登录状态</label>
+            七天自动登录</label>
         </div>
       </div>
       <div class="row cl">
@@ -75,7 +68,9 @@
 <script type="text/javascript" src="__HUI__/lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="__HUI__/static/h-ui/js/H-ui.min.js"></script>
 <script type="text/javascript">
-	
+	$("#codeDiv img").click(function(){ 
+		$(this).attr("src",$(this).attr("src")+"?"+Math.random()); 
+	});
 </script>
 </body>
 </html>
