@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <html>
 
@@ -21,6 +20,8 @@
     <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui.admin/skin/default/skin.css" id="skin" />
     <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui.admin/css/style.css" />
     <style>
+        /* 由于bootstrap样式与hui框架样式冲突，所以只引用分页所需部分css样式 */
+
         .pagination {
             display: inline-block;
             padding-left: 0;
@@ -130,6 +131,221 @@
             border-top-right-radius: 3px;
             border-bottom-right-radius: 3px;
         }
+
+        /* 模态框样式代码 */
+        .fade {
+            opacity: 0;
+            -webkit-transition: opacity .15s linear;
+            -o-transition: opacity .15s linear;
+            transition: opacity .15s linear
+        }
+
+        .fade.in {
+            opacity: 1
+        }
+
+        .modal-open {
+            overflow: hidden
+        }
+
+        .modal {
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1040;
+            display: none;
+            overflow: hidden;
+            -webkit-overflow-scrolling: touch;
+            outline: 0
+        }
+
+        .modal.fade .modal-dialog {
+            -webkit-transition: -webkit-transform .3s ease-out;
+            -o-transition: -o-transform .3s ease-out;
+            transition: transform .3s ease-out;
+            -webkit-transform: translate(0, -50%);
+            -ms-transform: translate(0, -50%);
+            -o-transform: translate(0, -50%);
+            transform: translate(0, -50%)
+        }
+
+        .modal.in .modal-dialog {
+            -webkit-transform: translate(0, 0);
+            -ms-transform: translate(0, 0);
+            -o-transform: translate(0, 0);
+            transform: translate(0, 0)
+        }
+
+        .modal-open .modal {
+            overflow-x: hidden;
+            overflow-y: auto
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: #000
+        }
+
+        .modal-backdrop.fade {
+            filter: alpha(opacity=0);
+            opacity: 0
+        }
+
+        .modal-backdrop.in {
+            filter: alpha(opacity=50);
+            opacity: .5
+        }
+
+        .modal-dialog {
+            position: relative;
+            width: auto;
+            margin: 10px
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            border: 1px solid #999;
+            border: 1px solid rgba(0, 0, 0, .2);
+            outline: 0;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+            -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+            box-shadow: 0 3px 9px rgba(0, 0, 0, .5)
+        }
+
+        .modal-header {
+            min-height: 16.42857143px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            position: relative
+        }
+
+        .modal-header .close {
+            position: absolute;
+            right: 10px;
+            top: 10px
+        }
+
+        .modal-header h3,
+        .modal-header .modal-title {
+            margin: 0;
+            padding: 10px 0;
+            font-size: 16px
+        }
+
+        .modal-body {
+            position: relative;
+            padding: 15px;
+            overflow-y: visible;
+            word-break: break-all
+        }
+
+        .modal-form {
+            margin-bottom: 0
+        }
+
+        .modal-footer {
+            padding: 15px;
+            margin-bottom: 0;
+            text-align: right;
+            background-color: #f5f5f5;
+            border-top: 1px solid #eee;
+            *zoom: 1
+        }
+
+        .modal-footer:before,
+        .modal-footer:after {
+            display: table;
+            content: ""
+        }
+
+        .modal-footer:after {
+            clear: both
+        }
+
+        .modal-footer .btn+.btn {
+            margin-left: 5px;
+            margin-bottom: 0
+        }
+
+        .modal-footer .btn-group .btn+.btn {
+            margin-left: -1px
+        }
+
+        .modal-footer .btn-block+.btn-block {
+            margin-left: 0
+        }
+
+        .modal-scrollbar-measure {
+            position: absolute;
+            top: -9999px;
+            width: 50px;
+            height: 50px;
+            overflow: scroll
+        }
+
+        .radius .modal-content {
+            border-radius: 6px
+        }
+
+        .radius .modal-footer {
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px
+        }
+
+        @media (min-width: 768px) {
+            .modal-dialog {
+                width: 600px;
+                margin: 30px auto
+            }
+            .modal-content {
+                -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, .5)
+            }
+            .modal-sm {
+                width: 300px
+            }
+        }
+
+        @media (min-width: 992px) {
+            .modal-lg {
+                width: 900px
+            }
+        }
+
+        .modal-alert {
+            position: fixed;
+            right: auto;
+            bottom: auto;
+            width: 300px;
+            left: 50%;
+            margin-left: -150px;
+            top: 50%;
+            margin-top: -30px;
+            z-index: 9999;
+            background-color: #fff;
+            border: 1px solid #999;
+            border: 1px solid rgba(0, 0, 0, .2);
+            outline: 0;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+            -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+            box-shadow: 0 3px 9px rgba(0, 0, 0, .5)
+        }
+
+        .modal-alert-info {
+            padding: 30px;
+            text-align: center;
+            font-size: 14px;
+            background-color: #fff
+        }
     </style>
     <!--[if IE 6]>
 <script type="text/javascript" src="__HUI__/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
@@ -152,16 +368,22 @@
     </nav>
     <div class="page-container">
         <div class="text-c"> 注册日期：
-            <input type="text" onfocus="WdatePicker({ maxDate:'#F{ $dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;" ng-model="minDate"> -
-            <input type="text" onfocus="WdatePicker({ minDate:'#F{ $dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;" ng-model="maxDate">
-            <input type="text" class="input-text" style="width:250px" placeholder="输入用户名称、电话、身份证" id="keydate"  ng-model="keyDate">
+            <input type="text" onfocus="WdatePicker({ maxDate:'#F{ $dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate"
+                style="width:120px;" ng-model="minDate"> -
+            <input type="text" onfocus="WdatePicker({ minDate:'#F{ $dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate"
+                style="width:120px;" ng-model="maxDate">
+            <input type="text" class="input-text" style="width:250px" placeholder="输入用户名称、电话、身份证" id="keydate" ng-model="keyDate">
             <button type="button" class="btn btn-success radius" ng-click="setCondition()">
                 <i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
         </div>
         <div class="cl pd-5 bg-1 bk-gray mt-20">
             <span class="l">
-                <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
-                    <i class="Hui-iconfont">&#xe6e2;</i> 批量使用/锁定</a>
+                <a href="javascript:;" ng-click="unlockAll()" class="btn btn-success radius">
+                    <i class="Hui-iconfont">&#xe605;</i> 批量使用
+                </a>
+                <a href="javascript:;" ng-click="lockAll()" class="btn btn-danger radius">
+                    <i class="Hui-iconfont">&#xe60e;</i> 批量锁定
+                </a>
             </span>
             <span class="r">共有数据：
                 <strong>{$userList -> total()}</strong> 条</span>
@@ -171,7 +393,7 @@
                 <thead>
                     <tr class="text-c">
                         <th width="25">
-                            <input type="checkbox" name="" value="">
+                            <input type="checkbox" ng-click="allCheckbox($event)" ng-model="total">
                         </th>
                         <th width="80">ID</th>
                         <th width="80">用户名</th>
@@ -186,51 +408,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {volist name="userList" id="user"}
-                        <tr class="text-c">
-                            <td>
-                                <input type="checkbox" value="1" name="">
-                            </td>
-                            <td>{$user.user_id}</td>
-                            <td>
-                                <u style="cursor:pointer" class="text-primary" onclick="member_show('{$user.user_name}', '{:url('admin/User/show', ['tel' => $user.user_tel])}','10001','360','400')">{$user.user_name}</u>
-                            </td>
-                            <td>{$user.user_tel}</td>
-                            <td>{$user.user_id_num}</td>
-                            <td class="text-l">{$user.prov_name} {$user.city_name} {$user.area_name} {$user.user_address}</td>
-                            <td>{$user.user_reg_time}</td>
-                            <td>{$user.user_score}</td>
-                            <td>{$user.user_money}</td>
-                            <td class="td-status">
-                                {switch name="$user.user_status"}
-                                    {case value="锁定"}
-                                        <span class="label label-fail radius">{$user.user_status}</span>
-                                    {/case}
-                                    {case value="使用"}
-                                        <span class="label label-success radius">{$user.user_status}</span>
-                                    {/case}
-                                    {default /}
-                                {/switch}
-                            </td>
-                            <td class="td-manage">
-                                <a style="text-decoration:none" ng-click="changeStatusOne('{$user.user_id}', '{$user.user_status}')" href="javascript:;" title="使用/锁定">
-                                    <i class="Hui-iconfont">&#xe631;</i>
-                                </a>
-                                <a style="text-decoration:none" class="ml-5" ng-click="resetPsw('{$user.user_id}')" href="javascript:;" title="重置密码">
-                                    <i class="Hui-iconfont">&#xe63f;</i>
-                                </a>
-                            </td>
-                            <!-- <td class="td-manage">
-                                
-                                <a title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html','4','','510')" class="ml-5" style="text-decoration:none">
-                                    <i class="Hui-iconfont">&#xe6df;</i>
-                                </a>
-                                
-                                <a title="删除" href="javascript:;" onclick="member_del(this,'1')" class="ml-5" style="text-decoration:none">
-                                    <i class="Hui-iconfont">&#xe6e2;</i>
-                                </a>
-                            </td> -->
-                        </tr>
+                    {volist name="userList" id="user" key="i"}
+                    <tr class="text-c">
+                        <td>
+                            <input type="checkbox" value="{$user.user_tel}" ng-model="arr['{$user.user_tel}']" ng-click="oneCheckbox($event)">
+                        </td>
+                        <td>{$user.user_id}</td>
+                        <td>
+                            <u style="cursor:pointer" class="text-primary" onclick="member_show('{$user.user_name}', '{:url('admin/User/show', ['tel' => $user.user_tel])}','10001','360','400')">{$user.user_name}</u>
+                        </td>
+                        <td>{$user.user_tel}</td>
+                        <td>{$user.user_id_num}</td>
+                        <td class="text-l">{$user.prov_name} {$user.city_name} {$user.area_name} {$user.user_address}</td>
+                        <td>{$user.user_reg_time}</td>
+                        <td>{$user.user_score}</td>
+                        <td>{$user.user_money}</td>
+                        <td class="td-status">
+                            {switch name="$user.user_status"} {case value="锁定"}
+                            <span class="label label-fail radius">{$user.user_status}</span>
+                            {/case} {case value="使用"}
+                            <span class="label label-success radius">{$user.user_status}</span>
+                            {/case} {default /} {/switch}
+                        </td>
+                        <td class="td-manage">
+                            <a style="text-decoration:none" ng-click="changeStatusOne('{$user.user_tel}', '{$user.user_status}')" href="javascript:;"
+                                title="使用/锁定">
+                                <i class="Hui-iconfont">&#xe631;</i>
+                            </a>
+                            <a style="text-decoration:none" class="ml-5" ng-click="resetPsw('{$user.user_tel}')" href="javascript:;" title="重置密码">
+                                <i class="Hui-iconfont">&#xe63f;</i>
+                            </a>
+                        </td>
+                    </tr>
                     {/volist}
                 </tbody>
             </table>
@@ -240,6 +449,23 @@
         </div>
         <div style="text-align:center;clear:both">
             {:$userList -> render()}
+        </div>
+    </div>
+    <div id="modal-demo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content radius">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modalTitle"></h3>
+                    <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
+                </div>
+                <div class="modal-body">
+                    <p id="modalBody"></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">确定</button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </div>
         </div>
     </div>
     <!--_footer 作为公共模版分离出去-->
@@ -255,6 +481,7 @@
     <script type="text/javascript" src="__HUI__/lib/laypage/1.2/laypage.js"></script>
     <script type="text/javascript" src="__JS__/angular.min.js"></script>
     <script type="text/javascript">
+        //datatables配置
         $(function () {
             $('.table-sort').dataTable({
                 "aaSorting": [
@@ -268,13 +495,14 @@
                         "aTargets": [0, 8, 9]
                     } // 制定列不参与排序
                 ],
-                "bPaginate": false,   
-                "info": false                   //是否分页。
+                "bPaginate": false,
+                "info": false //是否分页。
             });
         });
 
-        function member_show(title,url,id,w,h){
-            layer_show(title,url,w,h);
+        //显示用户详情iframe
+        function member_show(title, url, id, w, h) {
+            layer_show(title, url, w, h);
         }
 
         var $dateMin = $("#datemin");
@@ -283,52 +511,198 @@
 
         var app = angular.module("myApp", []);
 
-        app.controller("myCtrl", function($scope, $http) {
+        app.controller("myCtrl", function ($scope, $http) {
+            //查询条件初始化
             $scope.minDate = '{$minDate}';
             $scope.maxDate = '{$maxDate}';
             $scope.keyDate = '{$keyDate}';
+            $scope.total = false;
+            $scope.arr = new Array();
+            {volist name="$userList" id="user"}
+                $scope.arr['{$user.user_tel}'] = false;
+            {/volist}
 
-            $scope.setCondition = function() {
+            //修改查询条件
+            $scope.setCondition = function () {
                 $http({
                     method: "post",
                     url: "{:url('admin/User/setCondition')}",
                     data: {
-                        maxDate : $("#datemax").val(),
-                        minDate : $("#datemin").val(),
-                        keyDate : $scope.keyDate
+                        maxDate: $("#datemax").val(),
+                        minDate: $("#datemin").val(),
+                        keyDate: $scope.keyDate
                     }
-                }).then(function(res) {
+                }).then(function (res) {
                     window.location.href = "{:url('admin/User/lists')}";
                 })
             }
 
-            $scope.changeStatusOne = function($id, $status) {
+            //修改某个用户的状态
+            $scope.changeStatusOne = function ($tel, $status) {
                 $http({
                     method: "post",
                     url: "{:url('admin/User/changeStatusOne')}",
                     data: {
-                        id : $id,
-                        status : $status == '使用' ? '锁定' : '使用'
+                        tel: $tel,
+                        status: $status == '使用' ? '锁定' : '使用'
                     }
                 }).then(function (res) {
-                    console.log(res.data);
-                    window.location.reload();
+                    var data = res.data;
+                    var status = $status == '使用' ? '锁定' : '使用';
+
+                    if (data) {
+                        var body = "用户" + $tel + "的状态已修改为： " + status;
+                    } else {
+                        var body = "状态修改失败，请联系数据库管理员";
+                    }
+
+                    $scope.autoMadalBox(body);
+
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1500);
                 })
             }
 
-            $scope.resetPsw = function($id) {
+            //密码重置
+            $scope.resetPsw = function ($tel) {
                 $http({
                     method: "post",
                     url: "{:url('admin/User/resetPsw')}",
                     data: {
-                        id: $id
+                        tel: $tel
                     }
                 }).then(function (res) {
-                    alert('重置成功');
+                    var data = res.data;
+
+                    if (data) {
+                        var title = "用户" + $tel;
+                        var body = "该用户密码已重置为duduchuxing";
+                    } else {
+                        var title = "用户" + $tel;
+                        var body = "密码重置失败，请联系数据库管理员";
+                    }
+
+                    $scope.alertMadalBox(title, body);
                 })
             }
+
+            //弹出模态框
+            $scope.alertMadalBox = function ($title, $body) {
+                //修改模态框标题
+                $("#modalTitle").text($title);
+                
+                //修改模态框内容
+                $("#modalBody").text($body);
+
+                //显示模态框                
+                $("#modal-demo").modal("show");
+            }
+
+            //自动消失的模态框
+            $scope.autoMadalBox = function ($body) {
+                $.Huimodalalert($body, 1500);
+            }
+
+            //批量解锁用户
+            $scope.unlockAll = function () {
+                var list = [];
+
+                for (var key in $scope.arr) {
+                    if ($scope.arr[key] == true) {
+                        list.push(key);
+                    }
+                }
+
+                $http({
+                    method: "post",
+                    url: "{:url('admin/User/unlockAll')}",
+                    data: {
+                        list : JSON.stringify(list)
+                    }
+                }).then(function (res) {
+                    var data = res.data;
+
+                    if (data) {
+                        var body = "批量解锁用户成功";
+                    } else {
+                        var body = "批量解锁用户失败，请联系数据库管理员";
+                    }
+
+                    $scope.autoMadalBox(body);
+
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1500);
+                })
+            }
+
+            //批量锁定用户
+            $scope.lockAll = function () {
+                var list = [];
+
+                for (var key in $scope.arr) {
+                    if ($scope.arr[key] == true) {
+                        list.push(key);
+                    }
+                }
+
+                $http({
+                    method: "post",
+                    url: "{:url('admin/User/lockAll')}",
+                    data: {
+                        list: JSON.stringify(list)
+                    }
+                }).then(function (res) {
+                    var data = res.data;
+
+                    if (data) {
+                        var body = "批量锁定用户成功";
+                    } else {
+                        var body = "批量锁定用户失败，请联系数据库管理员";
+                    }
+
+                    $scope.autoMadalBox(body);
+
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1500);
+                })
+            }
+
+            //checkbox二级联动父节点
+            $scope.allCheckbox = function(event) {
+                if ($(event.target).is(':checked')) {
+                    for (var key in $scope.arr) {
+                        $scope.arr[key] = true;
+                    }
+                } else {
+                    for (var key in $scope.arr) {
+                        $scope.arr[key] = false;
+                    }
+                }
+            }
+
+            //checkbox二级联动子节点
+            $scope.oneCheckbox = function(event) {
+                var count1 = 0;
+                var count2 = 0;
+
+                for (var key in $scope.arr) {
+                    if ($scope.arr[key] == true) {
+                        count1++;
+                    }
+
+                    count2++;
+                }
+
+                if (count1 == count2) {
+                    $scope.total = true;
+                } else  {
+                    $scope.total = false;
+                }
+            }
         })
-        
     </script>
 </body>
 

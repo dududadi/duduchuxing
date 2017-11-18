@@ -97,26 +97,92 @@ class User extends Controller {
     }
 
     public function changeStatusOne() {
-        $id = Request::instance()
-        -> post('id', '');
+        $tel = Request::instance()
+        -> post('tel', '');
         $status = Request::instance()
         -> post('status', '');
 
         $res = Db::name('user')
-        -> where('user_id', $id)
+        -> where('user_tel', $tel)
         -> setField('user_status', $status);
 
-        return 0;
+        if ($res !== false) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     public function resetPsw() {
-        $id = Request::instance()
-        -> post('id', '');
+        $psw = 'duduchuxing';
+        
+        $tel = Request::instance()
+        -> post('tel', '');
 
         $res = Db::name('user')
-        -> where('user_id', $id)
-        -> setField('user_psw', md5('duduchuxing'));
+        -> where('user_tel', $tel)
+        -> setField('user_psw', md5($psw));
 
-        return 0;
+        if ($res !== false) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function unlockAll() {
+        $str = Request::instance()
+        -> post('list', '[]');
+
+        $list = json_decode($str);
+        $judge = false;
+
+        Db::transaction(function() use($list, &$judge) {
+            for($i = 0; $i < count($list); $i++) {
+                $res = Db::name('user')
+                -> where('user_tel', $list[$i])
+                -> setField('user_status', '使用');
+
+                if ($res === false) {
+                    throw new Exception('错误原因');
+                }
+            }
+
+            $judge = true;
+        });
+
+        if ($judge) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function lockAll() {
+        $str = Request::instance()
+        -> post('list', '[]');
+
+        $list = json_decode($str);
+        $judge = false;
+
+        Db::transaction(function() use($list, &$judge) {
+            for($i = 0; $i < count($list); $i++) {
+                $res = Db::name('user')
+                -> where('user_tel', $list[$i])
+                -> setField('user_status', '锁定');
+
+                if ($res === false) {
+                    throw new Exception('错误原因');
+                }
+            }
+
+            $judge = true;
+        });
+
+        if ($judge) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 } 
