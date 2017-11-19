@@ -9,7 +9,7 @@ use think\Db;                   //引用官方封装的数据库单例类
 class Login extends Controller {
     public function _initialize() {
         if (sessionAssist('isLogin')) {
-            $this -> redirect('index/index');
+            $this -> redirect('Index/index');
         } else if (cookieAssist('isLogin')) {
             //判断当前用户是否存在凭证，有则直接跳转主页
             $user=cookie('isLogin');
@@ -17,7 +17,7 @@ class Login extends Controller {
             //将当前用户ID存入session中
             Session::set('isLogin',$user);
 
-            $this -> redirect('index/index');
+            $this -> redirect('Index/index');
         }
     }
 
