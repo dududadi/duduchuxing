@@ -22,7 +22,7 @@ class Login extends Controller {
     }
 
     public function index() {
-        return $this -> fetch('Index/login');
+        return $this -> fetch('index/login');
     }
 
     public function checkUser() {
