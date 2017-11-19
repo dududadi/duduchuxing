@@ -1,1 +1,323 @@
-添加员工
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="Bookmark" href="/favicon.ico" >
+    <link rel="Shortcut Icon" href="/favicon.ico" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="__HUI__/lib/html5shiv.js"></script>
+    <script type="text/javascript" src="__HUI__/lib/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui.admin/css/style.css" />
+    <!--[if IE 6]>
+    <script type="text/javascript" src="__HUI__/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <!--/meta 作为公共模版分离出去-->
+
+    <title>添加管理员 - 管理员管理 - H-ui.admin v3.1</title>
+    <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+    <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+    <style>
+        [name="province"] + .error{
+            display: none;
+            color: #fff;
+        }
+        [name="city"] + .error{
+            display: none;
+            color: #fff;
+        }
+        [name="area"] + .error{
+            display: none;
+            color: #fff;
+        }
+        [name="adminRole"] + .error{
+            display: none;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<article class="page-container">
+    <form action="{:url('admin/employee/addEmp')}" method="post" class="form form-horizontal" id="form-member-add">
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>员工姓名：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>员工昵称：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="adminNickname" name="adminNickname">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password" name="password">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="password" class="input-text" autocomplete="off"  placeholder="确认新密码" id="password2" name="password2">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">所属省份：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box" style="width:150px;">
+                    <select class="select" name="province" size="1">
+                        <option value="">--请选择省份--</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">所属城市：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box" style="width:150px;">
+                    <select class="select" name="city" size="1">
+                        <option value="">--请选择城市--</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">所属区/县：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box" style="width:150px;">
+                    <select class="select" name="area" size="1">
+                        <option value="">--请选择区/县--</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">角色：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box" style="width:150px;">
+                    <select class="select" name="adminRole" size="1">
+                        <option value="">--请选择角色--</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">附件：</label>
+            <div class="formControls col-xs-8 col-sm-9"> <span class="btn-upload form-group">
+				<input class="input-text upload-url" type="text" name="uploadfile" id="uploadfile" readonly nullmsg="请添加附件！" style="width:200px">
+				<a href="javascript:void(0);" class="btn btn-primary radius upload-btn"><i class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
+				<input type="file" multiple name="file-2" class="input-file">
+				</span> </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="__HUI__/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="__HUI__/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="__HUI__/static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="__HUI__/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__HUI__/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="__HUI__/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="__HUI__/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="__HUI__/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+    //获取角色、省、市、区的菜单
+    $(function () {
+        var $roleSelect = $('[name="adminRole"]');
+        var $provSelect = $('[name="province"]');
+        var $citySelect = $('[name="city"]');
+        var $areaSelect = $('[name="area"]');
+
+        //用ajax获取角色下拉菜单和省份下拉菜单
+        $.ajax({
+            url: '{:url("admin/employee/getSelectVal")}',
+            type: 'post',
+            data: {},
+            dataType: 'json',
+            success: function (response) {
+                var $provItem,$roleItem,prov = response.province,role = response.role;
+                $roleSelect.children().not(':first').remove();
+                $provSelect.children().not(':first').remove();
+                //创建省份下拉菜单
+                if ((typeof prov==="string") && prov.trim()==='0') {
+                    $provItem = ('<option value="">--数据异常--</option>');
+                    $provSelect.append($provItem);
+                } else {
+                    for (var i in prov) {
+                        $provItem = ('<option value="'+i+'">'+prov[i]+'</option>');
+                        $provSelect.append($provItem);
+                    }
+                    $provSelect.change(function (e) {
+                        e.stopPropagation();
+                        var $provNum = $(this).val();
+                        $citySelect.children().not(':first').remove();
+                        if ($provNum !== '') {
+                            getCityList($provNum);
+                        }
+                    });
+                }
+                //创建角色下拉菜单
+                if ((typeof role==="string") && role.trim()==='0') {
+                    $roleItem = ('<option value="">--数据异常--</option>');
+                    $roleSelect.append($roleItem);
+                } else {
+                    for (var j in role) {
+                        $roleItem = ('<option value="'+j+'">'+role[j]+'</option>');
+                        $roleSelect.append($roleItem);
+                    }
+                }
+            },
+            error: function (response) {
+                console.log('服务器异常，请联系管理员');
+            }
+        });
+
+        //获取城市下拉菜单
+        function getCityList(provNum) {
+            $.ajax({
+                url: '{:url("admin/employee/getCity")}',
+                type: 'post',
+                data: {provNum:provNum},
+                dataType: 'json',
+                success: function (response) {
+                    var $cityItem,city = response.city;
+                    console.log(city);
+                    if ((typeof city==="string") && city.trim()==='0') {
+                        $cityItem = ('<option value="">--数据异常--</option>');
+                        $citySelect.append($cityItem);
+                    } else {
+                        for (var i in city) {
+                            $cityItem = ('<option value="'+i+'">'+city[i]+'</option>');
+                            $citySelect.append($cityItem);
+                        }
+                        $citySelect.change(function (e) {
+                            e.stopPropagation();
+                            var $cityNum = $(this).val();
+                            $areaSelect.children().not(':first').remove();
+                            if ($cityNum !== '') {
+                                getAreaList($cityNum);
+                            }
+                        });
+                    }
+                },
+                error: function (response) {
+                    console.log('服务器异常，请联系管理员');
+                    console.log(response);
+                }
+            });
+        }
+
+        //获取区/县下拉菜单
+        function getAreaList(cityNum) {
+            $.ajax({
+                url: '{:url("admin/employee/getArea")}',
+                type: 'post',
+                data: {cityNum:cityNum},
+                dataType: 'json',
+                success: function (response) {
+                    var $areaItem,area = response.area;
+                    console.log(area);
+                    if ((typeof area==="string") && area.trim()==='0') {
+                        $areaItem = ('<option value="">--数据异常--</option>');
+                        $areaSelect.append($areaItem);
+                    } else {
+                        for (var i in area) {
+                            $areaItem = ('<option value="'+i+'">'+area[i]+'</option>');
+                            $areaSelect.append($areaItem);
+                        }
+                    }
+                },
+                error: function (response) {
+                    console.log('服务器异常，请联系管理员');
+                }
+            });
+        }
+    });
+
+    $(function(){
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+
+        $("#form-member-add").validate({
+            rules:{
+                adminName:{
+                    required:true,
+                    minlength:2,
+                    maxlength:16
+                },
+                adminNickname:{
+                    required:true
+                },
+                password:{
+                    required:true
+                },
+                password2:{
+                    required:true,
+                    equalTo: "#password"
+                },
+                province:{
+                    required:true
+                },
+                city:{
+                    required:true
+                },
+                area:{
+                    required:true
+                },
+                adminRole:{
+                    required:true
+                },
+                uploadfile:{
+                    required:true
+                }
+
+            },
+            onkeyup:false,
+            focusCleanup:true,
+            success:"valid",
+            submitHandler: function(form){
+                var $_form = $(form);
+                $_form.ajaxSubmit({
+                    type: 'post', // 提交方式 get/post
+                    url: '{:url("admin/employee/addEmp")}', // 需要提交的 url
+                    data: {},
+                    success: function(response) {
+                        if (response.trim() === '1') {
+                            alert('添加成功！');
+                        }
+                        $_form.resetForm(); //提交后重置表单
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
