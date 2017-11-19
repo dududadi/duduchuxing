@@ -41,6 +41,8 @@ class Login extends Controller {
             {
                 //结果不为空  则session缓存更新
                 Session::set('isLogin',$res['emp_id']);
+				Session::set('emp_name',$res['emp_name']);
+				Session::set('role_id',$res['role_id']);
                 //跳转页面并友好提示
                 if(!empty(input('post.online','')))
                 {
