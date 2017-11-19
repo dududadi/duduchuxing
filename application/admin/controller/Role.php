@@ -12,7 +12,7 @@ class Role extends Controller{
     //构造函数
     public function _initialize() {
         if (!sessionAssist('isLogin')) {
-            $this -> redirect('Login/index');
+            $this -> redirect('login/index');
         }
     }
     //错误方法访问
