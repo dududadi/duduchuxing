@@ -13,5 +13,6 @@ class User extends Controller {
         -> select();
 
         echo json_encode($res);
+        exit;
     }
 } 
