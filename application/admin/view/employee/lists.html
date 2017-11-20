@@ -40,9 +40,9 @@
             </form>
             <div class="cl pd-5 bg-1 bk-gray mt-20">
                 <span class="l">
-                    <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+                    <!--<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>-->
                 </span>
-            <span>显示</span>
+            <span style="margin-left: 10px;">显示</span>
             <select class="pageSize">
                 <option value="5">5</option>
                 <option value="10">10</option>
@@ -71,16 +71,16 @@
                             <tr class="text-c">
                                 <td><input type="checkbox" value="1" name=""></td>
                                 <td>{$value.emp_id}</td>
-                                <td><u style="cursor:pointer" class="text-primary" onclick="member_show('{$value.emp_name}','{$value.emp_id}',360,500)">{$value.emp_name}</u></td>
+                                <td><u style="cursor:pointer" class="text-primary" onclick="member_show('{$value.emp_name}','{$value.emp_id}',360,600)">{$value.emp_name}</u></td>
                                 <td>{$value.role_name}</td>
                                 <td>{$value.prov_name}</td>
                                 <td>{$value.city_name}</td>
                                 <td>{$value.area_name}</td>
                                 <td class="td-status"><span class="label label-success radius">{$value.emp_status}</span></td>
                                 <td class="td-manage">
-                                    <a style="text-decoration:none" onClick="member_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
-                                    <a title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                                    <a title="删除" href="javascript:;" onclick="member_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                                    <a style="text-decoration:none" onClick="member_stop(this,'{$value.emp_id}')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
+                                    <a title="编辑" href="javascript:;" onclick="member_edit('编辑','{$value.emp_id}','360','700')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                                    <a title="删除" href="javascript:;" onclick="member_del(this,'{$value.emp_id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                                 </td>
                             </tr>
                         {/volist}
@@ -100,53 +100,61 @@
 
     <!--请在下方写此页面业务相关的脚本-->
     <script type="text/javascript" src="__HUI__/lib/My97DatePicker/4.8/WdatePicker.js"></script>
-    <!--<script type="text/javascript" src="__HUI__/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>-->
+    <script type="text/javascript" src="__HUI__/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="__HUI__/lib/laypage/1.2/laypage.js"></script>
     <script type="text/javascript">
         function getEmpByconditions() {
 
             //搜索按钮
-            $searchBtn = $('[name="search-emp"]');
+            var $searchBtn = $('[name="search-emp"]');
+
+            var $dateMinNode = $('#datemin');
+            var $dateMaxNode = $('#datemax');
+            var $keywordNode = $('[name="phone"]');
 
             $searchBtn.click(function (e) {
                 e.stopPropagation();
                 //日期条件
-                var dateMin = $('#datemin').val();
-                var dateMax = $('#datemax').val();
+                var dateMinVal = $dateMinNode.val();
+                var dateMaxVal = $dateMaxNode.val();
 
                 //关键字条件
-                var keywordArr = unique($('[name="phone"]').val().replace(/\s+/g,' ').split(' ')); //过滤关键字的空格和重复部分
-                console.log(keywordArr);
-                var keyword = keywordArr.join('@');
-                console.log(keyword);
+                var keywordArr = unique($keywordNode.val().replace(/\s+/g,' ').split(' ')); //过滤关键字的空格和重复部分
+                var keywordVal = keywordArr.join('@');
                 var condition = '?';
-                condition += dateMin?'dateMin='+dateMin:'';
-                condition += dateMax?'dateMax='+dateMax:'';
-                condition += keyword?'keyword='+keyword:'';
-                //window.location.href = '{:url("admin/employee/lists")}?pageSize=' +  $pageSizeNode.val();
-
+                condition += dateMinVal?'dateMin='+dateMinVal:'';
+                condition += dateMaxVal?'&dateMax='+dateMaxVal:'';
+                condition += keywordVal?'&keyword='+keywordVal:'';
+                window.location.href = '{:url("admin/employee/lists")}' + condition;
             });
 
-
             //选择每页显示条数
-            var nowPageSize = '{$pageSize}';
             var $pageSizeNode = $('.pageSize');
             var options = $pageSizeNode.children();
             $pageSizeNode.change(function (e) {
                 e.stopPropagation();
-                window.location.href = '{:url("admin/employee/lists")}?pageSize=' +  $pageSizeNode.val();
+                window.location.href = '{:url("admin/employee/lists")}?pageSize=' + $pageSizeNode.val();
             });
             var $pageBtn = $('.my-pager a');
             $pageBtn.click(function (e) {
                 e.stopPropagation();
-                window.location.href = '{:url("admin/employee/lists")}?pageSize=' +  $pageSizeNode.val();
+                window.location.href = '{:url("admin/employee/lists")}?pageSize=' + $pageSizeNode.val();
             });
+
+            //将下拉框最新条件选中
+            var nowPageSize = '{$pageSize}';
             for (var i = 0; i < options.length; i++) {
                 if (options.eq(i).attr('value') === nowPageSize) {
                     options.eq(i).attr('selected',true);
                     break;
                 }
             }
+            //将日期填入
+            $dateMinNode.val('{$dateMin}');
+            $dateMaxNode.val('{$dateMax}');
+            keywordVal = '{$keyword}'.replace('@','');
+            $keywordNode.val(keywordVal);
+
         }
         getEmpByconditions();
 
@@ -160,7 +168,7 @@
             layer.confirm('确认要停用吗？',function(index){
                 $.ajax({
                     type: 'POST',
-                    url: '',
+                    url: "{:url('admin/employee/lock')}?id=" + id,
                     dataType: 'json',
                     success: function(data){
                         $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
@@ -180,7 +188,7 @@
             layer.confirm('确认要启用吗？',function(index){
                 $.ajax({
                     type: 'POST',
-                    url: '',
+                    url: "{:url('admin/employee/unlock')}?id=" + id,
                     dataType: 'json',
                     success: function(data){
                         $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
@@ -195,7 +203,8 @@
             });
         }
         /*用户-编辑*/
-        function member_edit(title,url,id,w,h){
+        function member_edit(title,id,w,h){
+            var url = "{:url('admin/employee/add')}?id=" + id;
             layer_show(title,url,w,h);
         }
 
@@ -204,7 +213,7 @@
             layer.confirm('确认要删除吗？',function(index){
                 $.ajax({
                     type: 'POST',
-                    url: '',
+                    url: "{:url('admin/employee/delete')}?id=" + id,
                     dataType: 'json',
                     success: function(data){
                         $(obj).parents("tr").remove();
@@ -212,9 +221,14 @@
                     },
                     error:function(data) {
                         console.log(data.msg);
-                    },
+                    }
                 });
             });
+        }
+
+        //批量删除
+        function datadel () {
+
         }
 
         //数组去重

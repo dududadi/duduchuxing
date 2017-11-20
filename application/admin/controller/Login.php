@@ -62,6 +62,6 @@ class Login extends Controller {
             //验证失败，请重新输入验证码
             //跳转页面并友好提示
             return 3;
-        };
+        }
     }
 }

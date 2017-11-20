@@ -141,6 +141,37 @@
 <script type="text/javascript" src="__HUI__/lib/jquery.validation/1.14.0/validate-methods.js"></script>
 <script type="text/javascript" src="__HUI__/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
+    /*$('[type="file"]').on('change',function(evt) {
+        var this_file = this.files[0];
+        console.log(this_file);
+        (function(myfile){
+            var picReader = new FileReader();
+            var $img = $('<img class="to'+node+'" style="display: block;height: 100px;width: auto;">');
+            picReader.onloadend = function(evt){
+                var stream = evt.target.result; //获取图片的序列化值
+                $img.attr('src',stream);
+                $('form').after($img)
+            };
+            picReader.readAsDataURL(myfile);
+        })(this_file);
+    });*/
+    //修改角色
+    var selectVal = [];
+    function editEmp() {
+        var empData = JSON.parse('{$data}');
+        $('[name="adminName"]').val(empData.emp_name);
+        $('[name="adminNickname"]').val(empData.emp_nickname);
+        $('[name="province"]').val(empData.prov_num);
+        $('[name="city"]').val(empData.city_num);
+        $('[name="area"]').val(empData.area_num);
+        $('[name="adminRole"]').val(empData.role_id);
+        //图...
+        console.log(empData);
+        selectVal.push(empData.prov_num,empData.city_num,empData.area_num,empData.role_id);
+        $('form').attr('action',"{:url('admin/employee/addEmp')}?edit=" + empData.emp_id);
+    }
+    editEmp();
+
     //获取角色、省、市、区的菜单
     $(function () {
         var $roleSelect = $('[name="adminRole"]');
@@ -164,7 +195,11 @@
                     $provSelect.append($provItem);
                 } else {
                     for (var i in prov) {
-                        $provItem = ('<option value="'+i+'">'+prov[i]+'</option>');
+                        if (parseInt(i) === selectVal[0]) {
+                            $provItem = ('<option value="'+i+'" selected>'+prov[i]+'</option>');
+                        } else {
+                            $provItem = ('<option value="'+i+'">'+prov[i]+'</option>');
+                        }
                         $provSelect.append($provItem);
                     }
                     $provSelect.change(function (e) {
@@ -172,9 +207,10 @@
                         var $provNum = $(this).val();
                         $citySelect.children().not(':first').remove();
                         if ($provNum !== '') {
-                            getCityList($provNum);
+                            getCityList($provNum,selectVal[1]?selectVal[1]:'');
                         }
                     });
+                    if(selectVal[0]) $provSelect.change();
                 }
                 //创建角色下拉菜单
                 if ((typeof role==="string") && role.trim()==='0') {
@@ -182,7 +218,11 @@
                     $roleSelect.append($roleItem);
                 } else {
                     for (var j in role) {
-                        $roleItem = ('<option value="'+j+'">'+role[j]+'</option>');
+                        if (parseInt(j) === selectVal[3]) {
+                            $roleItem = ('<option value="'+j+'" selected>'+role[j]+'</option>');
+                        } else {
+                            $roleItem = ('<option value="'+j+'">'+role[j]+'</option>');
+                        }
                         $roleSelect.append($roleItem);
                     }
                 }
@@ -193,7 +233,7 @@
         });
 
         //获取城市下拉菜单
-        function getCityList(provNum) {
+        function getCityList(provNum,nowVal) {
             $.ajax({
                 url: '{:url("admin/employee/getCity")}',
                 type: 'post',
@@ -207,7 +247,11 @@
                         $citySelect.append($cityItem);
                     } else {
                         for (var i in city) {
-                            $cityItem = ('<option value="'+i+'">'+city[i]+'</option>');
+                            if (nowVal === parseInt(i)) {
+                                $cityItem = ('<option value="'+i+'" selected>'+city[i]+'</option>');
+                            } else {
+                                $cityItem = ('<option value="'+i+'">'+city[i]+'</option>');
+                            }
                             $citySelect.append($cityItem);
                         }
                         $citySelect.change(function (e) {
@@ -215,9 +259,10 @@
                             var $cityNum = $(this).val();
                             $areaSelect.children().not(':first').remove();
                             if ($cityNum !== '') {
-                                getAreaList($cityNum);
+                                getAreaList($cityNum,selectVal[2]?selectVal[2]:'');
                             }
                         });
+                        if(nowVal) $citySelect.change();
                     }
                 },
                 error: function (response) {
@@ -228,7 +273,7 @@
         }
 
         //获取区/县下拉菜单
-        function getAreaList(cityNum) {
+        function getAreaList(cityNum,nowVal) {
             $.ajax({
                 url: '{:url("admin/employee/getArea")}',
                 type: 'post',
@@ -242,7 +287,11 @@
                         $areaSelect.append($areaItem);
                     } else {
                         for (var i in area) {
-                            $areaItem = ('<option value="'+i+'">'+area[i]+'</option>');
+                            if (nowVal === parseInt(i)) {
+                                $areaItem = ('<option value="'+i+'" selected>'+area[i]+'</option>');
+                            } else {
+                                $areaItem = ('<option value="'+i+'">'+area[i]+'</option>');
+                            }
                             $areaSelect.append($areaItem);
                         }
                     }
@@ -306,7 +355,9 @@
                     data: {},
                     success: function(response) {
                         if (response.trim() === '1') {
-                            alert('添加成功！');
+                            alert('操作成功！');
+                        } else {
+                            alert('操作失败！');
                         }
                         $_form.resetForm(); //提交后重置表单
                     },
@@ -317,6 +368,7 @@
             }
         });
     });
+
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>
