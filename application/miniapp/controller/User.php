@@ -12,6 +12,6 @@ class User extends Controller {
         $res = Db::name('user')
         -> select();
 
-        dump($res);
+        return $res;
     }
 } 
