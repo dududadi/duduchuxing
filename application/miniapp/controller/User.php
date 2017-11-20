@@ -12,6 +12,6 @@ class User extends Controller {
         $res = Db::name('user')
         -> select();
 
-        return $res;
+        echo json_encode($res);
     }
 } 
