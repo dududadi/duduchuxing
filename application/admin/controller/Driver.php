@@ -24,9 +24,23 @@ class Driver extends Controller
         if(!(input('?get.details')==null))
         {
             //司机管理页面模糊查询
-            $startTime=input('get.startTime','1970-1-1 00:00:00');
-            $endTime=input('get.endTime',date("Y-m-d"));
-            $details=input('get.details','');
+            if(empty(input('get.startTime')))
+            {
+                //传过来没有开始日期，则赋予开始日期
+                $startTime='1970-1-1';
+            }else{
+                $startTime=input('get.startTime');
+            }
+
+            if(empty(input('get.startTime')))
+            {
+                //传过来没有结束日期，则赋予结束日期
+                $endTime=date("Y-m-d");
+            }else{
+                $endTime=input('get.endTime');
+            }
+
+            $details=input('get.details','');//没有获取到值，则所有
 
             $list = Db::name('driver')
                 -> alias('d')        //给表起别名
@@ -34,16 +48,16 @@ class Driver extends Controller
                 -> join('city c','c.city_num = d.city_num')  //联表查询
                 -> join('area a','a.area_num = d.area_num')  //联表查询
                 -> join('business_type b','b.bt_id = d.bt_id')  //联表查询
-                /*-> where('driv_reg_time', '>', $startTime)
-                -> where('driv_reg_time', '<',  date("Y-m-d", strtotime("+1 day",strtotime($endTime))))*/
+                -> where('driv_reg_time', '>', $startTime)
+                -> where('driv_reg_time', '<',  date("Y-m-d", strtotime("+1 day",strtotime($endTime))))
                 -> where('driv_id|driv_name','like','%'.$details.'%')
                 -> field('driv_id,driv_name,driv_tel,driv_license_time,driv_car_reg_time,driv_reg_time,prov_name,city_name,area_name,driv_address,driv_status') //需要查询的字段
                 -> paginate(10 , false , [
                     'type' => 'Hui',
                     'query' => [
-                            'details'=>$details/*,
+                            'details'=>$details,
                             'startTime'=>$startTime,
-                            'endTime'=>$endTime*/
+                            'endTime'=>$endTime
                         ]
                     ]
                 );
