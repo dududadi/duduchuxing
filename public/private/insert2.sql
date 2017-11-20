@@ -80,7 +80,12 @@ INSERT INTO d_role_menu VALUES
 
 -- 员工表
 INSERT INTO d_employee VALUES
-(null,NOW(),'e10adc3949ba59abbe56e057f20f883e','duduboy','嘟嘟王子',1,110000,110100,110101,'使用','defaultHead.jpg');
+(null,NOW(),'e10adc3949ba59abbe56e057f20f883e','duduPrince','嘟嘟王子',1,110000,110100,110101,'使用','defaultHead.jpg'),
+(null,NOW(),'e10adc3949ba59abbe56e057f20f883e','duduWillow','嘟嘟小魔仙',1,110000,110100,110101,'使用','defaultHead.jpg'),
+(null,NOW(),'e10adc3949ba59abbe56e057f20f883e','duduMan','嘟嘟侠',1,110000,110100,110101,'使用','defaultHead.jpg'),
+(null,NOW(),'e10adc3949ba59abbe56e057f20f883e','duduboy','嘟嘟男孩',1,110000,110100,110101,'使用','defaultHead.jpg'),
+(null,NOW(),'e10adc3949ba59abbe56e057f20f883e','duduDaddy','嘟嘟奶爸',1,110000,110100,110101,'使用','defaultHead.jpg'),
+(null,NOW(),'e10adc3949ba59abbe56e057f20f883e','duduMagic','嘟嘟魔人',1,110000,110100,110101,'使用','defaultHead.jpg');
 
 -- 用户表
 INSERT INTO d_user VALUES

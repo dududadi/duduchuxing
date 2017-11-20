@@ -19,6 +19,15 @@ class Employee extends Controller{
     //员工列表
     public function lists() {
         $pageSize = input('get.pageSize','5');
+        $dateMin = input('get.dateMin','');
+        $dateMax = input('get.dateMax','');
+        if (input('get.keyword','') !== '') {
+            $keywordArr = mb_split('@',input('get.keyword'));
+            foreach ($keywordArr as $item) {
+                $condition[] = ['emp_nickname','like',"%{$item}%"];
+                $condition[] = ['emp_name','like',"%{$item}%"];
+            }
+        }
         //查询员工列表数据
         $data = Db::name('employee')
             ->alias('t1')
@@ -26,11 +35,17 @@ class Employee extends Controller{
             ->join('d_province t3','t3.prov_num = t1.prov_num')
             ->join('d_city t4','t4.city_num = t1.city_num')
             ->join('d_area t5','t5.area_num = t1.area_num')
-            ->order('t1.role_id asc')
+            ->where('emp_reg_time','>=',$dateMin===''?'1970-1-1 0:0:0':$dateMin)
+            ->where('emp_reg_time','<=',$dateMax===''?date("Y-m-d H:i:s",time()+86400):$dateMax)
+            //->where('t1.emp_name','like','%du%')
+            ->order('t1.emp_id asc')
             ->field('t1.emp_id,t1.emp_name,t1.emp_status,t2.role_name,t3.prov_name,t4.city_name,t5.area_name')
             ->paginate($pageSize , false , ['type'=>'Hui']);
-        $this->assign('list',$data); //绑定数据
-        $this->assign('pageSize',$pageSize); //绑定数据
+        $this->assign('list',$data); //绑定列表数据
+        $this->assign('pageSize',$pageSize); //绑定分页数据
+        $this->assign('dateMin',$dateMin); //绑定最小日期数据
+        $this->assign('dateMax',$dateMax); //绑定最大日期数据
+        $this->assign('keyword',''); //绑定关键字数据
         return $this->fetch();
     }
 
@@ -61,13 +76,24 @@ class Employee extends Controller{
         if(!sessionAssist('isLogin')) {
             $this -> redirect('Login/index');
         }
+        $editId = input('get.id','');
+        if (!empty($editId)) {
+            $data = DB::name('employee')
+            ->alias('t1')
+            ->where('emp_id',$editId)
+            ->field('emp_id,emp_name,emp_nickname,prov_num,city_num,area_num,role_id,emp_head_img')->find();
+            $this->assign('data',json_encode($data));
+        } else {
+            $this->assign('data',json_encode(''));
+        }
         return $this->fetch();
     }
 
-    //添加员工操作
+    //添加或编辑员工操作
     public function addEmp() {
         //$nowRoleId = (string)Session::get('nowRoleId');
         //if ($nowRoleId !== '1') return json('0');
+        $id = input('get.edit','');
         $name = input('post.adminName', '');
         $nickname = input('post.adminNickname', '');
         $psw = input('post.password', '');
@@ -81,31 +107,73 @@ class Employee extends Controller{
         if ($name === '' || $nickname === '' || $psw === '' || $psw2 === '' || $province === '' || $city === '' || $roleId === '') {
             return json('0');
         } else {
-            //$path = $_SERVER['DOCUMENT_ROOT'].Request::instance()->root().'/static/img/upload'; //上传文件存储路径
-            //$savePath = $this->saveUpload($_FILES['file-2'], $path, $name.$timestamp); //将上传文件保存
-            $data = [
-                'emp_id' => '',
-                'emp_reg_time' => date('Y-m-d H:i:s', $timestamp),
-                'emp_psw' => $psw,
-                'emp_name' => $name,
-                'emp_nickname' => $nickname,
-                'role_id' => $roleId,
-                'prov_num' => $province,
-                'city_num' => $city,
-                'area_num' => $area,
-                'emp_status' => '使用',
-                'emp_head_img' => 'defaultHead.jpg' //isset($savePath['errorCode'])?'defaultHead.jpg':$savePath['success']
-            ];
-            $res = Db::name('employee')->insert($data);
+            if ($id) {
+                $res = Db::name('employee')
+                ->where('emp_id', $id)
+                ->update([
+                    'emp_psw' => $psw,
+                    'emp_name' => $name,
+                    'emp_nickname' => $nickname,
+                    'role_id' => $roleId,
+                    'prov_num' => $province,
+                    'city_num' => $city,
+                    'area_num' => $area,
+                    'emp_head_img' => 'defaultHead.jpg' //isset($savePath['errorCode'])?'defaultHead.jpg':$savePath['success']
+                ]);
+            } else {
+                //$path = $_SERVER['DOCUMENT_ROOT'].Request::instance()->root().'/static/img/upload'; //上传文件存储路径
+                //$savePath = $this->saveUpload($_FILES['file-2'], $path, $name.$timestamp); //将上传文件保存
+                $data = [
+                    'emp_id' => '',
+                    'emp_reg_time' => date('Y-m-d H:i:s', $timestamp),
+                    'emp_psw' => $psw,
+                    'emp_name' => $name,
+                    'emp_nickname' => $nickname,
+                    'role_id' => $roleId,
+                    'prov_num' => $province,
+                    'city_num' => $city,
+                    'area_num' => $area,
+                    'emp_status' => '使用',
+                    'emp_head_img' => 'defaultHead.jpg' //isset($savePath['errorCode'])?'defaultHead.jpg':$savePath['success']
+                ];
+                $res = Db::name('employee')->insert($data);
+            }
             if ($res === 1) {
                 return json('1');
             } else {
                 return json('0');
             }
         }
-
     }
 
+    //锁定
+    public function lock() {
+        $id = input('get.id','');
+        $res = Db::name('employee')
+        ->where('emp_id', $id)
+        ->update([
+            'emp_status' => '锁定'
+        ]);
+        return json($res);
+    }
+
+    //解锁
+    public function unlock() {
+        $id = input('get.id','');
+        $res = Db::name('employee')
+        ->where('emp_id', $id)
+        ->update([
+            'emp_status' => '使用'
+        ]);
+        return json($res);
+    }
+
+    //删除
+    public function delete() {
+        $id = input('get.id','');
+        $res = Db::name('employee')->where('emp_id', $id)->delete();
+        return json($res);
+    }
 
     public function getSelectVal() {
         //获取角色下拉菜单
