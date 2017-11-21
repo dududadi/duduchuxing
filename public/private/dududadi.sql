@@ -334,5 +334,12 @@ FOREIGN KEY(role_id) REFERENCES d_role(role_id),
 FOREIGN KEY(sm_id) REFERENCES d_smenu(sm_id)
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
-
-
+-- 创建新闻表
+CREATE TABLE d_news(
+news_id INT NOT NULL auto_increment PRIMARY KEY, -- 新闻id
+news_title VARCHAR(20) NOT NULL,
+news_release_time datetime NOT NULL,		 -- 创建时间
+news_status enum('发布','未发布') NOT NULL,
+news_img VARCHAR(100) NOT NULL,
+news_content VARCHAR(999) NOT NULL
+)ENGINE=INNODB DEFAULT charset=utf8;

@@ -23,36 +23,39 @@ class News extends Controller
 	{
 		
 		$files=$_FILES['file'];//类型
-		$path='../public/static/img/hy';//路径
+		$path='../public/static/img/update';//路径
 		$filename='news_'.time();//文件名
 		$res=$this->saveUpload($files,$path,$filename);
-		Session::set('news_url',$res);
+		Session::set('newsUrl',$res);
 	}
 	//新闻上传
 	public function subNews()
 	{
-		$news_url=Session::get('news_url');
+		$newsUrl=Session::get('newsUrl');
 		$newsTitle=trim(input('post.newsTitle',''));
 		$datemin=trim(input('post.datemin',''));
 		$newsType=trim(input('post.newsType',''));
 		$newsContent=trim(input('post.newsContent',''));
 		$data =[
 			'news_id' => '',
-			'news_tile' =>$newsTitle,
+			'news_title' =>$newsTitle,
 			'news_release_time' =>$datemin,
 			'news_status' =>$newsType,
-			'news_img' =>$news_url,
+			'news_img' =>$newsUrl['success'],
 			'news_content' =>$newsContent
-		]
+		];
+		/*return $data;
+		exit;*/
 		$res= DB::name('news')->insert($data);
+		echo $res;
 	}
 	//新闻编辑页面
 	public function edit()
 	{
 		return $this->fetch();
 	}
+	//将图片保存到文件夹的方法
 	private function saveUpload($files, $path, $filename) {
-
         if(mb_substr($path,mb_strlen($path)-1) !== '/') {
             $path .= '/';
         }

@@ -192,8 +192,7 @@
         layer_show(title,url,w,h);
     }
     /*司机-模糊查询*/
-    function sel_driver()
-    {
+    function sel_driver() {
         $.ajax({
             url:'{:url("admin/driver/lists")}'+'?details='+$('#details').val(),
             type:'post',

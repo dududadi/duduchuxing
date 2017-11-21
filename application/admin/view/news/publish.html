@@ -781,6 +781,7 @@ $(function(){
 			$datemin=$("#datemin").val();
 			$newsType=$("#newsType").val();
 			$newsContent=$("#newsContent").val();
+
 			$.ajax({
 				type:"post",
 				url:"{:url('admin/news/subNews')}",
@@ -793,14 +794,17 @@ $(function(){
 				success:function(result)
 				{
 					console.log(result);
-					alert("提交成功");
+					//alert("提交成功");
+					//history.go(0);
 				},
 				error:function(result){ 
-					alert("提交错误"); 
+					console.log(result);
+					alert("提交错误");
+					history.go(0);
 				}
 			});
 		}
-		else if($click=0)
+		else if($click==0)
 		{
 			alert("请点击开始上传图片");
 		}
