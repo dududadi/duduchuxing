@@ -7,7 +7,9 @@ class Map extends Controller
 {
 	public function getPath()
 	{
-		dump(input("post.latitude"));
+		//dump(input("post.latitude"));
+		$open_id = Request::instance()-> post('latitude');
+		dump($open_id);
 	}
 	public function calculate()
 	{
