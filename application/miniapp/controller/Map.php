@@ -2,6 +2,7 @@
 namespace app\miniapp\controller;
 
 use think\Controller;
+use think\Request;
 use think\Db;
 class Map extends Controller
 {
