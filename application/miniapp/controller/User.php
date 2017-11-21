@@ -19,17 +19,16 @@ class User extends Controller {
     public function getOpenId(){
         $appid = 'wx870f25b8a2a98f0b';
         $secret = 'd51063fe3c3b3f30688c74f1f86ab768';
-
         $js_code = Request::instance()-> post('code');
-
         $data = [];
         $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$appid .
                 '&secret='.$secret.
                 '&js_code='.$js_code.
                 '&grant_type=authorization_code';
         $res =  json_decode(curlHttp($url, $data));
-        $session_key= $res['session_key'];
-        $openid = $res['openid'];
+
+        $session_key= $res->session_key;
+        $openid= $res->openid;
         //是否已注册
         $res = Db::name('user')
             ->where('open_id',$openid)
