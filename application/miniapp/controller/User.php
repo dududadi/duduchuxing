@@ -17,8 +17,8 @@ class User extends Controller {
     }
 
     public function getOpenId(){
-        $appid = 'd51063fe3c3b3f30688c74f1f86ab768';
-        $secret = '';
+        $appid = 'wx870f25b8a2a98f0b';
+        $secret = 'd51063fe3c3b3f30688c74f1f86ab768';
         //$js_code = $_POST['code'];
         $js_code = Request::instance()-> post('code');
         //$js_code = '';
