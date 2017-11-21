@@ -142,12 +142,7 @@ class User extends Controller {
                 $res = Db::name('user')
                 -> where('user_tel', $list[$i])
                 -> setField('user_status', '使用');
-
-                if ($res === false) {
-                    throw new Exception('错误原因');
-                }
             }
-
             $judge = true;
         });
 

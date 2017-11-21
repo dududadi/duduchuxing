@@ -124,4 +124,21 @@ class Role extends Controller{
         return $this -> fetch();
     }
 
+    //删除角色
+    public function del(){
+        $roleId = Request::instance()-> post('roleId');
+        //定义一个事务变量
+        $judge = false;
+        Db::transaction(function() use($roleId,&$judge){
+            Db::name('role_menu')->where('role_id',$roleId)->delete();
+            Db::name('role')->where('role_id',$roleId)->delete();
+            $judge = true;
+        });
+        if($judge){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
 }
