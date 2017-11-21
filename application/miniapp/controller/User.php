@@ -28,5 +28,6 @@ class User extends Controller {
                 '&grant_type=authorization_code';
 
         echo json_encode(curlHttp($url, $data));
+        exit;
     }
 } 
