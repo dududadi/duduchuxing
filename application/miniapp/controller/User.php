@@ -19,7 +19,9 @@ class User extends Controller {
     public function getOpenId(){
         $appid = 'd51063fe3c3b3f30688c74f1f86ab768';
         $secret = '';
-        $js_code = $_POST['code'];
+        //$js_code = $_POST['code'];
+        $js_code = Request::instance()-> post('code');
+        //$js_code = '';
         $data = [];
 
         $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$appid .
@@ -27,7 +29,7 @@ class User extends Controller {
                 '&js_code='.$js_code.
                 '&grant_type=authorization_code';
 
-        echo json_encode(curlHttp($url, $data));
+        echo curlHttp($url, $data);
         exit;
     }
 } 
