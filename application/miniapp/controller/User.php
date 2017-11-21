@@ -43,13 +43,31 @@ class User extends Controller {
         exit;
     }
 
-    public function checkOpenId(){
-        $session_key = Request::instance()-> post('session_key');
-        $open_id = Request::instance()-> post('openid');
-        //$session_key = 'YzY6XOBIo07iW7PF1tqi8A==';
-        //$open_id = 'o7r8T0YzM9NJInXv7Ek1iR-yYOOU';
+    public function register(){
+        $prov     = Request::instance()-> post('prov');
+        $city     = Request::instance()-> post('city');
+        $aera     = Request::instance()-> post('aera');
+        $tel      = Request::instance()-> post('tel');
+        $pwd      = Request::instance()-> post('pwd');
+        $idNum    = Request::instance()-> post('idNum');
+        $address  = Request::instance()-> post('address');
+        $name     = Request::instance()-> post('name');
+        $openid   = Request::instance()-> post('openid');
+        $headImg  = Request::instance()-> post('headImg');
+        $nickname = Request::instance()-> post('nickname');
 
-
+        echo $prov    ;        echo ' ';
+        echo $city    ;        echo ' ';
+        echo $aera    ;        echo ' ';
+        echo $tel     ;        echo ' ';
+        echo $pwd     ;        echo ' ';
+        echo $idNum   ;        echo ' ';
+        echo $address ;        echo ' ';
+        echo $name    ;        echo ' ';
+        echo $openid  ;        echo ' ';
+        echo $headImg ;        echo ' ';
+        echo $nickname;        echo ' ';
+        exit;
 
     }
 } 
