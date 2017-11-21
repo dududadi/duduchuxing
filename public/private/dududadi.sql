@@ -53,7 +53,7 @@ user_tel CHAR(11) NOT NULL, -- 手机号
 user_score FLOAT NOT NULL, -- 评分
 user_money DECIMAL(7,2) NOT NULL, -- 余额
 user_status enum('锁定','使用') NOT NULL, -- 状态
-user_head_img VARCHAR(100) NOT NULL, -- 头像
+user_head_img VARCHAR(200) NOT NULL, -- 头像
 user_address text, -- 详细地址
 prov_num INT(6) NOT NULL, -- 省份
 city_num INT(6) NOT NULL, -- 地级市

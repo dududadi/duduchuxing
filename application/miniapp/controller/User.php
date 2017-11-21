@@ -46,7 +46,7 @@ class User extends Controller {
     public function register(){
         $prov     = Request::instance()-> post('prov');
         $city     = Request::instance()-> post('city');
-        $aera     = Request::instance()-> post('aera');
+        $area     = Request::instance()-> post('area');
         $tel      = Request::instance()-> post('tel');
         $pwd      = Request::instance()-> post('pwd');
         $idNum    = Request::instance()-> post('idNum');
@@ -56,18 +56,76 @@ class User extends Controller {
         $headImg  = Request::instance()-> post('headImg');
         $nickname = Request::instance()-> post('nickname');
 
-        echo $prov    ;        echo ' ';
-        echo $city    ;        echo ' ';
-        echo $aera    ;        echo ' ';
-        echo $tel     ;        echo ' ';
-        echo $pwd     ;        echo ' ';
-        echo $idNum   ;        echo ' ';
-        echo $address ;        echo ' ';
-        echo $name    ;        echo ' ';
-        echo $openid  ;        echo ' ';
-        echo $headImg ;        echo ' ';
-        echo $nickname;        echo ' ';
-        exit;
+        if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) { 
+            echo 0;
+            exit;
+        }
 
+        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/", $pwd)) { 
+            echo 1;
+            exit;
+        }
+        
+        if (!preg_match("/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/", $idNum)) { 
+            echo 2;
+            exit;
+        }
+
+        $res = Db::name('province')
+        -> where('prov_name', $prov)
+        -> field('prov_num')
+        -> find();
+
+        $prov_num = $res['prov_num'];
+
+        $res = Db::name('city')
+        -> where('city_name', $city)
+        -> where('prov_num', $prov_num)
+        -> field('city_num')
+        -> find();
+
+        if ($res == 0) {
+            $res = Db::name('city')
+            -> where('city_name', '市辖区')
+            -> where('prov_num', $prov_num)
+            -> field('city_num')
+            -> find();
+        }
+
+        $city_num = $res['city_num'];
+
+        $res = Db::name('area')
+        -> where('area_name', $area)
+        -> where('city_num', $city_num)
+        -> field('area_num')
+        -> find();
+
+        $area_num = $res['area_num'];
+
+        $res = Db::name('user')
+        -> insert([
+            'user_reg_time' => date("Y-m-d H:i:s"),
+            'user_psw'      => 'md5('.$pwd.')',
+            'user_name'     => $name,
+            'user_id_num'   => $idNum,
+            'user_tel'      => $tel,
+            'user_score'    => 100,
+            'user_money'    => 0,
+            'user_status'   => '使用',
+            'user_head_img' => $headImg,
+            'user_address'  => $address,
+            'prov_num'      => $prov_num,
+            'city_num'      => $city_num,
+            'area_num'      => $area_num,
+            'open_id'       => $openid
+        ]);
+
+        if ($res !== false) {
+            echo 3;
+        } else {
+            echo 4;
+        }
+
+        exit;
     }
 } 
