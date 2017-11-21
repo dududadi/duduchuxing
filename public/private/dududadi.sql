@@ -58,6 +58,7 @@ user_address text, -- 详细地址
 prov_num INT(6) NOT NULL, -- 省份
 city_num INT(6) NOT NULL, -- 地级市
 area_num INT(6) NOT NULL, -- 区/县/县级市
+open_id varchar(28),-- 微信注册open_id
 FOREIGN KEY(prov_num) REFERENCES d_province(prov_num),
 FOREIGN KEY(city_num) REFERENCES d_city(city_num),
 FOREIGN KEY(area_num) REFERENCES d_area(area_num),
@@ -93,6 +94,7 @@ driv_head_img VARCHAR(100) NOT NULL, -- 头像
 bt_id INT NOT NULL, -- 运营类型id
 FOREIGN KEY(bt_id) REFERENCES d_business_type(bt_id),
 driv_bank_num VARCHAR(19), -- 银行卡号
+open_id varchar(28),-- 微信注册open_id
 key(driv_tel)
 )ENGINE=INNODB DEFAULT charset=utf8;
 
