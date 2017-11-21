@@ -2,9 +2,6 @@
 namespace app\miniapp\controller
 
 use think\Controller;
-use think\Db;
-use think\Session;
-use think\Cookie;
 class Map extends Controller
 {
 	function getPath()
