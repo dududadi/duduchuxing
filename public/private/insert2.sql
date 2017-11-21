@@ -89,12 +89,12 @@ INSERT INTO d_employee VALUES
 
 -- 用户表
 INSERT INTO d_user VALUES
-(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '何贻杰', '512501197203035172', '15959027027', 10, 10000, '使用', 'user-head.jpg', '仓山区金山大道', 110000, 110100, 110101,''),
-(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '潘晓文', '51052119850508797x', '15606923823', 10, 10000, '使用', 'user-head.jpg', '仓山区金山大道', 110000, 110100, 110101,''),
-(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '刘家福', '512501197506045175', '15605907283', 10, 10000, '使用', 'user-head.jpg', '仓山区金山大道', 110000, 110100, 110101,''),
-(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '叶诚炜', '512501196512305186', '13559182419', 10, 10000, '使用', 'user-head.jpg', '仓山区金山大道', 110000, 110100, 110101,''),
-(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '何岳', '512501197203035172', '18750998053', 10, 10000, '使用', 'user-head.jpg', '仓山区金山大道', 110000, 110100, 110101,''),
-(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '黄建武', '51052119850508797x', '13015716570', 10, 10000, '使用', 'user-head.jpg', '仓山区金山大道', 110000, 110100, 110101,'');
+(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '何贻杰', '512501197203035172', '15959027027', 10, 10000, '使用', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoLGf87L4BpeXoze2QkmknmzohU16fwkyJU4bsNvS8VDz0aicKHlZsgUcbDWtpw3UotdZMoxwRagPQ/0', '仓山区金山大道', 110000, 110100, 110101,''),
+(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '潘晓文', '51052119850508797x', '15606923823', 10, 10000, '使用', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoLGf87L4BpeXoze2QkmknmzohU16fwkyJU4bsNvS8VDz0aicKHlZsgUcbDWtpw3UotdZMoxwRagPQ/0', '仓山区金山大道', 110000, 110100, 110101,''),
+(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '刘家福', '512501197506045175', '15605907283', 10, 10000, '使用', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoLGf87L4BpeXoze2QkmknmzohU16fwkyJU4bsNvS8VDz0aicKHlZsgUcbDWtpw3UotdZMoxwRagPQ/0', '仓山区金山大道', 110000, 110100, 110101,''),
+(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '叶诚炜', '512501196512305186', '13559182419', 10, 10000, '使用', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoLGf87L4BpeXoze2QkmknmzohU16fwkyJU4bsNvS8VDz0aicKHlZsgUcbDWtpw3UotdZMoxwRagPQ/0', '仓山区金山大道', 110000, 110100, 110101,''),
+(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '何岳', '512501197203035172', '18750998053', 10, 10000, '使用', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoLGf87L4BpeXoze2QkmknmzohU16fwkyJU4bsNvS8VDz0aicKHlZsgUcbDWtpw3UotdZMoxwRagPQ/0', '仓山区金山大道', 110000, 110100, 110101,''),
+(null, now(), 'e10adc3949ba59abbe56e057f20f883e', '黄建武', '51052119850508797x', '13015716570', 10, 10000, '使用', 'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoLGf87L4BpeXoze2QkmknmzohU16fwkyJU4bsNvS8VDz0aicKHlZsgUcbDWtpw3UotdZMoxwRagPQ/0', '仓山区金山大道', 110000, 110100, 110101,'');
 
 -- 司机表
 INSERT INTO d_driver VALUES

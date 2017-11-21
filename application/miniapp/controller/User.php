@@ -39,6 +39,7 @@ class User extends Controller {
         }else{
             $data = '{"session_key":"'.$session_key.'","open_id":"'.$openid.'","status":"success"}';
         }
+
         echo $data;
         exit;
     }
@@ -56,21 +57,36 @@ class User extends Controller {
         $headImg  = Request::instance()-> post('headImg');
         $nickname = Request::instance()-> post('nickname');
 
+        //手机号验证
         if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) { 
             echo 0;
             exit;
         }
 
+        //密码验证
         if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/", $pwd)) { 
             echo 1;
             exit;
         }
         
+        //身份证号码验证
         if (!preg_match("/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/", $idNum)) { 
             echo 2;
             exit;
         }
 
+        //手机号是否注册验证
+        $res = Db::name('user')
+        -> where('user_tel', $tel)
+        -> field('user_tel')
+        -> select();
+
+        if ($res) {
+            echo 3;
+            exit;
+        }
+
+        //获取省份id
         $res = Db::name('province')
         -> where('prov_name', $prov)
         -> field('prov_num')
@@ -78,6 +94,7 @@ class User extends Controller {
 
         $prov_num = $res['prov_num'];
 
+        //获取城市id
         $res = Db::name('city')
         -> where('city_name', $city)
         -> where('prov_num', $prov_num)
@@ -94,6 +111,7 @@ class User extends Controller {
 
         $city_num = $res['city_num'];
 
+        //获取地区id
         $res = Db::name('area')
         -> where('area_name', $area)
         -> where('city_num', $city_num)
@@ -102,6 +120,7 @@ class User extends Controller {
 
         $area_num = $res['area_num'];
 
+        //数据写入
         $res = Db::name('user')
         -> insert([
             'user_reg_time' => date("Y-m-d H:i:s"),
@@ -109,7 +128,7 @@ class User extends Controller {
             'user_name'     => $name,
             'user_id_num'   => $idNum,
             'user_tel'      => $tel,
-            'user_score'    => 100,
+            'user_score'    => 10,
             'user_money'    => 0,
             'user_status'   => '使用',
             'user_head_img' => $headImg,
@@ -121,9 +140,9 @@ class User extends Controller {
         ]);
 
         if ($res !== false) {
-            echo 3;
-        } else {
             echo 4;
+        } else {
+            echo 5;
         }
 
         exit;
