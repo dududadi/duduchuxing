@@ -48,7 +48,7 @@
 </head>
 <body>
 <article class="page-container">
-    <form action="{:url('admin/employee/addEmp')}" method="post" class="form form-horizontal" id="form-member-add">
+    <form method="post" class="form form-horizontal" id="form-member-add">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>员工姓名：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -155,10 +155,10 @@
             picReader.readAsDataURL(myfile);
         })(this_file);
     });*/
-    //修改角色
+    //修改员工
     var selectVal = [];
+    var empData = JSON.parse('{$data}');
     function editEmp() {
-        var empData = JSON.parse('{$data}');
         $('[name="adminName"]').val(empData.emp_name);
         $('[name="adminNickname"]').val(empData.emp_nickname);
         $('[name="province"]').val(empData.prov_num);
@@ -166,11 +166,11 @@
         $('[name="area"]').val(empData.area_num);
         $('[name="adminRole"]').val(empData.role_id);
         //图...
-        console.log(empData);
+        //console.log(empData);
         selectVal.push(empData.prov_num,empData.city_num,empData.area_num,empData.role_id);
-        $('form').attr('action',"{:url('admin/employee/addEmp')}?edit=" + empData.emp_id);
+
     }
-    editEmp();
+    if (empData !== '') editEmp();
 
     //获取角色、省、市、区的菜单
     $(function () {
@@ -195,7 +195,7 @@
                     $provSelect.append($provItem);
                 } else {
                     for (var i in prov) {
-                        if (parseInt(i) === selectVal[0]) {
+                        if (selectVal[0] && parseInt(i)===selectVal[0]) {
                             $provItem = ('<option value="'+i+'" selected>'+prov[i]+'</option>');
                         } else {
                             $provItem = ('<option value="'+i+'">'+prov[i]+'</option>');
@@ -218,7 +218,7 @@
                     $roleSelect.append($roleItem);
                 } else {
                     for (var j in role) {
-                        if (parseInt(j) === selectVal[3]) {
+                        if (selectVal[3] && parseInt(j)===selectVal[3]) {
                             $roleItem = ('<option value="'+j+'" selected>'+role[j]+'</option>');
                         } else {
                             $roleItem = ('<option value="'+j+'">'+role[j]+'</option>');
@@ -247,7 +247,7 @@
                         $citySelect.append($cityItem);
                     } else {
                         for (var i in city) {
-                            if (nowVal === parseInt(i)) {
+                            if (nowVal && nowVal===parseInt(i)) {
                                 $cityItem = ('<option value="'+i+'" selected>'+city[i]+'</option>');
                             } else {
                                 $cityItem = ('<option value="'+i+'">'+city[i]+'</option>');
@@ -287,7 +287,7 @@
                         $areaSelect.append($areaItem);
                     } else {
                         for (var i in area) {
-                            if (nowVal === parseInt(i)) {
+                            if (nowVal && nowVal===parseInt(i)) {
                                 $areaItem = ('<option value="'+i+'" selected>'+area[i]+'</option>');
                             } else {
                                 $areaItem = ('<option value="'+i+'">'+area[i]+'</option>');
@@ -349,13 +349,18 @@
             success:"valid",
             submitHandler: function(form){
                 var $_form = $(form);
+                var url = empData===''?"{:url('admin/employee/addEmp')}":"{:url('admin/employee/addEmp')}?id=" + empData.emp_id;
                 $_form.ajaxSubmit({
                     type: 'post', // 提交方式 get/post
-                    url: '{:url("admin/employee/addEmp")}', // 需要提交的 url
+                    url: url, // 需要提交的 url
                     data: {},
                     success: function(response) {
                         if (response.trim() === '1') {
                             alert('操作成功！');
+                            debugger;
+                            if (parent) {
+                                parent.location.reload(true);
+                            }
                         } else {
                             alert('操作失败！');
                         }
@@ -368,7 +373,6 @@
             }
         });
     });
-
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

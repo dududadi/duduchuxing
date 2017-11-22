@@ -35,7 +35,7 @@
                 <input type="text" onfocus="WdatePicker()" id="datemin" name="datemin" class="input-text Wdate" style="width:120px;">
                 -
                 <input type="text" onfocus="WdatePicker()" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
-                <input type="text" class="input-text" name="phone" style="width:250px" placeholder="输入电话号码" >
+                <input type="text" class="input-text" name="phone" style="width:250px" placeholder="输入姓名或昵称关键字" >
                 <button type="button" class="btn btn-success radius" name="search-emp"><i class="Hui-iconfont">&#xe665;</i> 搜员工</button>
             </form>
             <div class="cl pd-5 bg-1 bk-gray mt-20">
@@ -103,8 +103,8 @@
     <script type="text/javascript" src="__HUI__/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="__HUI__/lib/laypage/1.2/laypage.js"></script>
     <script type="text/javascript">
+        //按条件显示用户列表
         function getEmpByconditions() {
-
             //搜索按钮
             var $searchBtn = $('[name="search-emp"]');
 
@@ -149,10 +149,12 @@
                     break;
                 }
             }
+
             //将日期填入
             $dateMinNode.val('{$dateMin}');
             $dateMaxNode.val('{$dateMax}');
-            keywordVal = '{$keyword}'.replace('@','');
+            //将关键字填入
+            keywordVal = '{$keyword}'.replace('@',' ');
             $keywordNode.val(keywordVal);
 
         }

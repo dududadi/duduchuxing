@@ -18,16 +18,36 @@ class Employee extends Controller{
 
     //员工列表
     public function lists() {
-        $pageSize = input('get.pageSize','5');
-        $dateMin = input('get.dateMin','');
-        $dateMax = input('get.dateMax','');
-        if (input('get.keyword','') !== '') {
-            $keywordArr = mb_split('@',input('get.keyword'));
-            foreach ($keywordArr as $item) {
-                $condition[] = ['emp_nickname','like',"%{$item}%"];
-                $condition[] = ['emp_name','like',"%{$item}%"];
-            }
+        date_default_timezone_set('PRC'); //设置时区
+        $getPageSize = input('get.pageSize','5');
+        $getDateMin = input('get.dateMin');
+        $getDateMax = input('get.dateMax');
+        $getSearch = input('get.keyword');
+        $dateMin = isset($getDateMin)?date('Y-m-d',strtotime($getDateMin)-86400):'1970-1-1';
+        $dateMax = isset($getDateMax)?date('Y-m-d',strtotime($getDateMax)+86400):date('Y-m-d',time()+86400);
+        if (isset($getSearch)) {
+            $keywordArr = mb_split('@',$getSearch);
         }
+
+        //拼接条件
+        $whereDate = [];
+        $whereKeyword_name = [];
+        $whereKeyword_nickname = [];
+        if ($dateMin !== '') {
+            $whereDate[] = ['>=',$dateMin];
+        }
+        if ($dateMax !== '') {
+            $whereDate[] = ['<=',$dateMax];
+        }
+        if (isset($keywordArr)) {
+            foreach ($keywordArr as $item) {
+                $whereKeyword_name[] = ['like',"%{$item}%"];
+                $whereKeyword_nickname[] = ['like',"%{$item}%"];
+            }
+            $whereKeyword_name[] = ['like','%%'];
+            $whereKeyword_nickname[] = ['like','%%'];
+        }
+
         //查询员工列表数据
         $data = Db::name('employee')
             ->alias('t1')
@@ -35,17 +55,17 @@ class Employee extends Controller{
             ->join('d_province t3','t3.prov_num = t1.prov_num')
             ->join('d_city t4','t4.city_num = t1.city_num')
             ->join('d_area t5','t5.area_num = t1.area_num')
-            ->where('emp_reg_time','>=',$dateMin===''?'1970-1-1 0:0:0':$dateMin)
-            ->where('emp_reg_time','<=',$dateMax===''?date("Y-m-d H:i:s",time()+86400):$dateMax)
-            //->where('t1.emp_name','like','%du%')
+            ->where(empty($whereDate)?[]:['emp_reg_time' => $whereDate])
+            ->where(empty($whereKeyword_name)?[]:['emp_name' => $whereKeyword_name])
+            ->where(empty($whereKeyword_nickname)?[]:['emp_nickname' => $whereKeyword_nickname])
             ->order('t1.emp_id asc')
             ->field('t1.emp_id,t1.emp_name,t1.emp_status,t2.role_name,t3.prov_name,t4.city_name,t5.area_name')
-            ->paginate($pageSize , false , ['type'=>'Hui']);
+            ->paginate($getPageSize , false , ['type'=>'Hui']);
         $this->assign('list',$data); //绑定列表数据
-        $this->assign('pageSize',$pageSize); //绑定分页数据
-        $this->assign('dateMin',$dateMin); //绑定最小日期数据
-        $this->assign('dateMax',$dateMax); //绑定最大日期数据
-        $this->assign('keyword',''); //绑定关键字数据
+        $this->assign('pageSize',$getPageSize); //绑定分页数据
+        $this->assign('dateMin',$getDateMin); //绑定最小日期数据
+        $this->assign('dateMax',$getDateMax); //绑定最大日期数据
+        $this->assign('keyword',$getSearch); //绑定关键字数据
         return $this->fetch();
     }
 
@@ -93,7 +113,7 @@ class Employee extends Controller{
     public function addEmp() {
         //$nowRoleId = (string)Session::get('nowRoleId');
         //if ($nowRoleId !== '1') return json('0');
-        $id = input('get.edit','');
+        $id = input('get.id','');
         $name = input('post.adminName', '');
         $nickname = input('post.adminNickname', '');
         $psw = input('post.password', '');
@@ -111,7 +131,7 @@ class Employee extends Controller{
                 $res = Db::name('employee')
                 ->where('emp_id', $id)
                 ->update([
-                    'emp_psw' => $psw,
+                    'emp_psw' => md5($psw),
                     'emp_name' => $name,
                     'emp_nickname' => $nickname,
                     'role_id' => $roleId,
@@ -126,7 +146,7 @@ class Employee extends Controller{
                 $data = [
                     'emp_id' => '',
                     'emp_reg_time' => date('Y-m-d H:i:s', $timestamp),
-                    'emp_psw' => $psw,
+                    'emp_psw' => md5($psw),
                     'emp_name' => $name,
                     'emp_nickname' => $nickname,
                     'role_id' => $roleId,
