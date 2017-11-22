@@ -47,6 +47,8 @@ class Driver extends Controller{
     }
 
     public function register(){
+
+    
         $region = Request::instance()->post('region/a');
         $province = $region[0];
         $city = $region[1];
@@ -103,11 +105,13 @@ class Driver extends Controller{
         //初次领证日期验证
         //领证日期>3年
         $getDateThree = strtotime(substr_replace($getDate,$getDate+3,0,4));
-        if($getDateThree>strtotime(date("Y-m-d")){
+        if($getDateThree>strtotime(date("Y-m-d"))){
             //领证不足三年
+
             echo 6;
             exit;
         }
+
         //if(strtotime($getDate)+86400*365)
         //车牌号码验证
         if(!preg_match("^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$", carNum)){
@@ -123,7 +127,7 @@ class Driver extends Controller{
         //车辆注册日期验证
         //车龄不超过8年
         $getDateEight = strtotime(substr_replace($regDate,$regDate+8,0,4));
-        if($getDateEight<strtotime(date("Y-m-d")){
+        if($getDateEight<strtotime(date("Y-m-d"))){
             //领证超过8年
             echo 9;
             exit;
