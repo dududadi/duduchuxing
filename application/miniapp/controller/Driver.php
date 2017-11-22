@@ -37,11 +37,10 @@ class Driver extends Controller{
             ->find();
         //数据库中没有司机的注册信息
         if($res==null){
-            $data = '{"session_key":"'.$session_key.'","open_id":'.$openid.',"status":"status"}';
+            $data = '{"session_key":"'.$session_key.'","open_id":"'.$openid.'","status":"fail"}';
         }else{
-            $data = '{"session_key":"'.$session_key.'","open_id":'.$openid.',"status":"success"}';
+            $data = '{"session_key":"'.$session_key.'","open_id":"'.$openid.'","status":"success"}';
         }
-
         echo $data;
         exit;
     }
