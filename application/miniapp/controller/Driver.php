@@ -64,9 +64,6 @@ class Driver extends Controller{
         $carOwner = Request::instance()->post('carOwner');
         $regDate = Request::instance()->post('regDate');
 
-        //人名正则表达式
-        $realNameReg = "/^[\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/";
-
         //手机号验证
         if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) { 
             echo 0;
@@ -83,15 +80,19 @@ class Driver extends Controller{
             exit;
         }
         //密码验证
-        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/", $pwd)) { 
+        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/", $psw)) { 
             echo 2;
             exit;
         }
         //重复密码验证
-        if($psw==$cPsw){
+        if($psw!=$cPsw){
             echo 3;
             exit;
         }
+
+        //人名正则表达式
+        $realNameReg = "/^[a-zA-Z0-9\x{4e00}-\x{9fa5}]+$|^[a-zA-Z0-9\x{4e00}-\x{9fa5}][a-zA-Z0-9_\s\ \x{4e00}-\x{9fa5}\.]*[a-zA-Z0-9\x{4e00}-\x{9fa5}]+$/u";
+
         //司机姓名验证
         if(!preg_match($realNameReg, $driverName)){
             echo 4;
@@ -114,7 +115,7 @@ class Driver extends Controller{
 
         //if(strtotime($getDate)+86400*365)
         //车牌号码验证
-        if(!preg_match("^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$", carNum)){
+        if(!preg_match("/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/u",$carNum)){
             echo 7;
             exit;
         }
