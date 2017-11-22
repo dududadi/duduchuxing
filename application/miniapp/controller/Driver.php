@@ -133,5 +133,82 @@ class Driver extends Controller{
             echo 9;
             exit;
         }
+
+        //获取省份id
+        $res = Db::name('province')
+        -> where('prov_name', $province)
+        -> field('prov_num')
+        -> find();
+
+        $prov_num = $res['prov_num'];
+
+        //获取城市id
+        $res = Db::name('city')
+        -> where('city_name', $city)
+        -> where('prov_num', $prov_num)
+        -> field('city_num')
+        -> find();
+
+        if ($res == 0) {
+            $res = Db::name('city')
+            -> where('city_name', '市辖区')
+            -> where('prov_num', $prov_num)
+            -> field('city_num')
+            -> find();
+        }
+
+        $city_num = $res['city_num'];
+
+        //获取地区id
+        $res = Db::name('area')
+        -> where('area_name', $area)
+        -> where('city_num', $city_num)
+        -> field('area_num')
+        -> find();
+
+        $area_num = $res['area_num'];
+
+        //数据写入
+        $res = Db::name('driver')
+        -> insert([
+            'driv_psw'=>'md5('.$psw.')';
+            'user_reg_time' => date("Y-m-d H:i:s"),
+            'prov_num'      => $prov_num,
+            'city_num'      => $city_num,
+            'area_num'      => $area_num,
+            'driv_address'  => $address,
+            'driv_name'     => $driverName,
+            'driv_id_num'   => $idNum,
+            'driv_license_time'=> $getDate,
+            'driv_car_num'    => $carNum,
+            'driv_car_type'    => $carType,
+            'driv_owner'    => $driv_owner,
+            'driv_car_reg_time'=>$regDate,
+            'driv_money'=>0,
+            'driv_tel'=>$tel,
+            'driv_status'   => '使用',
+            'driv_score'=>$driv_score,
+            'user_head_img' => $headImg,
+            'bt_id'=>$bt_id,
+            'driv_bank_num'=>$bt_id
+            'open_id'       => $openid
+        ]);
+
+        if ($res !== false) {
+            echo 10;
+        } else {
+            echo 11;
+        }
+
+        exit;
+
+
+    }
+    public function getBtName(){
+        $res = Db::name('business_type')
+        ->select();
+
+        echo $res;
+        exit;
     }
 }
