@@ -31,8 +31,8 @@ class Employee extends Controller{
 
         //拼接条件
         $whereDate = [];
-        $whereKeyword_name = [];
-        $whereKeyword_nickname = [];
+        $whereKeyword_name = '1=1';
+        $whereKeyword_nickname = '1=1';
         if ($dateMin !== '') {
             $whereDate[] = ['>=',$dateMin];
         }
@@ -41,11 +41,9 @@ class Employee extends Controller{
         }
         if (isset($keywordArr)) {
             foreach ($keywordArr as $item) {
-                $whereKeyword_name[] = ['like',"%{$item}%"];
-                $whereKeyword_nickname[] = ['like',"%{$item}%"];
+                $whereKeyword_name .= " and emp_name like '%{$item}%'";
+                $whereKeyword_nickname .= " and emp_nickname like '%{$item}%'";
             }
-            $whereKeyword_name[] = ['like','%%'];
-            $whereKeyword_nickname[] = ['like','%%'];
         }
 
         //查询员工列表数据
@@ -56,8 +54,8 @@ class Employee extends Controller{
             ->join('d_city t4','t4.city_num = t1.city_num')
             ->join('d_area t5','t5.area_num = t1.area_num')
             ->where(empty($whereDate)?[]:['emp_reg_time' => $whereDate])
-            ->where(empty($whereKeyword_name)?[]:['emp_name' => $whereKeyword_name])
-            ->where(empty($whereKeyword_nickname)?[]:['emp_nickname' => $whereKeyword_nickname])
+            ->where(empty($whereKeyword_name)?[]:$whereKeyword_name)
+            ->whereOr(empty($whereKeyword_nickname)?[]:$whereKeyword_nickname)
             ->order('t1.emp_id asc')
             ->field('t1.emp_id,t1.emp_name,t1.emp_status,t2.role_name,t3.prov_name,t4.city_name,t5.area_name')
             ->paginate($getPageSize , false , ['type'=>'Hui']);
