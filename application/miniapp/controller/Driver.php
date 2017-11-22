@@ -63,7 +63,10 @@ class Driver extends Controller{
         $carType = Request::instance()->post('carType');
         $carOwner = Request::instance()->post('carOwner');
         $regDate = Request::instance()->post('regDate');
-
+        $btName = Request::instance()->post('btName');
+        $address = Request::instance()->post('address');
+        $openid = Request::instance()->post('openid');
+        $headImg = Request::instance()->post('headImg');
         //手机号验证
         if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) { 
             echo 0;
@@ -168,10 +171,15 @@ class Driver extends Controller{
 
         $area_num = $res['area_num'];
 
-        //数据写入
-        $res = Db::name('driver')
-        -> insert([
-            'driv_psw'=>'md5('.$psw.')';
+
+        //获取运营类型id
+        $bt_id = Db::name('business_type')
+        -> where('bt_name', $btName)
+        -> field('bt_id')
+        -> find();
+
+        $data = [
+            'driv_psw'=>'md5('.$psw.')',
             'user_reg_time' => date("Y-m-d H:i:s"),
             'prov_num'      => $prov_num,
             'city_num'      => $city_num,
@@ -182,24 +190,27 @@ class Driver extends Controller{
             'driv_license_time'=> $getDate,
             'driv_car_num'    => $carNum,
             'driv_car_type'    => $carType,
-            'driv_owner'    => $driv_owner,
+            'driv_owner'    => $carOwner,
             'driv_car_reg_time'=>$regDate,
             'driv_money'=>0,
             'driv_tel'=>$tel,
             'driv_status'   => '使用',
-            'driv_score'=>$driv_score,
-            'user_head_img' => $headImg,
+            'driv_score'=>10,
+            'driv_head_img' => $headImg,
             'bt_id'=>$bt_id,
-            'driv_bank_num'=>$bt_id
+            'driv_bank_num'=>'',
             'open_id'       => $openid
-        ]);
+        ];
+        //数据写入
+        /*$res = Db::name('driver')
+        -> insert(data);
 
         if ($res !== false) {
             echo 10;
         } else {
             echo 11;
-        }
-
+        }*/
+        dump($data);
         exit;
 
 
@@ -207,8 +218,11 @@ class Driver extends Controller{
     public function getBtName(){
         $res = Db::name('business_type')
         ->select();
-
-        echo $res;
+        $data = [];
+        foreach ($res as  $value) {
+            array_push($data, $value['bt_name']);
+        }
+        echo json_encode($data);
         exit;
     }
 }
