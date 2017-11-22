@@ -8,7 +8,9 @@ use think\Session;
 use think\Request;
 
 class Employee extends Controller{
-
+    function test () {
+        echo 123;
+    }
     //构造函数
     public function _initialize() {
         if(!sessionAssist('isLogin')) {
@@ -42,6 +44,8 @@ class Employee extends Controller{
         if (isset($keywordArr)) {
             foreach ($keywordArr as $item) {
                 $whereKeyword_name .= " and emp_name like '%{$item}%'";
+                $whereKeyword_name .= " and emp_name like '%{$item}%'";
+                $whereKeyword_name .= " and emp_nickname like '%{$item}%'";
                 $whereKeyword_nickname .= " and emp_nickname like '%{$item}%'";
             }
         }
