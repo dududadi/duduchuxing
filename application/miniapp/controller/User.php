@@ -166,10 +166,12 @@ class User extends Controller {
         $res = Db::name('order_handup')
             ->where('open_id',$openid)
             -> find();
-        echo 1000; 
-        exit;
+        if(count($res)!=0){
+            echo 1000; 
+            exit;
+        }
         //已挂起
-        if($res){
+        if(count($res)!=0){
             //挂起的订单是否有司机接单
             //未接单
             if($res['oh_status']=='未接单'){
@@ -203,7 +205,7 @@ class User extends Controller {
                 'ol_overtime_price'=>0,
                 'ol_tip'=>100,
 
-                'openid'=>$openid,
+                'open_id'=>$openid,
                 'start'=>$start,
                 'end'=>$end,
                 'startLongitude'=>$startLongitude,
@@ -226,15 +228,22 @@ class User extends Controller {
         }
         //未挂起
         else{
+            //获取运营类型id
+            $res = Db::name('business_type')
+                    ->where('bt_name',$carType)
+                    -> find();
+            $bt_id = $res['bt_id'];
             $data = [
-                'openid'=>$openid,
-                'start'=>$start,
-                'end'=>$end,
-                'startLongitude'=>$startLongitude,
-                'startLatitude'=>$startLatitude,
-                'endLongitude'=>$endLongitude,
-                'endLatitude'=>$endLatitude,
-                'carType'=>$carType
+                'open_id'=>$openid,
+                'oh_start_name'=>$start,
+                'oh_end_name'=>$end,
+                'oh_start_longitude'=>$startLongitude,
+                'oh_start_latitude'=>$startLatitude,
+                'oh_end_longitude'=>$endLongitude,
+                'oh_end_latitude'=>$endLatitude,
+                'bt_id'=>$bt_id,
+                'oh_create_time'=>date('Y-m-d H:i:s'),
+                'oh_status'=>'未接单'
             ];
             $result = Db::name('order_handup')
             ->insert($data);
