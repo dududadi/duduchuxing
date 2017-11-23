@@ -203,15 +203,15 @@ class Driver extends Controller{
             'driv_head_img'=> $headImg
         ];
         //数据写入
-        /*$res = Db::name('driver')
+        $res = Db::name('driver')
         -> insert($data);
 
         if ($res !== false) {
             echo 10;
         } else {
             echo 11;
-        }*/
-        dump($data);
+        }
+        //dump($data);
         exit;
 
 
