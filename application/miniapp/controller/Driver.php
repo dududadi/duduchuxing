@@ -46,10 +46,13 @@ class Driver extends Controller{
     }
 
     public function register(){
-        $region = Request::instance()->post('region/a');
-        $province = $region[0];
-        $city = $region[1];
-        $area = $region[2];
+        //$region = Request::instance()->post('region/a');
+        //$province = $region[0];
+        //$city = $region[1];
+        //$area = $region[2];
+        $province = Request::instance()->post('province');
+        $city = Request::instance()->post('city');
+        $area = Request::instance()->post('area');
         $psw = Request::instance()->post('psw');
         $tel = Request::instance()->post('tel');
         $cPsw = Request::instance()->post('cPsw');
