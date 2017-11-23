@@ -15,12 +15,12 @@ class User extends Controller {
         echo json_encode($res);
         exit;
     }
-
+    //curl请求获取openid
     public function getOpenId(){
         $appid = 'wx870f25b8a2a98f0b';
         $secret = 'd51063fe3c3b3f30688c74f1f86ab768';
         $js_code = Request::instance()-> post('code');
-        $data = [];
+        $data = [];//post
         $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$appid .
                 '&secret='.$secret.
                 '&js_code='.$js_code.
@@ -44,6 +44,7 @@ class User extends Controller {
         exit;
     }
 
+    //用户注册验证
     public function register(){
         $prov     = Request::instance()-> post('prov');
         $city     = Request::instance()-> post('city');
@@ -146,6 +147,18 @@ class User extends Controller {
         }
 
         exit;
+    }
+
+    //用户发起订单--实时监听
+    public function checkHandUp(){
+        $openid = Request::instance()-> post('openid');
+        $start = Request::instance()-> post('start');
+        $end = Request::instance()-> post('end');
+        $startLongitude = Request::instance()-> post('startLongitude');
+        $startLatitude = Request::instance()-> post('startLatitude');
+        $endLongitude = Request::instance()-> post('endLongitude');
+        $endLatitude = Request::instance()-> post('endLatitude');
+        $carType = Request::instance()-> post('carType');
     }
 } 
 

@@ -45,6 +45,7 @@ class Driver extends Controller{
         exit;
     }
 
+    //司机注册
     public function register(){
         //$region = Request::instance()->post('region/a');
         //$province = $region[0];
@@ -215,9 +216,9 @@ class Driver extends Controller{
         }
         //dump($data);
         exit;
-
-
     }
+
+    //获取运营类型下拉框
     public function getBtName(){
         $res = Db::name('business_type')
         ->select();
@@ -228,4 +229,6 @@ class Driver extends Controller{
         echo json_encode($data);
         exit;
     }
+
+    
 }

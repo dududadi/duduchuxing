@@ -53,7 +53,7 @@ user_tel CHAR(11) NOT NULL, -- 手机号
 user_score FLOAT NOT NULL, -- 评分
 user_money DECIMAL(7,2) NOT NULL, -- 余额
 user_status enum('锁定','使用') NOT NULL, -- 状态
-user_head_img VARCHAR(200) NOT NULL, -- 头像
+user_head_img VARCHAR(100) NOT NULL, -- 头像
 user_address text, -- 详细地址
 prov_num INT(6) NOT NULL, -- 省份
 city_num INT(6) NOT NULL, -- 地级市
@@ -88,7 +88,7 @@ driv_owner VARCHAR(32) NOT NULL, -- 车辆所有人
 driv_car_reg_time datetime NOT NULL, -- 车辆注册日期
 driv_money DECIMAL(7,2)  NOT NULL, -- 余额
 driv_tel CHAR(11) NOT NULL, -- 手机号
-driv_status enum('锁定','使用') NOT NULL, -- 状态
+driv_status enum('锁定','使用','未审核') NOT NULL, -- 状态
 driv_score FLOAT NOT NULL, -- 评分
 driv_head_img VARCHAR(100) NOT NULL, -- 头像
 bt_id INT NOT NULL, -- 运营类型id
@@ -119,6 +119,18 @@ FOREIGN KEY(rpt_id) REFERENCES d_recharge_pay_type(rpt_id),
 FOREIGN KEY(ols_id) REFERENCES d_order_list_status(ols_id)
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
+-- 创建挂起订单表
+DROP TABLE IF EXISTS d_order_handup;
+CREATE TABLE d_order_handup(
+open_id VARCHAR(24) PRIMARY KEY,-- 用户openid
+oh_start_latitude FLOAT,  -- 起始经度
+oh_start_longitude FLOAT,-- 起始纬度
+oh_end_latitude FLOAT,-- 终点经度
+oh_end_longitude FLOAT,-- 终点纬度
+oh_start_name VARCHAR(100), -- 起始点名称
+oh_end_name VARCHAR(100),-- 终点名称
+oh_status enum('已接单','未接单')-- 接单状态
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 -- 创建订单状态表
 DROP TABLE IF EXISTS d_order_list_status;
@@ -340,7 +352,7 @@ FOREIGN KEY(sm_id) REFERENCES d_smenu(sm_id)
 CREATE TABLE d_news(
 news_id INT NOT NULL auto_increment PRIMARY KEY, -- 新闻id
 news_title VARCHAR(20) NOT NULL,
-news_release_time datetime NOT NULL,		 -- 创建时间
+news_release_time datetime NOT NULL,     -- 创建时间
 news_status enum('发布','未发布') NOT NULL,
 news_img VARCHAR(100) NOT NULL,
 news_content VARCHAR(999) NOT NULL
