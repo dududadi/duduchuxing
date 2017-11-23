@@ -177,7 +177,7 @@ class Driver extends Controller{
 
         $data = [
             'driv_psw'=>'md5('.$psw.')',
-            'user_reg_time' => date("Y-m-d H:i:s"),
+            'driv_reg_time' => date("Y-m-d H:i:s"),
             'prov_num'      => $prov_num,
             'city_num'      => $city_num,
             'area_num'      => $area_num,
