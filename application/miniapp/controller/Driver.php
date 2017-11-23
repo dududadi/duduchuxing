@@ -46,8 +46,6 @@ class Driver extends Controller{
     }
 
     public function register(){
-
-    
         $region = Request::instance()->post('region/a');
         $province = $region[0];
         $city = $region[1];
@@ -202,7 +200,7 @@ class Driver extends Controller{
         ];
         //数据写入
         $res = Db::name('driver')
-        -> insert(data);
+        -> insert($data);
 
         if ($res !== false) {
             echo 10;
