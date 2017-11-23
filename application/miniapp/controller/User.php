@@ -165,15 +165,14 @@ class User extends Controller {
         //查看用户订单是否已挂起
         $res = Db::name('order_handup')
             ->where('open_id',$openid)
-            -> find();
-        if(count($res)!=0){
-            echo 1000; 
-            exit;
-        }
+            ->find();
+            /*echo count($res);
+            exit;*/
         //已挂起
         if(count($res)!=0){
             //挂起的订单是否有司机接单
             //未接单
+
             if($res['oh_status']=='未接单'){
                 //挂起的订单是否超时---3分钟
                 if(strtotime($res['oh_status'])+180>strtotime('now')){
@@ -205,14 +204,12 @@ class User extends Controller {
                 'ol_overtime_price'=>0,
                 'ol_tip'=>100,
 
-                'open_id'=>$openid,
-                'start'=>$start,
-                'end'=>$end,
-                'startLongitude'=>$startLongitude,
-                'startLatitude'=>$startLatitude,
-                'endLongitude'=>$endLongitude,
-                'endLatitude'=>$endLatitude,
-                'carType'=>$carType
+                'oh_start_name'=>$start,
+                'oh_end_name'=>$end,
+                'oh_start_longitude'=>$startLongitude,
+                'oh_start_latitude'=>$startLatitude,
+                'oh_end_longitude'=>$endLongitude,
+                'oh_end_latitude'=>$endLatitude,
                 ];
 
                 $insert = Db::name('order_list')
