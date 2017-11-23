@@ -136,7 +136,7 @@ FOREIGN KEY(ols_id) REFERENCES d_order_list_status(ols_id)
 -- 创建挂起订单表
 DROP TABLE IF EXISTS d_order_handup;
 CREATE TABLE d_order_handup(
-open_id VARCHAR(24) PRIMARY KEY,-- 用户openid
+open_id VARCHAR(28) PRIMARY KEY,-- 用户openid
 driv_id INT,-- 司机id
 oh_start_latitude FLOAT,  -- 起始经度
 oh_start_longitude FLOAT,-- 起始纬度
