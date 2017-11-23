@@ -199,17 +199,18 @@ class Driver extends Controller{
             'driv_head_img' => $headImg,
             'bt_id'=>$bt_id,
             'driv_bank_num'=>'',
-            'open_id'       => $openid
+            'open_id'       => $openid,
+            'driv_head_img'=> $headImg
         ];
         //数据写入
-        $res = Db::name('driver')
+        /*$res = Db::name('driver')
         -> insert($data);
 
         if ($res !== false) {
             echo 10;
         } else {
             echo 11;
-        }
+        }*/
         dump($data);
         exit;
 
