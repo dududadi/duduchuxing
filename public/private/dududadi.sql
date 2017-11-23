@@ -98,6 +98,12 @@ open_id varchar(28),-- 微信注册open_id
 key(driv_tel)
 )ENGINE=INNODB DEFAULT charset=utf8;
 
+-- 创建订单状态表
+DROP TABLE IF EXISTS d_order_list_status;
+CREATE TABLE d_order_list_status(
+ols_id INT(2) NOT NULL PRIMARY KEY auto_increment, -- 订单状态id
+ols_name VARCHAR(20) NOT NULL -- 状态名称
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 -- 创建订单表
 DROP TABLE IF EXISTS d_order_list;
@@ -113,6 +119,14 @@ ol_km_num FLOAT(5,2), -- 里程数
 ol_km_price DECIMAL(5,2), -- 里程价
 ol_overtime_price DECIMAL(5,2), -- 超时价
 ol_tip DECIMAL(5,2), -- 小费
+
+oh_start_latitude FLOAT,  -- 起始经度
+oh_start_longitude FLOAT,-- 起始纬度
+oh_end_latitude FLOAT,-- 终点经度
+oh_end_longitude FLOAT,-- 终点纬度
+oh_start_name VARCHAR(100), -- 起始点名称
+oh_end_name VARCHAR(100),-- 终点名称
+
 FOREIGN KEY(user_id) REFERENCES d_user(user_id),
 FOREIGN KEY(driv_id) REFERENCES d_driver(driv_id),
 FOREIGN KEY(rpt_id) REFERENCES d_recharge_pay_type(rpt_id),
@@ -123,21 +137,18 @@ FOREIGN KEY(ols_id) REFERENCES d_order_list_status(ols_id)
 DROP TABLE IF EXISTS d_order_handup;
 CREATE TABLE d_order_handup(
 open_id VARCHAR(24) PRIMARY KEY,-- 用户openid
+driv_id INT,-- 司机id
 oh_start_latitude FLOAT,  -- 起始经度
 oh_start_longitude FLOAT,-- 起始纬度
 oh_end_latitude FLOAT,-- 终点经度
 oh_end_longitude FLOAT,-- 终点纬度
 oh_start_name VARCHAR(100), -- 起始点名称
 oh_end_name VARCHAR(100),-- 终点名称
-oh_status enum('已接单','未接单')-- 接单状态
+oh_status enum('已接单','未接单'),-- 接单状态
+oh_create_time -- 挂起时间
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
--- 创建订单状态表
-DROP TABLE IF EXISTS d_order_list_status;
-CREATE TABLE d_order_list_status(
-ols_id INT(2) NOT NULL PRIMARY KEY auto_increment, -- 订单状态id
-ols_name VARCHAR(20) NOT NULL -- 状态名称
-)ENGINE=INNODB DEFAULT CHARSET=utf8;
+
 
 
 -- 创建路程表

@@ -159,6 +159,88 @@ class User extends Controller {
         $endLongitude = Request::instance()-> post('endLongitude');
         $endLatitude = Request::instance()-> post('endLatitude');
         $carType = Request::instance()-> post('carType');
+        $createTime = date('Y-m-d H:i:s');
+       
+
+        //查看用户订单是否已挂起
+        $res = Db::name('order_handup')
+            ->where('open_id',$openid)
+            -> find();
+        //已挂起
+        if($res){
+            //挂起的订单是否有司机接单
+            //未接单
+            if($res['oh_status']=='未接单'){
+                //挂起的订单是否超时---3分钟
+                if(strtotime($res['oh_status'])+180>strtotime('now')){
+                    echo 0; //超时
+                    exit;
+                }else{
+                    echo 1; //未超时
+                    exit;
+                }
+            }
+            //已接单
+            if($res['oh_status']=='已接单'){
+                //删除挂起的订单，添加入订单表
+                //从数据库读出当前用户的id
+                $res = Db::name('user')
+                    ->where('open_id',$openid)
+                    -> find();
+                $user_id = $res['user_id'];
+
+                $data = [
+                'user_id'=>$user_id,
+                'driv_id'=>$res['driv_id'],
+                'ol_start_time '=>date('Y-m-d H:i:s') ,
+                'ol_end_time'=>'',
+                'rpt_id'=>1,
+                'ols_id'=>1,
+                'ol_km_num'=>100,
+                'ol_km_price'=100,
+                'ol_overtime_price'=>0,
+                'ol_tip'=>100,
+
+                'openid'=>$openid,
+                'start'=>$start,
+                'end'=>$end,
+                'startLongitude'=>$startLongitude,
+                'startLatitude'=>$startLatitude,
+                'endLongitude'=>$endLongitude,
+                'endLatitude'=>$endLatitude,
+                'carType'=>$carType
+                ];
+
+                $insert = Db::name('order_list')
+                ->insert($data);
+                //生成订单成功--删除挂起订单
+                $res = Db::name('order_handup')
+                ->where('open_id',$openid)
+                -> delete();
+                echo 2;
+                exit;
+            }
+            
+        }
+        //未挂起
+        else{
+            $data = [
+                'openid'=>$openid,
+                'start'=>$start,
+                'end'=>$end,
+                'startLongitude'=>$startLongitude,
+                'startLatitude'=>$startLatitude,
+                'endLongitude'=>$endLongitude,
+                'endLatitude'=>$endLatitude,
+                'carType'=>$carType
+            ];
+            $result = Db::name('order_handup')
+            ->insert($data);
+            echo 3;//成功挂起订单行程
+            exit;
+        }
+
+
     }
 } 
 
