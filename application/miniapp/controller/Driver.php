@@ -173,13 +173,15 @@ class Driver extends Controller{
 
 
         //获取运营类型id
-        $bt_id = Db::name('business_type')
+        $btIdArray = Db::name('business_type')
         -> where('bt_name', $btName)
         -> field('bt_id')
         -> find();
 
+        $bt_id = $btIdArray['bt_id'];
+        $psw = md5($psw);
         $data = [
-            'driv_psw'=>'md5('.$psw.')',
+            'driv_psw'=>$psw,
             'driv_reg_time' => date("Y-m-d H:i:s"),
             'prov_num'      => $prov_num,
             'city_num'      => $city_num,
