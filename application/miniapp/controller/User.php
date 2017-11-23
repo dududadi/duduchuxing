@@ -166,6 +166,8 @@ class User extends Controller {
         $res = Db::name('order_handup')
             ->where('open_id',$openid)
             -> find();
+        echo 1000; 
+        exit;
         //已挂起
         if($res){
             //挂起的订单是否有司机接单
@@ -197,7 +199,7 @@ class User extends Controller {
                 'rpt_id'=>1,
                 'ols_id'=>1,
                 'ol_km_num'=>100,
-                'ol_km_price'=100,
+                'ol_km_price'=>100,
                 'ol_overtime_price'=>0,
                 'ol_tip'=>100,
 
