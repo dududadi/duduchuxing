@@ -181,6 +181,11 @@ class User extends Controller {
                     exit;
                 }else{
                     echo 1; //超时
+
+                    $res = Db::name('order_handup')
+                        ->where('open_id',$openid)
+                        -> delete();
+
                     exit;
                 }
             }
@@ -248,8 +253,16 @@ class User extends Controller {
             echo 3;//成功挂起订单行程
             exit;
         }
+    }
 
+    public function rmOrder() {
+        $openid = Request::instance()-> post('openid');
 
+        $res = Db::name('order_handup')
+            ->where('open_id',$openid)
+            -> delete();
+
+        exit;
     }
 } 
 
