@@ -124,7 +124,7 @@ class User extends Controller {
         $res = Db::name('user')
         -> insert([
             'user_reg_time' => date("Y-m-d H:i:s"),
-            'user_psw'      => 'md5('.$pwd.')',
+            'user_psw'      => md5($pwd),
             'user_name'     => $name,
             'user_id_num'   => $idNum,
             'user_tel'      => $tel,
