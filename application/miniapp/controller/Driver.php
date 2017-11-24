@@ -69,7 +69,7 @@ class Driver extends Controller{
         $openid = Request::instance()->post('openid');
         $headImg = Request::instance()->post('headImg');
         //手机号验证
-        if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) { 
+        if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) {
             echo 0;
             exit;
         }
@@ -84,7 +84,7 @@ class Driver extends Controller{
             exit;
         }
         //密码验证
-        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/", $psw)) { 
+        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/", $psw)) {
             echo 2;
             exit;
         }
@@ -103,7 +103,7 @@ class Driver extends Controller{
             exit;
         }
         //身份证号码验证
-        if (!preg_match("/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/", $idNum)) { 
+        if (!preg_match("/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/", $idNum)) {
             echo 5;
             exit;
         }
@@ -246,7 +246,7 @@ class Driver extends Controller{
             ->join('driver d','oh.driv_id=d.driv_id')
             ->where('d.bt_id',2)
             ->select();
-        echo json_encode($res); 
+        echo json_encode($res);
     }
 
     public function receveOrder(){
@@ -265,5 +265,5 @@ class Driver extends Controller{
     //司机接单
 
 
-    
+
 }
