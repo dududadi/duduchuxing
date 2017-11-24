@@ -229,7 +229,7 @@ class Driver extends Controller{
         echo json_encode($data);
         exit;
     }
-    //司机获取订单信息
+    //司机获取当前挂起订单的信息
     public function getOrderList(){
         //获取司机的openid--得到司机的运营类型id
         $open_id = Request::instance()->post('openid');
@@ -238,8 +238,21 @@ class Driver extends Controller{
             ->find();
         $bt_id = $res['bt_id'];
         $res = Db::name('order_handup')
-            ->alias('ol')
-            ->join('driver d','ol.driv_id=d.driv_id')
+            ->alias('oh')
+            ->join('driver d','oh.driv_id=d.driv_id')
+            ->where('d.bt_id',$bt_id)
+            ->select();
+    }
+
+    public function receveOrder(){
+        $open_id = Request::instance()->post('openid');
+        $res = Db::name('driver')
+            ->where('open_id',$open_id)
+            ->find();
+        $bt_id = $res['bt_id'];
+        $res = Db::name('order_handup')
+            ->alias('oh')
+            ->join('driver d','oh.driv_id=d.driv_id')
             ->where('d.bt_id',$bt_id)
             ->select();
         echo json_encode($res);
