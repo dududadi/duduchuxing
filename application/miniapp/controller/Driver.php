@@ -236,6 +236,8 @@ class Driver extends Controller{
         $res = Db::name('driver')
             ->where('open_id',$open_id)
             ->find();
+        echo json_encode($res);
+
         $bt_id = $res['bt_id'];
         $res = Db::name('order_handup')
             ->alias('oh')
