@@ -233,16 +233,18 @@ class Driver extends Controller{
     public function getOrderList(){
         //获取司机的openid--得到司机的运营类型id
         $open_id = Request::instance()->post('openid');
+
         $res = Db::name('driver')
             ->where('open_id',$open_id)
             ->find();
         echo json_encode($res);
-
+        exit;
         $bt_id = $res['bt_id'];
+
         $res = Db::name('order_handup')
             ->alias('oh')
             ->join('driver d','oh.driv_id=d.driv_id')
-            ->where('d.bt_id',$bt_id)
+            ->where('d.bt_id',2)
             ->select();
         echo json_encode($res); 
     }
