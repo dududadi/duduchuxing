@@ -237,8 +237,9 @@ class Driver extends Controller{
         $res = Db::name('driver')
             ->where('open_id',$open_id)
             ->find();
+        echo json_encode($open_id);
         echo json_encode($res);
-        exit;
+        
         $bt_id = $res['bt_id'];
 
         $res = Db::name('order_handup')
@@ -247,6 +248,7 @@ class Driver extends Controller{
             ->where('d.bt_id',2)
             ->select();
         echo json_encode($res); 
+        exit;
     }
 
     public function receveOrder(){
