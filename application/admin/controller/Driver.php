@@ -17,7 +17,7 @@ class Driver extends Controller
         }
     }
 
-
+    //渲染司机列表页面
     public function lists()
     {
 
@@ -48,9 +48,11 @@ class Driver extends Controller
                 -> join('city c','c.city_num = d.city_num')  //联表查询
                 -> join('area a','a.area_num = d.area_num')  //联表查询
                 -> join('business_type b','b.bt_id = d.bt_id')  //联表查询
-                -> where('driv_reg_time', '>', $startTime)
-                -> where('driv_reg_time', '<',  date("Y-m-d", strtotime("+1 day",strtotime($endTime))))
+                -> where('driv_reg_time', '>', $startTime)          //开始时间<注册时间
+                -> where('driv_reg_time', '<',  date("Y-m-d", strtotime("+1 day",strtotime($endTime))))//结束时间>注册时间
                 -> where('driv_id|driv_name','like','%'.$details.'%')
+                -> where('driv_status','like','使用')         //筛选出只有锁定和使用的用户
+                -> whereOr('driv_status','like','锁定')
                 -> field('driv_id,driv_name,driv_tel,driv_license_time,driv_car_reg_time,driv_reg_time,prov_name,city_name,area_name,driv_address,driv_status') //需要查询的字段
                 -> paginate(10 , false , [
                     'type' => 'Hui',
@@ -68,17 +70,75 @@ class Driver extends Controller
                 -> join('city c','c.city_num = d.city_num')  //联表查询
                 -> join('area a','a.area_num = d.area_num')  //联表查询
                 -> join('business_type b','b.bt_id = d.bt_id')  //联表查询
+                -> where('driv_status','like','使用')             //筛选出只有锁定和使用的用户
+                -> whereOr('driv_status','like','锁定')
                 -> field('driv_id,driv_name,driv_tel,driv_license_time,driv_car_reg_time,driv_reg_time,prov_name,city_name,area_name,driv_address,driv_status') //需要查询的字段
-                -> paginate(10 , false , ['type'=>'Hui',]);
+                -> paginate(10 , false , ['type'=>'Hui']);
         }
 
         $this->assign('list',$list);//向页面传值
         //查询需要显示的数据，并展示在页面上
         return $this->fetch();//渲染出司机列表的页面
     }
-
+    //渲染司机审核页面
     public function verify()
     {
+        if(!(input('?get.details')==null))
+        {
+            //司机管理页面模糊查询
+            if(empty(input('get.startTime')))
+            {
+                //传过来没有开始日期，则赋予开始日期
+                $startTime='1970-1-1';
+            }else{
+                $startTime=input('get.startTime');
+            }
+
+            if(empty(input('get.startTime')))
+            {
+                //传过来没有结束日期，则赋予结束日期
+                $endTime=date("Y-m-d");
+            }else{
+                $endTime=input('get.endTime');
+            }
+
+            $details=input('get.details','');//没有获取到值，则所有
+
+            $list = Db::name('driver')
+                -> alias('d')        //给表起别名
+                -> join('province p','p.prov_num = d.prov_num') //联表查询
+                -> join('city c','c.city_num = d.city_num')  //联表查询
+                -> join('area a','a.area_num = d.area_num')  //联表查询
+                -> join('business_type b','b.bt_id = d.bt_id')  //联表查询
+                -> where('driv_reg_time', '>', $startTime)
+                -> where('driv_reg_time', '<',  date("Y-m-d", strtotime("+1 day",strtotime($endTime))))
+                -> where('driv_id|driv_name','like','%'.$details.'%')
+                -> where('driv_status','未审核')
+                -> field('driv_id,driv_name,driv_tel,driv_license_time,driv_car_reg_time,driv_reg_time,prov_name,city_name,area_name,driv_address,driv_status') //需要查询的字段
+                -> paginate(10 , false , [
+                        'type' => 'Hui',
+                        'query' => [
+                            'details'=>$details,
+                            'startTime'=>$startTime,
+                            'endTime'=>$endTime
+                        ]
+                    ]
+                );
+        }
+        else{
+            $list = Db::name('driver')
+                -> alias('d')        //给表起别名
+                -> join('province p','p.prov_num = d.prov_num') //联表查询
+                -> join('city c','c.city_num = d.city_num')  //联表查询
+                -> join('area a','a.area_num = d.area_num')  //联表查询
+                -> join('business_type b','b.bt_id = d.bt_id')  //联表查询
+                -> where('driv_status','未审核')
+                -> field('driv_id,driv_name,driv_tel,driv_license_time,driv_car_reg_time,driv_reg_time,prov_name,city_name,area_name,driv_address,driv_status') //需要查询的字段
+                -> paginate(10 , false , ['type'=>'Hui',]);
+        }
+
+        $this->assign('list',$list);//向页面传值
+
         //渲染出司机审核的页面
         return $this->fetch();
     }
@@ -144,7 +204,7 @@ class Driver extends Controller
         return $this->fetch();
     }
 
-    //用户锁定
+    //司机列表用户锁定
     public function member_stop()
     {
         $uid=trim(input('post.uid',''));
@@ -153,7 +213,7 @@ class Driver extends Controller
             ->setField('driv_status','锁定');
         return $res;
     }
-    //用户使用
+    //司机列表用户使用
     public function member_start()
     {
         $uid=trim(input('post.uid',''));
@@ -163,7 +223,7 @@ class Driver extends Controller
         return $res;
     }
 
-    //所有用户锁定
+    //多用户锁定
     public function member_stop_all()
     {
         $arr=json_decode(input('post.uid',''));
@@ -176,7 +236,7 @@ class Driver extends Controller
 
         return $res;
     }
-    //所有用户使用
+    //多用户使用
     public function member_start_all()
     {
         $arr=json_decode(input('post.uid',''));
