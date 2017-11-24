@@ -233,6 +233,7 @@ class Driver extends Controller{
     public function getOrderList(){
         //获取司机的openid--得到司机的运营类型id
         $open_id = Request::instance()->param('openid');
+        
         $res = Db::name('driver')
             ->where('open_id',$open_id)
             ->find();
