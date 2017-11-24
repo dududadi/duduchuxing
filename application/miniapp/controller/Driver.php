@@ -242,6 +242,7 @@ class Driver extends Controller{
             ->join('driver d','oh.driv_id=d.driv_id')
             ->where('d.bt_id',$bt_id)
             ->select();
+        echo json_encode($res); 
     }
 
     public function receveOrder(){
