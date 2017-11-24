@@ -232,9 +232,9 @@ class Driver extends Controller{
     //司机获取订单信息
     public function getOrderList(){
         //获取司机的openid--得到司机的运营类型id
-        $open_id = Request::instance()->post('open_id');
+        $open_id = Request::instance()->post('openid');
         $res = Db::name('driver')
-            ->where('open_id',$openid)
+            ->where('open_id',$open_id)
             ->find();
         $bt_id = $res['bt_id'];
         $res = Db::name('order_list')
@@ -245,7 +245,7 @@ class Driver extends Controller{
         echo json_encode($res);
     }
     //司机接单
-    
+
 
     
 }
