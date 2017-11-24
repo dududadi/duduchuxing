@@ -232,14 +232,10 @@ class Driver extends Controller{
     //司机获取当前挂起订单的信息
     public function getOrderList(){
         //获取司机的openid--得到司机的运营类型id
-        $open_id = Request::instance()->post('openid');
-
+        $open_id = Request::instance()->param('openid');
         $res = Db::name('driver')
             ->where('open_id',$open_id)
             ->find();
-        echo json_encode($open_id);
-        exit;
-        echo json_encode($res);
         
         $bt_id = $res['bt_id'];
 
