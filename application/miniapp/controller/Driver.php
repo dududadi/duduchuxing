@@ -237,7 +237,7 @@ class Driver extends Controller{
             ->where('open_id',$open_id)
             ->find();
         $bt_id = $res['bt_id'];
-        $res = Db::name('order_list')
+        $res = Db::name('order_handup')
             ->alias('ol')
             ->join('driver d','ol.driv_id=d.driv_id')
             ->where('d.bt_id',$bt_id)
