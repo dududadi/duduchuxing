@@ -161,7 +161,21 @@ class User extends Controller {
         $carType = Request::instance()-> post('carType');
         $createTime = date('Y-m-d H:i:s');
        
+        //获取用户当前经纬度
+        $myLatitude = Request::instance()-> post('myLatitude');
+        $myLongitude = Request::instance()-> post('myLongitude');
 
+
+        //
+        $data = [
+            'open_id'=>$openid,
+            'ul_latitude'=>$myLatitude,
+            'ul_longitude'=>$myLongitude
+        ];
+        Db::name('user_location')
+            ->insert($data);
+
+            
         //查看用户订单是否已挂起
         $res = Db::name('order_handup')
             ->where('open_id',$openid)
@@ -177,10 +191,10 @@ class User extends Controller {
                 //挂起的订单是否超时---3分钟
             
                 if(strtotime($res['oh_create_time'])+180>strtotime('now')){
-                    echo 0; //未超时
+                    echo '{"status_code":"0"}'; //未超时
                     exit;
                 }else{
-                    echo 1; //超时
+                    echo '{"status_code":"1"}'; //超时
 
                     $res = Db::name('order_handup')
                         ->where('open_id',$openid)
@@ -210,6 +224,7 @@ class User extends Controller {
                 'ol_overtime_price'=>0,
                 'ol_tip'=>100,
 
+                'bt_id'=>$res['bt_id'],
                 'oh_start_name'=>$start,
                 'oh_end_name'=>$end,
                 'oh_start_longitude'=>$startLongitude,
@@ -224,7 +239,8 @@ class User extends Controller {
                 $res = Db::name('order_handup')
                 ->where('open_id',$openid)
                 -> delete();
-                echo 2;
+                 //返回司机的信息给乘客
+                echo '{"status_code":"2","driv_id":"'.$res['driv_id'].'"}';
                 exit;
             }
             
@@ -250,11 +266,11 @@ class User extends Controller {
             ];
             $result = Db::name('order_handup')
             ->insert($data);
-            echo 3;//成功挂起订单行程
+            echo '{"status_code":"3"}';//成功挂起订单行程
             exit;
         }
     }
-
+    //取消订单
     public function rmOrder() {
         $openid = Request::instance()-> post('openid');
 
@@ -264,6 +280,16 @@ class User extends Controller {
 
         exit;
     }
+
+
+
+    //司机接单后，跳转页面的默认操作，用户获取接单司机的信息
+    public function getDriverLocation{
+
+    }
+
+
+
 } 
 
 

@@ -127,6 +127,8 @@ oh_end_longitude FLOAT,-- 终点纬度
 oh_start_name VARCHAR(100), -- 起始点名称
 oh_end_name VARCHAR(100),-- 终点名称
 
+bt_id INT NOT NULL, -- 运营类型id
+FOREIGN KEY(bt_id) REFERENCES d_business_type(bt_id),
 FOREIGN KEY(user_id) REFERENCES d_user(user_id),
 FOREIGN KEY(driv_id) REFERENCES d_driver(driv_id),
 FOREIGN KEY(rpt_id) REFERENCES d_recharge_pay_type(rpt_id),
@@ -149,15 +151,29 @@ oh_create_time datetime,-- 挂起时间
 bt_id INT
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
+-- 用户实时位置表
+DROP TABLE IF EXISTS d_user_location;
+CREATE TABLE d_user_location(
+open_id VARCHAR(28) PRIMARY KEY,-- 用户openid
+ul_latitude FLOAT,-- 纬度
+ul_longitude FLOAT-- 经度
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
 
+-- 司机实时位置表
+DROP TABLE IF EXISTS d_driver_location;
+CREATE TABLE d_driver_location(
+driv_id VARCHAR(28) PRIMARY KEY,-- 用户openid
+dl_latitude FLOAT,-- 纬度
+dl_longitude FLOAT-- 经度
+)ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 
 -- 创建路程表
 DROP TABLE IF EXISTS d_distance;
 CREATE TABLE d_distance(
 dis_id INT NOT NULL PRIMARY KEY auto_increment, -- 订单id
-dis_latitude float(6,3), -- 纬度
-dis_longitude float(6,3) -- 经度
+dis_latitude float, -- 纬度
+dis_longitude float -- 经度
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 
