@@ -173,6 +173,9 @@ class User extends Controller {
             'ul_longitude'=>$myLongitude
         ];
         Db::name('user_location')
+            ->where('open_id',$open_id)
+            ->delete();
+        Db::name('user_location')
             ->insert($data);
 
 
