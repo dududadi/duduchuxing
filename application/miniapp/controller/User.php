@@ -175,7 +175,7 @@ class User extends Controller {
         Db::name('user_location')
             ->insert($data);
 
-            
+
         //查看用户订单是否已挂起
         $res = Db::name('order_handup')
             ->where('open_id',$openid)
@@ -284,7 +284,7 @@ class User extends Controller {
 
 
     //司机接单后，跳转页面的默认操作，用户获取接单司机的信息
-    public function getDriverLocation{
+    public function getDriverLocation(){
 
     }
 
