@@ -94,12 +94,19 @@
 		$admin=$("#user").val();
 		$password=$("#password").val();
 		$code=$("#code").val();
-		
-		
+		$cooky=$("input[name='online']:checked");
+		//console.log($cooky);
+		if($cooky.length==1)
+		{
+			$cook=$('#online').val();
+		}else
+		{
+			$cook="";
+		}
 		$.ajax({
 			type:"post",
 			url:"{:url('admin/login/checkUser')}",
-			data:{'user':$admin,'password':$password,'code':$code},
+			data:{'user':$admin,'password':$password,'code':$code,'cook':$cook},
 			success:function(result)
 			{
 				//console.log(result);

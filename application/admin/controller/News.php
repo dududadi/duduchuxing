@@ -18,7 +18,7 @@ class News extends Controller
 	{
 		return $this->fetch();
 	}
-	//图片上传
+	//新闻图片上传
 	public function pushNews()
 	{
 		
@@ -49,11 +49,83 @@ class News extends Controller
 		$res= DB::name('news')->insert($data);
 		echo $res;
 	}
-	//新闻编辑页面
+	//新闻编辑数据显示
 	public function edit()
 	{
-		return $this->fetch();
+		
+ 		if(input('?get.news')!=null)
+		{
+			$news=input('get.news');
+			if(input('startTime')==null )
+			{
+				$startTime=('1970-1-1');
+			}
+			else
+			{
+				$startTime=input('get.starTime');
+			}
+			if(empty(input('get.endTime')))
+			{
+				$endTime=date($format);
+			}
+			else
+			{
+				$endTime=input('get.endTime');
+			}
+			$list = DB::name('news')
+					->where('news_release_time','>',$startTime)
+					->where('news_release_time','<',$endTime)
+					->where('news_content|news_title','like','%'.$news.'%')
+					-> paginate(6 , false , [
+                    'type' => 'Hui',
+                    'query' => [
+                            'details'=>$details,
+                            'startTime'=>$startTime,
+                            'endTime'=>$endTime
+                        ]
+                    ]
+                );	
+		}else
+		{
+			$list = DB::name('news')
+					->paginate(6,false,['type' => 'Hui']);
+		}
+		$this->assign('list',$list);
+        return $this->fetch();//渲染出司机列表的页面
 	}
+	//新闻添加,就是进行新闻跳转
+	public function addNews()
+	{
+		$this->publish();
+	}
+	//新闻改变状态
+	public function ChangeState()
+	{
+		$id=trim(input('post.news_id'));
+		$state=trim(input('post.news_status'));
+		if($state=='未发布')
+		{
+			$res=DB::name('news')
+			->where('news_id','=',$id)
+			->setField('news_status','发布');
+		}else
+		{
+			$res=DB::name('news')
+			->where('news_id','=',$id)
+			->setField('news_status','未发布');	
+		}
+		return $res;
+	}
+	//删除新闻
+	public function delateNews()
+	{
+		$id=input('post.news_id');
+		$res=DB::name('news')
+			->where('news_id','=',$id)
+			->delete();
+		return $res;
+	}
+	
 	//将图片保存到文件夹的方法
 	private function saveUpload($files, $path, $filename) {
         if(mb_substr($path,mb_strlen($path)-1) !== '/') {

@@ -9,8 +9,14 @@ class Map extends Controller
 	public function getPath()
 	{
 		//dump(input("post.latitude"));
-		$open_id = Request::instance()-> post('latitude');
-		dump($open_id);
+		$lat1 = Request::instance()-> post('latitude');
+		$lng1 = Request::instance()-> post('longitude');
+		$data=[
+			'dis_latitude'=>$lat1,
+			'dis_longitude'=>$lng1,
+		]
+		$distance=DB::name('distance')->
+		exit();
 	}
 	public function calculate()
 	{
@@ -25,6 +31,21 @@ class Map extends Controller
 	    $b=$radLng1-$radLng2;
 	    $s=2*asin(sqrt(pow(sin($a/2),2)+cos($radLat1)*cos($radLat2)*pow(sin($b/2),2)))*6378.137;
 	    return $s;   
+	}
+	
+	public function wxaddress(){
+		$fromlat = $_GET['fromlat'];//接收起点纬度
+		$fromlng = $_GET['fromlng'];//接收起点经度
+		$tolat = $_GET['tolat'];//接收终点纬度
+		$tolng = $_GET['tolng'];//接收终点经度
+		$url = "http://apis.map.qq.com/ws/direction/v1/driving/?from=39.915285,116.403857&to=39.915285,116.803857&waypoints=39.111,116.112;39.112,116.113&output=json&callback=cb&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77";//接口地址
+		$datajson = $this -> curlHttp($url,"");//发送请求并接收结果
+		$obj = json_decode($datajson,true);//将返回的json转换成php能操作的对象；
+		if ( $obj && $obj['status'] ==0 ) {
+			apiResponse( "success" , "返回成功！" , $obj['result']['routes'][0] );//返回给小程序端。
+		}else{
+			apiResponse( "error" , "返回错误！" );
+		}
 	}
 }   
 ?>
