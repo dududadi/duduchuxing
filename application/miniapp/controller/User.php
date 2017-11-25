@@ -283,9 +283,6 @@ class User extends Controller {
 
         exit;
     }
-
-
-
     //司机接单后，跳转页面的默认操作，用户获取接单司机的信息
     public function getDriverLocation(){
 

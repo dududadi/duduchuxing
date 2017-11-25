@@ -246,21 +246,21 @@ class Driver extends Controller{
             ->select();
         return json($res);
     }
-
-    public function receveOrder(){
-        $open_id = Request::instance()->post('openid');
-        $res = Db::name('driver')
-            ->where('open_id',$open_id)
-            ->find();
-        $bt_id = $res['bt_id'];
-        $res = Db::name('order_handup')
-            ->alias('oh')
-            ->join('driver d','oh.driv_id=d.driv_id')
-            ->where('d.bt_id',$bt_id)
-            ->select();
-        return json($res);
-    }
     //司机接单
+    public function receiveOrder(){
+        //获取当前用户的openid
+        $open_id = Request::instance()->post('openid');
+        //改变挂起订单的状态---change未挂起to已挂起
+        $res = Db::name('order_handup')
+            ->where('open_id',$open_id)
+            ->update(['oh_status'=>'已接单']);
+        if($res)
+        {
+            return 1;//修改成功
+        }else{
+            return 0;//修改失败
+        }
+    }
 
 
 
