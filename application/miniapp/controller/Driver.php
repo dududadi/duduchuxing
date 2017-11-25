@@ -226,26 +226,25 @@ class Driver extends Controller{
         foreach ($res as  $value) {
             array_push($data, $value['bt_name']);
         }
-        echo json_encode($data);
+        return json($data);
         exit;
     }
     //司机获取当前挂起订单的信息
     public function getOrderList(){
         //获取司机的openid--得到司机的运营类型id
         $open_id = Request::instance()->param('openid');
-        
+
         $res = Db::name('driver')
             ->where('open_id',$open_id)
             ->find();
-        
+
         $bt_id = $res['bt_id'];
 
         $res = Db::name('order_handup')
             ->alias('oh')
-            ->join('driver d','oh.driv_id=d.driv_id')
-            ->where('d.bt_id',2)
+            ->where('oh.bt_id',$bt_id)
             ->select();
-        echo json_encode($res);
+        return json($res);
     }
 
     public function receveOrder(){
@@ -259,7 +258,7 @@ class Driver extends Controller{
             ->join('driver d','oh.driv_id=d.driv_id')
             ->where('d.bt_id',$bt_id)
             ->select();
-        echo json_encode($res);
+        return json($res);
     }
     //司机接单
 
