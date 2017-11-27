@@ -216,7 +216,7 @@ class User extends Controller {
                 $data = [
                 'user_id'=>$user_id,
                 'driv_id'=>$res['driv_id'],
-                'ol_start_time '=>date('Y-m-d H:i:s') ,
+                'ol_start_time'=>date('Y-m-d H:i:s') ,
                 'ol_end_time'=>'',
                 'rpt_id'=>1,
                 'ols_id'=>1,
