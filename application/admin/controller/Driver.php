@@ -51,8 +51,7 @@ class Driver extends Controller
                 -> where('driv_reg_time', '>', $startTime)          //开始时间<注册时间
                 -> where('driv_reg_time', '<',  date("Y-m-d", strtotime("+1 day",strtotime($endTime))))//结束时间>注册时间
                 -> where('driv_id|driv_name','like','%'.$details.'%')
-                -> where('driv_status','like','使用')         //筛选出只有锁定和使用的用户
-                -> whereOr('driv_status','like','锁定')
+                -> where('driv_status',['like','使用'],['like','锁定'],'or')         //筛选出只有锁定和使用的用户
                 -> field('driv_id,driv_name,driv_tel,driv_license_time,driv_car_reg_time,driv_reg_time,prov_name,city_name,area_name,driv_address,driv_status') //需要查询的字段
                 -> paginate(10 , false , [
                     'type' => 'Hui',
