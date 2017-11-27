@@ -317,8 +317,8 @@ class User extends Controller {
             ->join('driver d','d.open_id=dl.open_id')
             ->where('d.driv_id', $driverid )
             ->find();
-        
-        echo json_encode(["driverLocation"=>$driverLocation,"ols_id"=>$ols_id]);
+        $driverLocation['ols_id']=$ols_id;
+        echo json_encode($driverLocation);
         exit;
     }
     public function getOrderId(){
