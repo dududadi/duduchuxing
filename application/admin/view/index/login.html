@@ -120,7 +120,10 @@
 						history.go(0) 
 					break;
 					case 3:
-						alert("验证失败，请重新验证");
+						alert("用户被锁定");
+						history.go(0) 
+					case 4:
+						alert("验证失败");
 						history.go(0) 
 					break;
 				}

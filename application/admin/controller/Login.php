@@ -36,32 +36,34 @@ class Login extends Controller {
             $res = Db::name('employee')
             -> where(['emp_id'=>$user,'emp_psw'=>md5($upas)])
             -> find();    //带着查询条件向数据库查询
-
-            if(!empty($res))
-            {
-                //结果不为空  则session缓存更新
-                Session::set('isLogin',$res['emp_id']);
-				Session::set('emp_name',$res['emp_name']);
-				Session::set('role_id',$res['role_id']);
-                //跳转页面并友好提示
-                if(!empty(input('post.online','')))
+            if($res['user_status']=='使用'){
+                if(!empty($res))
                 {
-                    //结果不为空，则说明选择了七天登录，所以存下当前ID作为cookie凭证，并设置7天期限
-                    cookie('isLogin', $res['emp_id'], 604800);
+                    //结果不为空  则session缓存更新
+                    Session::set('isLogin',$res['emp_id']);
+                    Session::set('emp_name',$res['emp_name']);
+                    Session::set('role_id',$res['role_id']);
+                    //跳转页面并友好提示
+                    if(!empty(input('post.online','')))
+                    {
+                        //结果不为空，则说明选择了七天登录，所以存下当前ID作为cookie凭证，并设置7天期限
+                        cookie('isLogin', $res['emp_id'], 604800);
+                    }
+                    return 1;//登录成功
                 }
-
-                return 1;//登录成功
+                else
+                {
+                    //登录失败,账号或密码输入错误
+                    return 2;
+                }
+            }else{
+                //该用户被锁定
+                return 3;
             }
-            else
-            {
-                //登录失败,账号或密码输入错误
-                return 2;
-            }
-
         }else{
             //验证失败，请重新输入验证码
             //跳转页面并友好提示
-            return 3;
+            return 4;
         }
     }
 }
