@@ -25,7 +25,7 @@
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 司机管理 <span class="c-gray en">&gt;</span> 司机审核 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
     <div class="text-c">
-        <form action='{:url("admin/driver/lists")}' method="get">
+        <form action='{:url("admin/driver/verify")}' method="get">
             日期范围：
             <input name="startTime" type="text" onfocus="WdatePicker({ maxDate:'' })" class="input-text Wdate" style="width:120px;">
             -
@@ -114,16 +114,15 @@
     }
     /*用户-启用*/
     function member_start(obj,id){
-        layer.confirm('确认要启用吗？',function(index){
+        layer.confirm('确认审核通过吗？',function(){
             $.ajax({
                 type: 'POST',
-                url: '',
-                dataType: 'json',
+                url: '{:url("admin/driver/member_start")}',
+                data: {'uid':id},
                 success: function(data){
-                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,'+id+')" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>');
-                    $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
+                    $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已审核</span>');
                     $(obj).remove();
-                    layer.msg('已启用!',{icon: 6,time:1000});
+                    layer.msg('审核通过!',{icon: 6,time:1000});
                 },
                 error:function(data) {
                     console.log(data.msg);
