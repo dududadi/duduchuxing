@@ -191,8 +191,8 @@ class User extends Controller {
             if($res['oh_status']=='未接单'){
                 //挂起的订单是否超时---3分钟        
                 if(strtotime($res['oh_create_time'])+180>strtotime('now')){
-                    echo(strtotime('now'));
-                    //echo '{"status_code":"0"}'; //未超时
+                    //echo(strtotime('now'));
+                    echo '{"status_code":"0"}'; //未超时
                     exit;
                 }else{
                     echo '{"status_code":"1"}'; //超时
