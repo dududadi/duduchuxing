@@ -291,6 +291,13 @@ class User extends Controller {
         $latitude = Request::instance()-> post('latitude');
         $longitude = Request::instance()-> post('longitude');
         $driverid = Request::instance()-> post('driverid');
+        $order_id = Request::instance()-> post('orderId');
+
+        //获取订单状态
+        $ols = Db::name('order_list')
+            ->where('order_id',$orderId)
+            ->find();
+        $ols_id = $ols['ols_id'];
 
         //将用户位置更新
         $data = [
@@ -310,9 +317,30 @@ class User extends Controller {
             ->join('driver d','d.open_id=dl.open_id')
             ->where('d.driv_id', $driverid )
             ->find();
-        echo json_encode($driverLocation);
+        
+        echo json_encode(["driverLocation"=>$driverLocation,"ols_id"=>$ols_id]);
         exit;
     }
+    public function getOrderId(){
+        $openid = Request::instance()-> post('openid');
+        $driverid = Request::instance()-> post('driverid');
+
+        $user = Db::name('user')
+            ->where('open_id',$openid)
+            ->find();
+        $user_id = $user['user_id'];
+        //获取当前订单的单号
+        $res = Db::name('order_list')
+            ->where('user_id',$user_id)
+            ->where('driv_id',$driverid)
+            ->where('ols_id',1)//司机接到了乘客，状态为未过期
+            ->find();
+        $order_id = $res['ol_id'];
+        echo $order_id;
+        exit;
+    }
+
+
 
 
 
