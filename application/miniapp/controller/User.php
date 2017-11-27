@@ -295,7 +295,7 @@ class User extends Controller {
 
         //获取订单状态
         $ols = Db::name('order_list')
-            ->where('order_id'$orderId)
+            ->where('order_id',$orderId)
             ->find();
         $ols_id = $ols['ols_id'];
 
