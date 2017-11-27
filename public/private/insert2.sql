@@ -5,6 +5,7 @@ INSERT INTO d_business_type VALUES
 
 -- 订单状态
 INSERT INTO d_order_list_status VALUES
+(null,'未接客'),
 (null,'未过期'),
 (null,'已过期'),
 (null,'已支付');
