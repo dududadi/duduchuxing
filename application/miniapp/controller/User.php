@@ -324,9 +324,14 @@ class User extends Controller {
     public function getOrderId(){
         $openid = Request::instance()-> post('openid');
         $driverid = Request::instance()-> post('driverid');
+
+        $user = Db::name('user')
+            ->where('open_id',$openid)
+            ->find();
+        $user_id = $user['user_id'];
         //获取当前订单的单号
         $res = Db::name('order_list')
-            ->where('open_id',$open_id)
+            ->where('user_id',$user_id)
             ->where('driv_id',$driverid)
             ->where('ols_id',1)//司机接到了乘客，状态为未过期
             ->find();
