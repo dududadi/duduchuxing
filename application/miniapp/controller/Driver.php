@@ -254,6 +254,23 @@ class Driver extends Controller{
         $res = Db::name('order_handup')
             ->where('open_id',$open_id)
             ->update(['oh_status'=>'已接单']);
+
+        //获取自己的openid
+        $driv_open_id = Request::instance()->post('driverOpenId');
+        $latitude = Request::instance()-> post('latitude');
+        $longitude = Request::instance()-> post('longitude');
+        //上传司机当前位置
+        $data = [
+            'open_id'=>$driv_open_id,
+            'dl_latitude'=>$latitude,
+            'dl_longitude'=>$longitude
+        ];
+        Db::name('driver_location')
+            ->where('open_id',$openid)
+            ->delete();
+        Db::name('driver_location')
+            ->insert($data);   
+
         if($res)
         {
             return 1;//修改成功
