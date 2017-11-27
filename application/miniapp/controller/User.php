@@ -237,7 +237,7 @@ class User extends Controller {
                 $insert = Db::name('order_list')
                 ->insert($data);
                 //生成订单成功--删除挂起订单
-                $res = Db::name('order_handup')
+                $res3 = Db::name('order_handup')
                 ->where('open_id',$openid)
                 -> delete();
                  //返回司机的信息给乘客
