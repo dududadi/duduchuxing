@@ -250,13 +250,19 @@ class Driver extends Controller{
     public function receiveOrder(){
         //获取当前用户的openid
         $open_id = Request::instance()->post('openid');
+         //获取自己的openid
+        $driv_open_id = Request::instance()->post('driverOpenId');
+
+        $driv = Db::name('driver')
+            ->where('open_id',$driv_open_id)
+            ->find();
+        $driv_id = $driv['driv_id'];
         //改变挂起订单的状态---change未挂起to已挂起
         $res = Db::name('order_handup')
             ->where('open_id',$open_id)
-            ->update(['oh_status'=>'已接单']);
+            ->update(['oh_status'=>'已接单','driv_id',$driv_id]);
 
-        //获取自己的openid
-        $driv_open_id = Request::instance()->post('driverOpenId');
+       
         $latitude = Request::instance()-> post('latitude');
         $longitude = Request::instance()-> post('longitude');
         //上传司机当前位置
