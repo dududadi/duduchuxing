@@ -272,7 +272,7 @@ class Driver extends Controller{
             'dl_longitude'=>$longitude
         ];
         Db::name('driver_location')
-            ->where('open_id',$openid)
+            ->where('open_id',$driv_open_id)
             ->delete();
         Db::name('driver_location')
             ->insert($data);   
