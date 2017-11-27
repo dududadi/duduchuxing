@@ -260,7 +260,7 @@ class Driver extends Controller{
         //改变挂起订单的状态---change未挂起to已挂起
         $res = Db::name('order_handup')
             ->where('open_id',$open_id)
-            ->update(['oh_status'=>'已接单','driv_id',$driv_id]);
+            ->update(['oh_status'=>'已接单','driv_id'=>$driv_id]);
 
        
         $latitude = Request::instance()-> post('latitude');
