@@ -208,10 +208,10 @@ class User extends Controller {
             if($res['oh_status']=='已接单'){
                 //删除挂起的订单，添加入订单表
                 //从数据库读出当前用户的id
-                $res = Db::name('user')
+                $res2 = Db::name('user')
                     ->where('open_id',$openid)
                     -> find();
-                $user_id = $res['user_id'];
+                $user_id = $res2['user_id'];
 
                 $data = [
                 'user_id'=>$user_id,
@@ -241,7 +241,7 @@ class User extends Controller {
                 ->where('open_id',$openid)
                 -> delete();
                  //返回司机的信息给乘客
-                echo '{"status_code":"2","open_id":"'.$openid.'"}';
+                echo '{"status_code":"2","driv_id":"'.$res['driv_id'].'"}';
                 exit;
             }
             
@@ -290,7 +290,8 @@ class User extends Controller {
         $openid = Request::instance()-> post('openid');
         $latitude = Request::instance()-> post('latitude');
         $longitude = Request::instance()-> post('longitude');
-        $driverOpenId = Request::instance()-> post('driverOpenId');
+        $driverid = Request::instance()-> post('driverid');
+
         //将用户位置更新
         $data = [
             'open_id'=>$openid,
@@ -302,9 +303,12 @@ class User extends Controller {
             ->delete();
         Db::name('user_location')
             ->insert($data);
+
         //获取司机位置
         $driverLocation = Db::name('driver_location')
-            ->where('open_id',$openid)
+            ->alias('dl')
+            ->join('driver d','d.open_id=dl.open_id')
+            ->where('d.driv_id', $driverid )
             ->find();
         echo json_encode($driverLocation);
         exit;
