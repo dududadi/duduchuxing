@@ -98,6 +98,11 @@ class News extends Controller
 	{
 		$this->publish();
 	}
+	public function newsEdit()
+	{
+		
+		return $this->fetch();
+	}
 	//新闻改变状态
 	public function ChangeState()
 	{
