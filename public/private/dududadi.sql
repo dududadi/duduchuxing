@@ -162,7 +162,7 @@ ul_longitude FLOAT-- 经度
 -- 司机实时位置表
 DROP TABLE IF EXISTS d_driver_location;
 CREATE TABLE d_driver_location(
-driv_id VARCHAR(28) PRIMARY KEY,-- 用户openid
+open_id VARCHAR(28) PRIMARY KEY,-- 用户openid
 dl_latitude FLOAT,-- 纬度
 dl_longitude FLOAT-- 经度
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
@@ -171,11 +171,9 @@ dl_longitude FLOAT-- 经度
 -- 创建路程表
 DROP TABLE IF EXISTS d_distance;
 CREATE TABLE d_distance(
-dis_id INT NOT NULL PRIMARY KEY auto_increment, -- 路程id
+dis_id INT NOT NULL PRIMARY KEY auto_increment, -- 订单id
 dis_latitude float, -- 纬度
-dis_longitude float, -- 经度
-ol_id INT NOT NULL, -- 订单id
-FOREIGN KEY(ol_id) REFERENCES d_order_list(ol_id)
+dis_longitude float -- 经度
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 

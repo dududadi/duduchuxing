@@ -165,8 +165,6 @@ class User extends Controller {
         $myLatitude = Request::instance()-> post('myLatitude');
         $myLongitude = Request::instance()-> post('myLongitude');
 
-
-        //
         $data = [
             'open_id'=>$openid,
             'ul_latitude'=>$myLatitude,
@@ -191,9 +189,9 @@ class User extends Controller {
             //未接单
 
             if($res['oh_status']=='未接单'){
-                //挂起的订单是否超时---3分钟
-            
+                //挂起的订单是否超时---3分钟        
                 if(strtotime($res['oh_create_time'])+180>strtotime('now')){
+                    //echo(strtotime('now'));
                     echo '{"status_code":"0"}'; //未超时
                     exit;
                 }else{
@@ -210,15 +208,15 @@ class User extends Controller {
             if($res['oh_status']=='已接单'){
                 //删除挂起的订单，添加入订单表
                 //从数据库读出当前用户的id
-                $res = Db::name('user')
+                $res2 = Db::name('user')
                     ->where('open_id',$openid)
                     -> find();
-                $user_id = $res['user_id'];
+                $user_id = $res2['user_id'];
 
                 $data = [
                 'user_id'=>$user_id,
                 'driv_id'=>$res['driv_id'],
-                'ol_start_time '=>date('Y-m-d H:i:s') ,
+                'ol_start_time'=>date('Y-m-d H:i:s') ,
                 'ol_end_time'=>'',
                 'rpt_id'=>1,
                 'ols_id'=>1,
@@ -280,12 +278,40 @@ class User extends Controller {
         $res = Db::name('order_handup')
             ->where('open_id',$openid)
             -> delete();
-
+        if($res){
+            echo 1;//成功取消
+        }else{
+            echo 0;//取消失败
+        }
         exit;
     }
     //司机接单后，跳转页面的默认操作，用户获取接单司机的信息
     public function getDriverLocation(){
+        $openid = Request::instance()-> post('openid');
+        $latitude = Request::instance()-> post('latitude');
+        $longitude = Request::instance()-> post('longitude');
+        $driverid = Request::instance()-> post('driverid');
 
+        //将用户位置更新
+        $data = [
+            'open_id'=>$openid,
+            'ul_latitude'=>$latitude,
+            'ul_longitude'=>$longitude
+        ];
+        Db::name('user_location')
+            ->where('open_id',$openid)
+            ->delete();
+        Db::name('user_location')
+            ->insert($data);
+
+        //获取司机位置
+        $driverLocation = Db::name('driver_location')
+            ->alias('dl')
+            ->join('driver d','d.open_id=dl.open_id')
+            ->where('d.driv_id', $driverid )
+            ->find();
+        echo json_encode($driverLocation);
+        exit;
     }
 
 

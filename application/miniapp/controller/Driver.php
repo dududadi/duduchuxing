@@ -250,15 +250,57 @@ class Driver extends Controller{
     public function receiveOrder(){
         //获取当前用户的openid
         $open_id = Request::instance()->post('openid');
+         //获取自己的openid
+        $driv_open_id = Request::instance()->post('driverOpenId');
+
+        $driv = Db::name('driver')
+            ->where('open_id',$driv_open_id)
+            ->find();
+        $driv_id = $driv['driv_id'];
         //改变挂起订单的状态---change未挂起to已挂起
         $res = Db::name('order_handup')
             ->where('open_id',$open_id)
-            ->update(['oh_status'=>'已接单']);
+            ->update(['oh_status'=>'已接单','driv_id',$driv_id]);
+
+       
+        $latitude = Request::instance()-> post('latitude');
+        $longitude = Request::instance()-> post('longitude');
+        //上传司机当前位置
+        $data = [
+            'open_id'=>$driv_open_id,
+            'dl_latitude'=>$latitude,
+            'dl_longitude'=>$longitude
+        ];
+        Db::name('driver_location')
+            ->where('open_id',$openid)
+            ->delete();
+        Db::name('driver_location')
+            ->insert($data);   
+
         if($res)
         {
             return 1;//修改成功
         }else{
             return 0;//修改失败
+        }
+    }
+    //司机取消订单
+    public function cancelOrder(){
+        //获取用户的openid
+        $open_id = Request::instance()->post('openid');
+        //得到用户user_id
+        $res = Db::name('user')
+            ->where('open_id',$open_id)
+            ->find();
+        $user_id = $res['user_id'];
+        //改变订单状态为已过期
+        $update = Db::name('order_list')
+            ->where('user_id',$user_id)
+            ->update(['ols_id'=>2]);
+        if($update){
+            return 1;//取消成功
+        }else{
+            return 0;//取消失败
         }
     }
 
