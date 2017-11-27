@@ -14,7 +14,7 @@ class WexinPay extends Controller
 	    $body =         '卡文网络';
 	    $mch_id =       '1331063701';
 	    $nonce_str =    $this->nonce_str();//随机字符串
-	    $openid =       "input('get.openid')";
+	    $openid =       input('get.openid');
 	    $out_trade_no = $this->order_number();//商户订单号
 	    $spbill_create_ip = '47.100.0.162';
 	    $total_fee =    $fee*100;//因为充值金额最小是1 而且单位为分 如果是充值1元所以这里需要*100
