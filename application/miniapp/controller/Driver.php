@@ -261,6 +261,25 @@ class Driver extends Controller{
             return 0;//修改失败
         }
     }
+    //司机取消订单
+    public function cancelOrder(){
+        //获取用户的openid
+        $open_id = Request::instance()->post('openid');
+        //得到用户user_id
+        $res = Db::name('user')
+            ->where('open_id',$open_id)
+            ->find();
+        $user_id = $res['user_id'];
+        //改变订单状态为已过期
+        $update = Db::name('order_list')
+            ->where('user_id',$user_id)
+            ->update(['ols_id'=>2]);
+        if($update){
+            return 1;//取消成功
+        }else{
+            return 0;//取消失败
+        }
+    }
 
 
 

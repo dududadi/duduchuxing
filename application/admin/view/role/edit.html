@@ -31,17 +31,17 @@
 </head>
 <body>
 <article class="page-container">
-    <form method="post" class="form form-horizontal" id="form-admin-role-add">
+    <form method="post" class="form form-horizontal" id="form-admin-role-edit">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="roleName" name="roleName">
+                <input type="text" class="input-text" placeholder="" id="roleName" name="roleName">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3">备注：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="" name="remark">
+                <input type="text" class="input-text" placeholder="" id="remark" name="remark">
             </div>
         </div>
         <div class="row cl">
@@ -79,7 +79,7 @@
     setTree(prArr,'tree');
     var chooseAdmin='';
     var nodes=[];
-    //点击添加角色信息------也要添加权限
+    //修改角色信息
     function setTree(powerArr,treeid){
 
         //初始化设置
@@ -104,29 +104,54 @@
 
         }
 
-        setAllPower();
+        setPower();
 
-        //显示全部权限
-        function setAllPower(){
+        //显示角色对应的权限
+        function setPower(){
             $(document).ready(function(){
+               
                 $.ajax({
-                    url:"{:url('admin/Role/getMenu')}",
+                    url:"{:url('admin/Role/getRoleMenu')}",
                     type:"post",
-                    data:'',
+                    data:{roleId:localStorage.roleId},
                     dataType:"text",
                     success:function(data){
-
-                        $pr=JSON.parse(data);
-                        //console.log($pr);
+                        
+                        $Twor=JSON.parse(data);
+                        console.log($Twor);
+                        $pr = $Twor[0];
+                        $mr = $Twor[1];
+                        
                         var zNodes=[];
-                        for($i=0;$i<$pr.length;$i++){
-                            zNodes.push({ id:$pr[$i]['fm_id']+20, pId:0, name:$pr[$i]['fm_name'], open:true});
-                            $sm = $pr[$i]['smenu'];
-                            for($j=0;$j<$sm.length;$j++){
-                                zNodes.push({ id:$sm[$j]['sm_id'], pId:$sm[$j]['fm_id']+20, name:$sm[$j]['sm_name']});
+
+                        for($x=0;$x<$mr.length;$x++){
+
+                            for($i=0;$i<$pr.length;$i++){
+
+                                if($pr[$i]['fm_id']==$mr[$x]['fm_id']){
+
+                                    zNodes.push({ id:$mr[$x]['fm_id']+20, pId:0, name:$mr[$x]['fm_name'], open:true ,checked:true});
+
+                                    $smenu = $pr[$i]['smenu'];
+
+                                    for($k=0;$k<$smenu.length;$k++){
+                                        zNodes.push({ id:$smenu[$k]['sm_id'], pId:$smenu[$k]['fm_id']+20, name:$smenu[$k]['sm_name'], checked:true});
+                                    }
+                                    break;
+                                }
+                            }
+                            if($i==$pr.length)
+                            {       
+                                zNodes.push({ id:$mr[$x]['fm_id']+20, pId:0, name:$mr[$x]['fm_name'], open:true});
+
+                                $smenu = $mr[$x]['smenu'];
+
+                                for($k=0;$k<$smenu.length;$k++){
+                                    zNodes.push({ id:$smenu[$k]['sm_id'], pId:$smenu[$k]['fm_id']+20, name:$smenu[$k]['sm_name']});       
+                                }
                             }
                         }
-                        //console.log(zNodes);
+
 
                         $.fn.zTree.init($("#"+treeid), setting, zNodes);
                         setCheck();
@@ -158,13 +183,33 @@
 
     }
 </script>
+<script type="text/javascript">
+$(function(){
+    var roleId = localStorage.roleId;
+    $.ajax({
+        type: "POST",
+        dataType: "JSON",
+        data:{'roleId':roleId},
+        url: "{:url('admin/Role/getRoleMsg')}",
+        success: function (data) {
+             $roleMsg=JSON.parse(data);
+             console.log($roleMsg);
+             $("#roleName").val($roleMsg['role_name']);
+             $("#remark").val($roleMsg['role_description']);
+        },
+        error: function (XmlHttpRequest, textStatus, errorThrown) {
+            layer.msg('error!', {icon: 1, time: 1000});
+        }
+    });
+})
+</script>
 <!--ajaxSubmit提交表单-->
 <script type="text/javascript">
     $(function(){
          function autoMadalBox($body) {
             $.Huimodalalert($body, 1500);
          }
-        $("#form-admin-role-add").validate({
+        $("#form-admin-role-edit").validate({
             rules:{
                 roleName:{
                     required:true,
@@ -175,15 +220,14 @@
             success:"valid",
             submitHandler:function(form) {
                 var roleName = $("#roleName").val();
-                
+                var chooseRole='';
+                var chooseAdmin='';
                 //如果数组为空
                 if(prArr.length==0){
                     isSetMenu = 0;
                 }else{
                     isSetMenu = 1;
                 }
-                var chooseRole='';
-                var chooseAdmin='';
                 for (var i = 0; i < nodes.length; i++) {
                     if(nodes[i].name=='角色管理'){
                         chooseRole='yes';
@@ -208,25 +252,25 @@
                     aRole();
                 }
                 function aRole(){
+                    var roleId = localStorage.roleId;
                     $(form).ajaxSubmit({
-                    type: "POST",
-                    dataType: "JSON",
-                    data:{'prArr':prArr,'isSetMenu':isSetMenu},
-                    url: "{:url('admin/Role/addTo')}",
-                    success: function (data) {
-                        autoMadalBox(data);
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 1500);
-                    },
-                    error: function (XmlHttpRequest, textStatus, errorThrown) {
-                        layer.msg('error!', {icon: 1, time: 1000});
-                    }
-                    });
+                        type: "POST",
+                        dataType: "JSON",
+                        data:{'prArr':prArr,'isSetMenu':isSetMenu,'roleId':roleId},
+                        url: "{:url('admin/Role/editRole')}",
+                        success: function (data) {
+                            autoMadalBox(data);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1500);
+                        },
+                        error: function (XmlHttpRequest, textStatus, errorThrown) {
+                            layer.msg('error!', {icon: 1, time: 1000});
+                        }
+                    });  
                 }
                 /*var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);*/
-
             }
         });
     });
