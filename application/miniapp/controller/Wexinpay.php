@@ -125,7 +125,7 @@ class Wexinpay extends Controller
 	}
 	
 	//获取xml
-	public function xml($xml){
+	function xml($xml){
 	    $p = xml_parser_create();
 	    xml_parse_into_struct($p, $xml, $vals, $index);
 	    xml_parser_free($p);
