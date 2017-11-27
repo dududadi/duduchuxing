@@ -113,7 +113,7 @@ class Employee extends Controller{
 
     //添加或编辑员工操作
     public function addEmp() {
-        //$nowRoleId = (string)Session::get('nowRoleId');
+        //$nowRoleId = (string)Session::get('role_id');
         //if ($nowRoleId !== '1') return json('0');
         $id = input('get.id','');
         $name = input('post.adminName', '');
@@ -124,12 +124,19 @@ class Employee extends Controller{
         $city = input('post.city', '');
         $area = input('post.area', '');
         $roleId = input('post.adminRole', '');
+        $hasHeadImg = empty($_FILES)?false:$_FILES['file-2']['error'] === 0;
         date_default_timezone_set('PRC'); //设置时区
         $timestamp = time();  //当前时间戳
-        if ($name === '' || $nickname === '' || $psw === '' || $psw2 === '' || $province === '' || $city === '' || $roleId === '') {
-            return json('0');
+        if ($name==='' || $nickname==='' || $psw==='' || $psw2==='' || $province==='' || $city==='' || $roleId==='') {
+            return json('-1');
         } else {
+            if ($hasHeadImg) {
+                $path = $_SERVER['DOCUMENT_ROOT'].Request::instance()->root().'/static/img/update/emp_headImg'; //上传文件存储路径
+                $savePath = $this->saveUpload($_FILES['file-2'], $path, $name.$timestamp); //将上传文件保存
+            }
+
             if ($id) {
+                $imgPath = Db::name('employee')->where('emp_id', $id)->value('emp_head_img');
                 $res = Db::name('employee')
                 ->where('emp_id', $id)
                 ->update([
@@ -140,11 +147,15 @@ class Employee extends Controller{
                     'prov_num' => $province,
                     'city_num' => $city,
                     'area_num' => $area,
-                    'emp_head_img' => 'defaultHead.jpg' //isset($savePath['errorCode'])?'defaultHead.jpg':$savePath['success']
+                    'emp_head_img' => $hasHeadImg?isset($savePath['errorCode'])?'defaultHead.jpg':'emp_headImg/'.$savePath['filename']:'defaultHead.jpg'
                 ]);
+                if ($hasHeadImg && $imgPath && $res && $imgPath!=='defaultHead.jpg') @unlink( $_SERVER['DOCUMENT_ROOT'].Request::instance()->root().'/static/img/update/'.$imgPath);
+                if ($res === 1) {
+                    return json('2');
+                } else {
+                    return json('0');
+                }
             } else {
-                //$path = $_SERVER['DOCUMENT_ROOT'].Request::instance()->root().'/static/img/upload'; //上传文件存储路径
-                //$savePath = $this->saveUpload($_FILES['file-2'], $path, $name.$timestamp); //将上传文件保存
                 $data = [
                     'emp_id' => '',
                     'emp_reg_time' => date('Y-m-d H:i:s', $timestamp),
@@ -156,14 +167,14 @@ class Employee extends Controller{
                     'city_num' => $city,
                     'area_num' => $area,
                     'emp_status' => '使用',
-                    'emp_head_img' => 'defaultHead.jpg' //isset($savePath['errorCode'])?'defaultHead.jpg':$savePath['success']
+                    'emp_head_img' => $hasHeadImg?isset($savePath['errorCode'])?'defaultHead.jpg':'emp_headImg/'.$savePath['filename']:'defaultHead.jpg'
                 ];
                 $res = Db::name('employee')->insert($data);
-            }
-            if ($res === 1) {
-                return json('1');
-            } else {
-                return json('0');
+                if ($res === 1) {
+                    return json('1');
+                } else {
+                    return json('0');
+                }
             }
         }
     }
@@ -179,6 +190,24 @@ class Employee extends Controller{
         return json($res);
     }
 
+    //批量锁定
+    public function lockAll() {
+        $checkArr = input('post.checkArr','');
+        $bool = [];
+        $checkArr = json_decode($checkArr,true);
+        foreach ($checkArr as $item) {
+            $res = Db::name('employee')
+                ->where('emp_id', $item)
+                ->update([
+                    'emp_status' => '锁定'
+                ]);
+            if($res !== 0) {
+                $bool[] = $item;
+            }
+        }
+        return json($bool);
+    }
+
     //解锁
     public function unlock() {
         $id = input('get.id','');
@@ -188,6 +217,24 @@ class Employee extends Controller{
             'emp_status' => '使用'
         ]);
         return json($res);
+    }
+
+    //批量解锁
+    public function unlockAll() {
+        $checkArr = input('post.checkArr','');
+        $bool = [];
+        $checkArr = json_decode($checkArr,true);
+        foreach ($checkArr as $item) {
+            $res = Db::name('employee')
+                ->where('emp_id', $item)
+                ->update([
+                    'emp_status' => '使用'
+                ]);
+            if($res !== 0) {
+                $bool[] = $item;
+            }
+        }
+        return json($bool);
     }
 
     //删除
@@ -241,7 +288,7 @@ class Employee extends Controller{
                 $name = $filename.substr($files['name'], $pos);
                 $path .= $name;
                 move_uploaded_file($files['tmp_name'], $path); // 将文件从临时文件夹存放到指定文件夹
-                $res = ['success' => $path]; //返回文件路径
+                $res = ['path' => $path, 'filename' => $name]; //返回文件路径
             } else {
                 //不是图像
                 $res = ['errorCode' =>'0'];
