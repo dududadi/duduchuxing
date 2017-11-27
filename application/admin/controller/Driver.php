@@ -20,7 +20,7 @@ class Driver extends Controller
     //渲染司机列表页面
     public function lists()
     {
-
+        date_default_timezone_set('PRC'); //设置时区
         if(!(input('?get.details')==null))
         {
             //司机管理页面模糊查询
@@ -83,6 +83,7 @@ class Driver extends Controller
     //渲染司机审核页面
     public function verify()
     {
+        date_default_timezone_set('PRC'); //设置时区
         if(!(input('?get.details')==null))
         {
             //司机管理页面模糊查询
@@ -169,7 +170,7 @@ class Driver extends Controller
 
     //显示基本信息
     public function member_show(){
-
+        date_default_timezone_set('PRC'); //设置时区
         $id=input('get.id','');
         if(!empty($id))
         {
