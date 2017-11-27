@@ -6,9 +6,9 @@ use think\Db;
 use think\Paginator;
 use think\Request;
 use think\Session;
-class WexinPay extends Controller
+class Wexinpay extends Controller
 {
-	public function Pay(){
+	public function pay(){
 	    $fee = 0.01;//举例充值0.01
 	    $appid =        'wxdbf8a607a8dcdfa4';//如果是公众号 就是公众号的appid
 	    $body =         '卡文网络';
@@ -125,7 +125,7 @@ class WexinPay extends Controller
 	}
 	
 	//获取xml
-	private function xml($xml){
+	public function xml($xml){
 	    $p = xml_parser_create();
 	    xml_parse_into_struct($p, $xml, $vals, $index);
 	    xml_parser_free($p);
