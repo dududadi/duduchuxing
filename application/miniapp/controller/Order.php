@@ -34,6 +34,8 @@ class Order extends Controller{
                 'ol_km_price'=>'kmPrice',
                 'ol_overtime_price'=>'overTimePrice',
                 'ol_tip'=>'tips',
+                'oh_start_name'=>'startName',
+                'oh_end_name'=>'endName',
             ])
             -> select();
 
