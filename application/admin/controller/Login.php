@@ -36,7 +36,7 @@ class Login extends Controller {
             $res = Db::name('employee')
             -> where(['emp_id'=>$user,'emp_psw'=>md5($upas)])
             -> find();    //带着查询条件向数据库查询
-            if($res['user_status']=='使用'){
+            if($res['emp_status']=='使用'){
                 if(!empty($res))
                 {
                     //结果不为空  则session缓存更新
