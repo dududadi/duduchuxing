@@ -336,13 +336,13 @@ class Driver extends Controller{
             ->where('ols_id',1)
             ->find();
         $user_id = $res['user_id'];
-
+        
         $userLocation = Db::name('user_location')
             ->alias('ul')
             ->join('user u','u.open_id=ul.open_id')
             ->where('u.user_id',$user_id)
             ->find();
-        echo json_encode($userLocation);
+        echo json_encode($user_id);
         exit;
     }
 
