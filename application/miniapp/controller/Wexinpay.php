@@ -42,22 +42,20 @@ class Wexinpay extends Controller
 	public function packeg_id($openid)
 	{
 		$order_number=$this->order_number($openid);
-		$nonceStr=$this->nonceStr
-		nonce_str
+		$KnonceStr=Session::get('KnonceStr');
 		$url='https://api.mch.weixin.qq.com/pay/unifiedorder';
 		$data=[
-	    	"appid" =>'wxdbf8a607a8dcdfa4',
-	    	"mch_id" =>1331063701,
-	    	"timeStamp" =>time(),
-	    	"nonceStr" =>$this->nonce_str(),
+	    	'appid' =>'wxdbf8a607a8dcdfa4',
+	    	'mch_id' =>1331063701,
+	    	'timeStamp' =>time(),
+	    	'nonceStr' =>$KnonceStr,
 	    	'body'	=> '嘟嘟出行-充值',
 	    	'out_trade_no' =>$order_number,  //订单号
 	    	'sign' =>$this->packeg_sign($order_number),
 	    	'total_fee' => 1,
 	    	'spbill_create_ip'=> '47.100.0.162',
-	    	'notify_url' =>"https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url"
-	    	'trade_type'=>'JSAPI'
-	    ];
+	    	'notify_url' =>'https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url',
+	    	'trade_type'=>'JSAPI'];
 		ksort($data);
 	    //进行拼接数据
 	    $abc_xml = "<xml>";
@@ -71,24 +69,24 @@ class Wexinpay extends Controller
 	    $abc_xml .= "</xml>";
 		$url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
     	$info = http_request_curl($url, $abc_xml);
-		return $info
-		
+		return $info;
 	}
 	//生成packeg——sign
 	public function packeg_sign($order_number)
 	{
-		
+		$KnonceStr=$this->nonce_str();
+		Session::set('KnonceStr',$KnonceStr);
 		$key='af322231e835171608478e16b04889d9';
 		 $data=[
 	    	"appid" =>'wxdbf8a607a8dcdfa4',
 	    	"mch_id" =>1331063701,
 	    	"timeStamp" =>time(),
-	    	"nonceStr" =>$this->nonce_str(),
+	    	"nonceStr" =>$KnonceStr,
 	    	'body'	=> '嘟嘟出行-充值',
 	    	'out_trade_no' =>$order_number,  //订单号
 	    	'total_fee' => 1,
 	    	'spbill_create_ip'=> '47.100.0.162',
-	    	'notify_url' =>"https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url"
+	    	'notify_url' =>"https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url",
 	    	'trade_type'=>'JSAPI'
 	    ];
 		ksort($data);
@@ -118,7 +116,7 @@ class Wexinpay extends Controller
 	        'package' => 'prepay_id=' . $packeg_id,
 	        'signType' => 'MD5',
 	        'timeStamp' => time()
-		]
+		];
 		ksort($data);
 	    $buff = "";
 	    foreach ($data as $k => $v) {
