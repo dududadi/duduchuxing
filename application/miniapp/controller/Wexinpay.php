@@ -42,13 +42,14 @@ class Wexinpay extends Controller
 	public function packeg_id($openid)
 	{
 		$order_number=$this->order_number($openid);
-		$nonceStr=$this->nonceStr;
+		$nonceStr=$this->nonceStr();
+		$KnonceStr=Session::get('KnonceStr');
 		$url='https://api.mch.weixin.qq.com/pay/unifiedorder';
 		$data=[
 	    	"appid" =>'wxdbf8a607a8dcdfa4',
 	    	"mch_id" =>1331063701,
 	    	"timeStamp" =>time(),
-	    	"nonceStr" =>$this->nonce_str(),
+	    	"nonceStr" =>$KnonceStr,
 	    	'body'	=> '嘟嘟出行-充值',
 	    	'out_trade_no' =>$order_number,  //订单号
 	    	'sign' =>$this->packeg_sign($order_number),
@@ -76,13 +77,14 @@ class Wexinpay extends Controller
 	//生成packeg——sign
 	public function packeg_sign($order_number)
 	{
-		
+		$KnonceStr=$this->nonce_str();
+		Session::set('KnonceStr',$KnonceStr);
 		$key='af322231e835171608478e16b04889d9';
 		 $data=[
 	    	"appid" =>'wxdbf8a607a8dcdfa4',
 	    	"mch_id" =>1331063701,
 	    	"timeStamp" =>time(),
-	    	"nonceStr" =>$this->nonce_str(),
+	    	"nonceStr" =>$KnonceStr,
 	    	'body'	=> '嘟嘟出行-充值',
 	    	'out_trade_no' =>$order_number,  //订单号
 	    	'total_fee' => 1,
