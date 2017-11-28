@@ -301,15 +301,13 @@ class User extends Controller {
 
         //将用户位置更新
         $data = [
-            'open_id'=>$openid,
             'ul_latitude'=>$latitude,
             'ul_longitude'=>$longitude
         ];
+
         Db::name('user_location')
             ->where('open_id',$openid)
-            ->delete();
-        Db::name('user_location')
-            ->insert($data);
+            ->update($data); 
 
         //获取司机位置
         $driverLocation = Db::name('driver_location')
@@ -337,6 +335,26 @@ class User extends Controller {
             ->find();
         $order_id = $res['ol_id'];
         echo $order_id;
+        exit;
+    }
+
+    public function getWayArr(){
+        $order_id = Request::instance()-> post('orderId');
+
+        $res = Db::name('distance')
+        -> where('ol_id', $order_id)
+        -> select();
+
+        $arr = [];
+
+        for($i=0;$i<count($res);$i++){
+            $one = ['longitude' => $res[$i]['dis_longitude'], 'latitude' => $res[$i]['dis_latitude']];
+
+            array_push($arr, $one);
+        }
+
+        echo json_encode($arr);
+
         exit;
     }
     
