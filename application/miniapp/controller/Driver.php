@@ -342,7 +342,7 @@ class Driver extends Controller{
             ->join('user u','u.open_id=ul.open_id')
             ->where('u.user_id',$user_id)
             ->find();
-        echo json_encode($user_id);
+        echo json_encode($userLocation);
         exit;
     }
 
