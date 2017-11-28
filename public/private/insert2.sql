@@ -123,7 +123,8 @@ INSERT INTO d_driver VALUES
 (22,md5(123456),now(),110000,110100,110101,'就不告诉你','叶诚炜',350111199504221911,now(),'闽AD86','AD86知道不','叶诚炜',now(),99999,13559182419,'未审核',10,'null',1,123456,''),
 (23,'58cf703f664397ec4f0ac359b84b565c',now(),350000,350100,350104,'哈哈哈','嘟嘟嘟','512501197506045175',now(),'闽A66666','奇瑞QQ','嘟嘟嘟','2012-06-24',0,'15605605656','使用',10,'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epQCxC0KlJZdSzIQlwDqf1JpJXgCYxiblPXIe0NnIZiaKhLvVXiciawKvo5hKYO5VB8fBCnJxNQ7f1htQ/0',2,'','oMv4i0VQv1OV5CyD19OpfvwuKCw4'),
 (24,'58cf703f664397ec4f0ac359b84b565c',now(),350000,350100,350104,'动次打次','嘟嘟打的','512501197506045175',now(),'闽A88888','玛莎拉蒂','小魔仙','2012-06-24',0,'15606923823','使用',10,'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJLSd1FhgLoLrs9hxYcxsQDsZhOVibiaCaP8QRTUdI2fqgvO66rRY6hyCiaJX5TYP54jD0ojedUxXYrg/0',2,'','oMv4i0T_uFEgFWTkvnGbOSjmYOrs'),
-(25,'9bf16b7c535adabb293245f39c574ecd',now(),350000,350100,350104,'桥洞','何贻杰','35018119930615215X',now(),'闽A88888','宝马','何贻杰','2015-11-28 00:00:00',0,'15959027027','使用',10,'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83erp8XI8ESuGGddsOiaRM397nurPicoA4poMwbpdApggDebU7T78Uerj6uRMh8l588V8V2a2xjPFkNRg/0',2,'','oMv4i0YtfcMTm2UFsXfEug8Ndh_U');
+(25,'9bf16b7c535adabb293245f39c574ecd',now(),350000,350100,350104,'桥洞','何贻杰','35018119930615215X',now(),'闽A88888','宝马','何贻杰','2015-11-28 00:00:00',0,'15959027027','使用',10,'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83erp8XI8ESuGGddsOiaRM397nurPicoA4poMwbpdApggDebU7T78Uerj6uRMh8l588V8V2a2xjPFkNRg/0',2,'','oMv4i0YtfcMTm2UFsXfEug8Ndh_U'),
+(26,'9bf16b7c535adabb293245f39c574ecd',now(),350000,350100,350104,'桥洞','何贻辉','350181199611061836',now(),'闽B88888','宝马','何贻辉','2015-11-28 00:00:00',0,'15959028028','使用',10,'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIIiaaUdsrCxZRbn7jh9xVsE9GwonvWlPGYQlVfk7SATc2NVkjGia178RD3WfGw6ibCAJUCvSWzQ7RvA/0',2,'','oMv4i0WyQpcxfHoqMYlu7hi65nz8');
 
 -- 初始化订单数据
 INSERT INTO d_order_list VALUES
