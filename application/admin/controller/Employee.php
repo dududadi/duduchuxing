@@ -25,7 +25,7 @@ class Employee extends Controller{
         $getDateMin = input('get.dateMin');
         $getDateMax = input('get.dateMax');
         $getSearch = input('get.keyword');
-        $dateMin = isset($getDateMin)?date('Y-m-d',strtotime($getDateMin)-86400):'1970-1-1';
+        $dateMin = isset($getDateMin)?date('Y-m-d',strtotime($getDateMin)):'1970-1-1';
         $dateMax = isset($getDateMax)?date('Y-m-d',strtotime($getDateMax)+86400):date('Y-m-d',time()+86400);
         if (isset($getSearch)) {
             $keywordArr = mb_split('@',$getSearch);
@@ -35,12 +35,10 @@ class Employee extends Controller{
         $whereDate = [];
         $whereKeyword_name = '1=1';
         $whereKeyword_nickname = '1=1';
-        if ($dateMin !== '') {
-            $whereDate[] = ['>=',$dateMin];
-        }
-        if ($dateMax !== '') {
-            $whereDate[] = ['<=',$dateMax];
-        }
+
+        $whereDate[] = ['>=',$dateMin];
+        $whereDate[] = ['<=',$dateMax];
+
         if (isset($keywordArr)) {
             foreach ($keywordArr as $item) {
                 $whereKeyword_name .= " and emp_name like '%{$item}%'";
@@ -51,6 +49,7 @@ class Employee extends Controller{
         }
 
         //查询员工列表数据
+        $val = Db::name('employee')->where(['emp_id'=>['like','%1%'], 'role_id'=>['<>',1]])->select();
         $data = Db::name('employee')
             ->alias('t1')
             ->join('d_role t2','t1.role_id = t2.role_id')
