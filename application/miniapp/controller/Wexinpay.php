@@ -9,7 +9,7 @@ use think\Session;
 class Wexinpay extends Controller
 {
 	public function pay() {
-		var $openid=input('get.openid');
+		$openid=input('get.openid');
 		$packeg_id=$this->packeg_id($openid);
 		Session::set('packeg_id',$packeg_id['prepay_id']);
 		$appId='wxdbf8a607a8dcdfa4';
@@ -44,8 +44,8 @@ class Wexinpay extends Controller
 		$order_number=$this->order_number($openid);
 		$nonceStr=$this->nonceStr
 		nonce_str
-		var $url='https://api.mch.weixin.qq.com/pay/unifiedorder';
-		var $data=[
+		$url='https://api.mch.weixin.qq.com/pay/unifiedorder';
+		$data=[
 	    	"appid" =>'wxdbf8a607a8dcdfa4',
 	    	"mch_id" =>1331063701,
 	    	"timeStamp" =>time(),
@@ -79,7 +79,7 @@ class Wexinpay extends Controller
 	{
 		
 		$key='af322231e835171608478e16b04889d9';
-		var $data=[
+		 $data=[
 	    	"appid" =>'wxdbf8a607a8dcdfa4',
 	    	"mch_id" =>1331063701,
 	    	"timeStamp" =>time(),
