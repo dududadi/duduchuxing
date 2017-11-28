@@ -245,6 +245,7 @@ class Driver extends Controller{
             ->where('oh.bt_id',$bt_id)
             ->select();
         echo json_encode($res);
+        exit;
     }
     //司机接单
     public function receiveOrder(){
@@ -283,6 +284,7 @@ class Driver extends Controller{
         }else{
             echo 0;//修改失败
         }
+        exit;
     }
     //司机取消订单
     public function cancelOrder(){
@@ -302,6 +304,7 @@ class Driver extends Controller{
         }else{
             echo 0;//取消失败
         }
+        exit;
     }
     //司机点击已接到乘客
     public function received(){
