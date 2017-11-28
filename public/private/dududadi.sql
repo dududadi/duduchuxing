@@ -148,7 +148,8 @@ oh_start_name VARCHAR(100), -- 起始点名称
 oh_end_name VARCHAR(100),-- 终点名称
 oh_status enum('已接单','未接单'),-- 接单状态
 oh_create_time datetime,-- 挂起时间
-bt_id INT
+bt_id INT,
+oh_km_num FLOAT(5,2) -- 里程数 
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 -- 用户实时位置表

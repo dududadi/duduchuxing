@@ -159,6 +159,7 @@ class User extends Controller {
         $endLongitude = Request::instance()-> post('endLongitude');
         $endLatitude = Request::instance()-> post('endLatitude');
         $carType = Request::instance()-> post('carType');
+        $distance = Request::instance()-> post('distance');
         $createTime = date('Y-m-d H:i:s');
        
         //获取用户当前经纬度
@@ -220,10 +221,10 @@ class User extends Controller {
                 'ol_end_time'=>'',
                 'rpt_id'=>1,
                 'ols_id'=>1,
-                'ol_km_num'=>100,
+                'ol_km_num'=>$distance,
                 'ol_km_price'=>100,
-                'ol_overtime_price'=>0,
-                'ol_tip'=>100,
+                'ol_overtime_price'=>3,
+                'ol_tip'=>0,
 
                 'bt_id'=>$res['bt_id'],
                 'oh_start_name'=>$start,
@@ -263,7 +264,8 @@ class User extends Controller {
                 'oh_end_latitude'=>$endLatitude,
                 'bt_id'=>$bt_id,
                 'oh_create_time'=>date('Y-m-d H:i:s'),
-                'oh_status'=>'未接单'
+                'oh_status'=>'未接单',
+                'oh_km_num'=>$distance
             ];
             $result = Db::name('order_handup')
             ->insert($data);

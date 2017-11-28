@@ -346,6 +346,33 @@ class Driver extends Controller{
         exit;
     }
 
+    //接到乘客后，每五秒钟，添加路径点
+    public function pushPoint(){
+        $latitude = Request::instance()-> post('latitude');
+        $longitude = Request::instance()-> post('longitude');
+        $open_id = Request::instance()-> post('openid');
+        //由司机openid获取到订单id
+
+        $res = Db::name('order_list')
+            ->alias('ol')
+            ->join('driver d','ol.driv_id=d.driv_id')
+            ->where('open_id',$open_id)
+            ->where('ols_id',2)
+            ->find();
+        $order_id = $res['ol_id'];
+
+        $data = [
+            'dis_latitude'=>$latitude,
+            'dis_longitude'=>$longitude,
+            'ol_id'=>$order_id
+        ];
+
+        Db::name('distance')
+            ->insert($data);
+
+    }
+    
+
 
 
 }
