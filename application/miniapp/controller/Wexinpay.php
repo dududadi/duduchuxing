@@ -55,7 +55,7 @@ class Wexinpay extends Controller
 	    	'sign' =>$this->packeg_sign($order_number),
 	    	'total_fee' => 1,
 	    	'spbill_create_ip'=> '47.100.0.162',
-	    	'notify_url' =>"https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url"
+	    	'notify_url' =>"https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url",
 	    	'trade_type'=>'JSAPI'
 	    ];
 		ksort($data);
