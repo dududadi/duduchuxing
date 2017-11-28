@@ -13,7 +13,7 @@ class Wexinpay extends Controller
 		$packeg_id=$this->packeg_id($openid);
 		Session::set('packeg_id',$packeg_id['prepay_id']);
 		$appId='wxdbf8a607a8dcdfa4';
-		$nonceStr=$this->nonce_str($openid),
+		$nonceStr=$this->nonce_str($openid);
 		$data=[
 			'appId' => $appId,
 	        'nonceStr' => $nonceStr,
