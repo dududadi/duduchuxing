@@ -308,21 +308,27 @@ class Driver extends Controller{
     }
     //司机点击已接到乘客
     public function received(){
-        $openid = Request::instance()-> post('openid');
+        $open_id = Request::instance()-> post('openid');
         $driv = Db::name('driver')
-            ->where('open_id',$openid)
+            ->where('open_id',$open_id)
             ->find();
         $driv_id = $driv['driv_id'];
+
+        $order = Db::name('order_list')
+            ->alias('ol')
+            ->join('driver d','ol.driv_id=d.driv_id')
+            ->where('open_id',$open_id)
+            ->where('ol.ols_id',1)
+            ->find();
+        $order_id = $order['ol_id'];
+
         //改变订单的状态为未过期
         $res = Db::name('order_list')
             ->where('driv_id',$driv_id)
             ->where('ols_id',1)
             ->update(['ols_id'=>2]);
-        if($res){
-            echo 1;
-        }else{
-            echo 0;
-        }
+
+        echo $order_id;
         exit;
     }
     //司机轮询获取用户位置
@@ -350,17 +356,8 @@ class Driver extends Controller{
     public function pushPoint(){
         $latitude = Request::instance()-> post('latitude');
         $longitude = Request::instance()-> post('longitude');
-        $open_id = Request::instance()-> post('openid');
+        $order_id = Request::instance()-> post('orderId');
         //由司机openid获取到订单id
-
-        $res = Db::name('order_list')
-            ->alias('ol')
-            ->join('driver d','ol.driv_id=d.driv_id')
-            ->where('open_id',$open_id)
-            ->where('ols_id',2)
-            ->find();
-        $order_id = $res['ol_id'];
-
         $data = [
             'dis_latitude'=>$latitude,
             'dis_longitude'=>$longitude,
