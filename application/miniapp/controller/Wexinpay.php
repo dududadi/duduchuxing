@@ -42,8 +42,7 @@ class Wexinpay extends Controller
 	public function packeg_id($openid)
 	{
 		$order_number=$this->order_number($openid);
-		$nonceStr=$this->nonceStr
-		nonce_str
+		$nonceStr=$this->nonceStr;
 		$url='https://api.mch.weixin.qq.com/pay/unifiedorder';
 		$data=[
 	    	"appid" =>'wxdbf8a607a8dcdfa4',
