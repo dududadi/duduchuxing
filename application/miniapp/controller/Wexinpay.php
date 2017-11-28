@@ -70,8 +70,7 @@ class Wexinpay extends Controller
 	    $abc_xml .= "</xml>";
 		$url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
     	$info = http_request_curl($url, $abc_xml);
-		return $info
-		
+		return $info;
 	}
 	//生成packeg——sign
 	public function packeg_sign($order_number)
