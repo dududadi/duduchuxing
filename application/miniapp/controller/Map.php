@@ -14,8 +14,8 @@ class Map extends Controller
 		$data=[
 			'dis_latitude'=>$lat1,
 			'dis_longitude'=>$lng1,
-		]
-		$distance=DB::name('distance')->
+		];
+		//$distance=DB::name('distance')->
 		exit();
 	}
 	public function calculate()
