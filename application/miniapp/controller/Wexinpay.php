@@ -46,18 +46,17 @@ class Wexinpay extends Controller
 		$KnonceStr=Session::get('KnonceStr');
 		$url='https://api.mch.weixin.qq.com/pay/unifiedorder';
 		$data=[
-	    	"appid" =>'wxdbf8a607a8dcdfa4',
-	    	"mch_id" =>1331063701,
-	    	"timeStamp" =>time(),
-	    	"nonceStr" =>$KnonceStr,
+	    	'appid' =>'wxdbf8a607a8dcdfa4',
+	    	'mch_id' =>1331063701,
+	    	'timeStamp' =>time(),
+	    	'nonceStr' =>$KnonceStr,
 	    	'body'	=> '嘟嘟出行-充值',
 	    	'out_trade_no' =>$order_number,  //订单号
 	    	'sign' =>$this->packeg_sign($order_number),
 	    	'total_fee' => 1,
 	    	'spbill_create_ip'=> '47.100.0.162',
-	    	'notify_url' =>"https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url",
-	    	'trade_type'=>'JSAPI'
-	    ];
+	    	'notify_url' =>'https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url',
+	    	'trade_type'=>'JSAPI'];
 		ksort($data);
 	    //进行拼接数据
 	    $abc_xml = "<xml>";
