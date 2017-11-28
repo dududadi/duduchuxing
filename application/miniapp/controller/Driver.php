@@ -226,7 +226,7 @@ class Driver extends Controller{
         foreach ($res as  $value) {
             array_push($data, $value['bt_name']);
         }
-        return json($data);
+        echo json_encode($data);
         exit;
     }
     //司机获取当前挂起订单的信息
@@ -244,7 +244,8 @@ class Driver extends Controller{
             ->alias('oh')
             ->where('oh.bt_id',$bt_id)
             ->select();
-        return json($res);
+        echo json_encode($res);
+        exit;
     }
     //司机接单
     public function receiveOrder(){
@@ -279,10 +280,11 @@ class Driver extends Controller{
 
         if($res)
         {
-            return 1;//修改成功
+            echo 1;//修改成功
         }else{
-            return 0;//修改失败
+            echo 0;//修改失败
         }
+        exit;
     }
     //司机取消订单
     public function cancelOrder(){
@@ -298,10 +300,50 @@ class Driver extends Controller{
             ->where('user_id',$user_id)
             ->update(['ols_id'=>2]);
         if($update){
-            return 1;//取消成功
+            echo 1;//取消成功
         }else{
-            return 0;//取消失败
+            echo 0;//取消失败
         }
+        exit;
+    }
+    //司机点击已接到乘客
+    public function received(){
+        $openid = Request::instance()-> post('openid');
+        $driv = Db::name('driver')
+            ->where('open_id',$openid)
+            ->find();
+        $driv_id = $driv['driv_id'];
+        //改变订单的状态为未过期
+        $res = Db::name('order_list')
+            ->where('driv_id',$driv_id)
+            ->where('ols_id',1)
+            ->update(['ols_id'=>2]);
+        if($res){
+            echo 1;
+        }else{
+            echo 0;
+        }
+        exit;
+    }
+    //司机轮询获取用户位置
+    public function getUserLocation(){
+        //根据司机openid从订单表获取到状态为1（未接到客人）的记录的用户id，再得到user的openid
+        $open_id = Request::instance()->post('openid');
+        $res = Db::name('order_list')
+            ->alias('ol')
+            ->join('driver d','ol.driv_id=d.driv_id')
+            ->where('d.open_id',$open_id)
+            ->where('ols_id',1)
+            ->find();
+        $user_id = $res['user_id'];
+        
+        $userLocation = Db::name('user_location')
+            ->alias('ul')
+            ->join('user u','u.open_id=ul.open_id')
+            ->where('u.user_id',$user_id)
+            ->find();
+        echo json_encode($userLocation);
+        exit;
     }
 
 

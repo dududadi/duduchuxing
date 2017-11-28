@@ -53,7 +53,7 @@ user_tel CHAR(11) NOT NULL, -- 手机号
 user_score FLOAT NOT NULL, -- 评分
 user_money DECIMAL(7,2) NOT NULL, -- 余额
 user_status enum('锁定','使用') NOT NULL, -- 状态
-user_head_img VARCHAR(1500) NOT NULL, -- 头像
+user_head_img VARCHAR(100) NOT NULL, -- 头像
 user_address text, -- 详细地址
 prov_num INT(6) NOT NULL, -- 省份
 city_num INT(6) NOT NULL, -- 地级市
@@ -90,7 +90,7 @@ driv_money DECIMAL(7,2)  NOT NULL, -- 余额
 driv_tel CHAR(11) NOT NULL, -- 手机号
 driv_status enum('锁定','使用','未审核') NOT NULL, -- 状态
 driv_score FLOAT NOT NULL, -- 评分
-driv_head_img VARCHAR(1500) NOT NULL, -- 头像
+driv_head_img VARCHAR(100) NOT NULL, -- 头像
 bt_id INT NOT NULL, -- 运营类型id
 FOREIGN KEY(bt_id) REFERENCES d_business_type(bt_id),
 driv_bank_num VARCHAR(19), -- 银行卡号
@@ -162,7 +162,7 @@ ul_longitude FLOAT-- 经度
 -- 司机实时位置表
 DROP TABLE IF EXISTS d_driver_location;
 CREATE TABLE d_driver_location(
-open_id VARCHAR(28) PRIMARY KEY,-- 用户openid
+open_id VARCHAR(28) PRIMARY KEY,-- 司机openid
 dl_latitude FLOAT,-- 纬度
 dl_longitude FLOAT-- 经度
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
@@ -173,7 +173,8 @@ DROP TABLE IF EXISTS d_distance;
 CREATE TABLE d_distance(
 dis_id INT NOT NULL PRIMARY KEY auto_increment, -- 订单id
 dis_latitude float, -- 纬度
-dis_longitude float -- 经度
+dis_longitude float, -- 经度
+ol_id INT -- 订单
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 
@@ -340,7 +341,7 @@ prov_num INT(6) NOT NULL, -- 省级代码
 city_num INT(6) NOT NULL, -- 市级代码
 area_num INT(6) NOT NULL, -- 地区代码
 emp_status enum('锁定','使用') NOT NULL, -- 状态
-emp_head_img varchar(1500) not null, -- 头像
+emp_head_img varchar(255) not null, -- 头像
 FOREIGN KEY(prov_num) REFERENCES d_province(prov_num),
 FOREIGN KEY(city_num) REFERENCES d_city(city_num),
 FOREIGN KEY(area_num) REFERENCES d_area(area_num),
