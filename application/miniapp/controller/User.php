@@ -339,24 +339,7 @@ class User extends Controller {
         echo $order_id;
         exit;
     }
-    //司机点击已接到乘客
-    public function received(){
-        $openid = Request::instance()-> post('openid');
-        $driv = Db::name('driver')
-            ->where('open_id',$openid)
-            ->find();
-        $driv_id = $driv['driv_id'];
-        //改变订单的状态为未过期
-        $res = Db::name('order_list')
-            ->where('driv_id',$driv_id)
-            ->update(['ols_id'=>2]);
-        if($res){
-            echo 1;
-        }else{
-            echo 0;
-        }
-        exit;
-    }
+    
 
 
 
