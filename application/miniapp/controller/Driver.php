@@ -226,7 +226,7 @@ class Driver extends Controller{
         foreach ($res as  $value) {
             array_push($data, $value['bt_name']);
         }
-        echo json($data);
+        echo json_encode($data);
         exit;
     }
     //司机获取当前挂起订单的信息
@@ -244,7 +244,7 @@ class Driver extends Controller{
             ->alias('oh')
             ->where('oh.bt_id',$bt_id)
             ->select();
-        echo json($res);
+        echo json_encode($res);
     }
     //司机接单
     public function receiveOrder(){
