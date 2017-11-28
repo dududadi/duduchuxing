@@ -23,7 +23,7 @@ class Wexinpay extends Controller
 	        'paySign' =>$this->sign()
 		];
 		return $data;
-	};
+	}
 	//随机32位字符串
 	private function nonce_str(){
 	    $result = '';
