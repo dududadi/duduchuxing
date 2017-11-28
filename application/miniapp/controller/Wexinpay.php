@@ -117,7 +117,7 @@ class Wexinpay extends Controller
 	        'package' => 'prepay_id=' . $packeg_id,
 	        'signType' => 'MD5',
 	        'timeStamp' => time()
-		]
+		];
 		ksort($data);
 	    $buff = "";
 	    foreach ($data as $k => $v) {
