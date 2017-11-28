@@ -226,7 +226,7 @@ class Driver extends Controller{
         foreach ($res as  $value) {
             array_push($data, $value['bt_name']);
         }
-        return json($data);
+        echo json($data);
         exit;
     }
     //司机获取当前挂起订单的信息
@@ -244,7 +244,7 @@ class Driver extends Controller{
             ->alias('oh')
             ->where('oh.bt_id',$bt_id)
             ->select();
-        return json($res);
+        echo json($res);
     }
     //司机接单
     public function receiveOrder(){
@@ -279,9 +279,9 @@ class Driver extends Controller{
 
         if($res)
         {
-            return 1;//修改成功
+            echo 1;//修改成功
         }else{
-            return 0;//修改失败
+            echo 0;//修改失败
         }
     }
     //司机取消订单
@@ -298,9 +298,9 @@ class Driver extends Controller{
             ->where('user_id',$user_id)
             ->update(['ols_id'=>2]);
         if($update){
-            return 1;//取消成功
+            echo 1;//取消成功
         }else{
-            return 0;//取消失败
+            echo 0;//取消失败
         }
     }
     //司机点击已接到乘客
@@ -313,6 +313,7 @@ class Driver extends Controller{
         //改变订单的状态为未过期
         $res = Db::name('order_list')
             ->where('driv_id',$driv_id)
+            ->where('ols_id',1)
             ->update(['ols_id'=>2]);
         if($res){
             echo 1;
