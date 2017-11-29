@@ -365,7 +365,7 @@ class User extends Controller {
             'wayArr' => $arr
         ];
 
-        echo json_encode($arr);
+        echo json_encode($driving);
 
         exit;
     }
