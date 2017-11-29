@@ -40,6 +40,15 @@ bt_id INT NOT NULL auto_increment PRIMARY KEY, -- 运营类型id
 bt_name VARCHAR(10) NOT NULL -- 运营类型名称
 )ENGINE=INNODB DEFAULT charset=utf8;
 
+-- 规则表
+DROP TABLE IF EXISTS d_rule;
+CREATE TABLE d_rule(
+rule_id INT NOT NULL auto_increment PRIMARY KEY, -- 规则id
+bt_id INT,-- 运营类型id
+rl_price_type VARCHAR(20), -- 价格类型id 
+rl_name VARCHAR(20), -- 价格名称 （普通，早，晚）
+rl_price FLOAT(4,2) -- 价格
+)ENGINE=INNODB DEFAULT charset=utf8;                               
 
 -- 创建用户(乘客)表
 DROP TABLE IF EXISTS d_user;

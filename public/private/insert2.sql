@@ -33,8 +33,8 @@ INSERT INTO d_fmenu VALUES
 (5,'订单管理','&#xe687;'), -- order_list
 (6,'角色管理','&#xe611;'), -- role
 (7,'资讯管理','&#xe616;'), -- new
-(8,'查询报表','&#xe61a;'); -- chart
-
+(8,'查询报表','&#xe61a;'), -- chart
+(9,'客服聊天','&#xe6d0;'); -- service
 -- 子菜单
 INSERT INTO d_smenu VALUES
 (null,'司机监控','admin/Monitor/driver',   1),
@@ -55,7 +55,8 @@ INSERT INTO d_smenu VALUES
 (null,'新闻编辑','admin/News/edit',         7),
 (null,'订单统计','admin/Chart/orderList',  8),
 (null,'用户统计','admin/Chart/user',       8),
-(null,'营销统计','admin/Chart/market',     8);
+(null,'营销统计','admin/Chart/market',     8),
+(null,'客服聊天','admin/Service/chat',9);
 
 -- 角色子菜单表 超管初始化
 INSERT INTO d_role_menu VALUES
@@ -77,7 +78,8 @@ INSERT INTO d_role_menu VALUES
 (null,1,16),
 (null,1,17),
 (null,1,18),
-(null,1,19);
+(null,1,19),
+(null,1,20);
 
 -- 员工表
 INSERT INTO d_employee VALUES
