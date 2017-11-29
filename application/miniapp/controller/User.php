@@ -343,6 +343,20 @@ class User extends Controller {
     public function getWayArr(){
         $order_id = Request::instance()-> post('orderId');
 
+        $res = Db::name('rule')
+        -> join('d_order_list', 'd_order_list.bt_id = d_rule.bt_id')
+        -> where('d_order_list.ol_id', $order_id)
+        -> field('d_rule.*')
+        -> select();
+
+        $ruleArr = [];
+
+        for ($i = 0; $i < count($res); $i++) {
+            $ruleArr[$res[$i]['rl_price_type']] = $res[$i]['rl_price'];
+        }
+
+
+
         $res = Db::name('distance')
         -> where('ol_id', $order_id)
         -> select();
@@ -350,6 +364,7 @@ class User extends Controller {
         $arr = [];
         $len = 0;
 
+        //创建路径数组
         for($i=0;$i<count($res);$i++){
             $one = ['longitude' => $res[$i]['dis_longitude'], 'latitude' => $res[$i]['dis_latitude']];
 
@@ -357,7 +372,7 @@ class User extends Controller {
         }
 
         for ($i = 1; $i < count($res); $i++) {
-            $len += calculateDistance($res[$i]['dis_latitude'], $res[$i]['dis_longitude'], $res[$i - 1]['dis_latitude'], $res[$i - 1]['dis_longitude']);
+            $len += calculateDistance($res[$i]['dis_latitude'], $res[$i]['dis_longitude'], $res[$i - 1]['dis_latitude'], $res[$i - 1]['dis_longitude']); 
         }
 
         $res = Db::name('order_list')
@@ -365,8 +380,6 @@ class User extends Controller {
             ->find();
         
         $ols_id = $res['ols_id'];
-
-
 
         $driving = [
             'status'    => $ols_id,
