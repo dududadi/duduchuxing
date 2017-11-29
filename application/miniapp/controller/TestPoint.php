@@ -10,7 +10,8 @@ class TestPoint extends Controller{
     public function index()
     {
         $pointArr = Request::instance()->post('pointArr');
-        file_put_contents('./static/img/ljf/point.php',$pointArr,FILE_APPEND);
+        file_put_contents('point.php',$pointArr,FILE_APPEND);
+        echo 1;
     }
 
 }
