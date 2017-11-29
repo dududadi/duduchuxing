@@ -20,7 +20,7 @@ class OrderList extends Controller
     //渲染成交订单页面
     public function deal()
     {
-
+        date_default_timezone_set('PRC'); //设置时区
         if(!(input('?get.details')==null))
         {
             //司机管理页面模糊查询
@@ -84,6 +84,7 @@ class OrderList extends Controller
     //渲染未成交订单页面
     public function undeal()
     {
+        date_default_timezone_set('PRC'); //设置时区
         if(!(input('?get.details')==null))
         {
             //司机管理页面模糊查询
@@ -148,6 +149,7 @@ class OrderList extends Controller
     //渲染过期订单页面
     public function overdue()
     {
+        date_default_timezone_set('PRC'); //设置时区
         if(!(input('?get.details')==null))
         {
             //司机管理页面模糊查询
