@@ -361,7 +361,8 @@ class Driver extends Controller{
         $data = [
             'dis_latitude'=>$latitude,
             'dis_longitude'=>$longitude,
-            'ol_id'=>$order_id
+            'ol_id'=>$order_id,
+            'dis_time'=>date('Y-m-d H:i:s')
         ];
 
         Db::name('distance')
