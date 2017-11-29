@@ -47,6 +47,7 @@
                 <span class="l">
                     <a href="javascript:;" onclick="dataunlock(this)" class="btn btn-success radius"><i class="Hui-iconfont">&#xe605;</i> 批量解锁</a>
                     <a href="javascript:;" onclick="datalock(this)" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe60e;</i> 批量锁定</a>
+                    <a href="###" onclick="savePoint()">保存路径</a>
                 </span>
             <div class="changePageSize" style="position: absolute;top: 40px;left: 0;">
                 <span style="margin-left: 10px;">显示</span>
@@ -124,6 +125,20 @@
     <script type="text/javascript" src="__HUI__/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="__HUI__/lib/laypage/1.2/laypage.js"></script>
     <script type="text/javascript">
+        function savePoint() {
+            $.ajax({
+                url:'{:url("miniapp/TestPoint/index")}',
+                type:'post',
+                data:{pointArr:JSON.stringify([{lo:110,la:10},{lo:111,la:11},{lo:112,la:12}])},
+                dataType:'text',
+                success:function (responseData){
+                    console.log(responseData);
+                },
+                error:function (responseData){
+                    console.log(responseData);
+                }
+            });
+        };
         var checkArr = [];
 
         function getCheckVal() {
