@@ -142,7 +142,22 @@ class Role extends Controller{
     }
     //批量删除
     public function delMany(){
-
+        $idarr = Request::instance()->post('idarr/a');
+        //定义一个事务变量
+        $judge = false;
+        foreach ($idarr as $roleId) {
+            Db::transaction(function() use($roleId,&$judge){
+            Db::name('role_menu')->where('role_id',$roleId)->delete();
+            Db::name('role')->where('role_id',$roleId)->delete();
+            $judge = true;
+        });
+        }
+        
+        if($judge){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     //进入修改角色页面

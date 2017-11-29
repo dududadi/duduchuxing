@@ -354,6 +354,16 @@ class User extends Controller {
 
             array_push($arr, $one);
         }
+        $res = Db::name('order_list')
+            ->where('ol_id',$order_id)
+            ->find();
+        
+        $ols_id = $res['ols_id'];
+
+        $driving = [
+            'status' => $ols_id,
+            'wayArr' => $arr
+        ];
 
         echo json_encode($arr);
 
