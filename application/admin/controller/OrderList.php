@@ -211,7 +211,7 @@ class OrderList extends Controller
     }
 
 
-    //显示基本信息
+    //显示司机基本信息
     public function member_show(){
 
         $id=input('get.id','');
@@ -242,6 +242,75 @@ class OrderList extends Controller
                         driv_car_type,
                         driv_money') //需要查询的字段
                 -> find();
+            $this->assign('list',$list);//向页面传值
+        }
+
+        return $this->fetch();
+    }
+
+    //显示用户基本信息
+    public function user_show(){
+
+        $id=input('get.id','');
+        if(!empty($id))
+        {
+            $list = DB::name('user')
+                -> alias('u')        //给表起别名
+                -> join('province p', 'p.prov_num = u.prov_num')
+                -> join('city c', 'c.city_num = u.city_num')
+                -> join('area a', 'a.area_num = u.area_num')
+                -> where('user_id',$id)
+                -> field('
+                user_reg_time,
+                user_name,
+                user_id_num,
+                user_tel,
+                user_score,
+                user_money,
+                user_status,
+                user_head_img,
+                user_address,
+                prov_name,
+                city_name,
+                area_name')
+                -> find();
+            $this->assign('list',$list);//向页面传值
+        }
+
+        return $this->fetch();
+    }
+
+    //显示订单基本信息
+    public function order_show(){
+
+        $id=input('get.id','');
+        if(!empty($id))
+        {
+            $list = Db::name('order_list')
+                -> alias('o')        //给表起别名
+                -> join('business_type b','b.bt_id = o.bt_id') //联表查询
+                -> join('user u','u.user_id = o.user_id')  //联表查询
+                -> join('driver d','d.driv_id = o.driv_id')  //联表查询
+                -> join('recharge_pay_type r','r.rpt_id = o.rpt_id')  //联表查询
+                -> join('order_list_status ols','ols.ols_id = o.ols_id')  //联表查询
+                -> where('ol_id',$id)
+                -> field([
+                    'ol_id'=>'olID',
+                    'user_name'=>'userName',
+                    'driv_name'=>'drivName',
+                    'ol_start_time'=>'startTime',
+                    'ol_end_time'=>'endTime',
+                    'rpt_name'=>'rptName',
+                    'ols_name'=>'olsName',
+                    'ol_km_num'=>'kmNum',
+                    'ol_km_price'=>'kmPrice',
+                    'ol_overtime_price'=>'overTimePrice',
+                    'ol_tip'=>'tips',
+                    'oh_start_name'=>'startName',
+                    'oh_end_name'=>'endName',
+                    'driv_head_img'=>'headImg'
+                ])
+                ->find();
             $this->assign('list',$list);//向页面传值
         }
 
