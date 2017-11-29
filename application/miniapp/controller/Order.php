@@ -14,6 +14,8 @@ use think\Request;
 use think\Session;
 
 class Order extends Controller{
+
+    //用户端查询历史订单
     public function userOrderList()
     {
         $wxopid=input('post.wxopid','');
@@ -45,6 +47,7 @@ class Order extends Controller{
         exit;
     }
 
+    //司机端查询历史订单
     public function dirvOrderList()
     {
         $wxopid=input('post.wxopid','');
