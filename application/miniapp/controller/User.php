@@ -348,21 +348,30 @@ class User extends Controller {
         -> select();
 
         $arr = [];
+        $len = 0;
 
         for($i=0;$i<count($res);$i++){
             $one = ['longitude' => $res[$i]['dis_longitude'], 'latitude' => $res[$i]['dis_latitude']];
 
             array_push($arr, $one);
         }
+
+        for ($i = 1; $i < count($res); $i++) {
+            $len += calculateDistance($res[$i]['dis_latitude'], $res[$i]['dis_longitude'], $res[$i - 1]['dis_latitude'], $res[$i - 1]['dis_longitude']);
+        }
+
         $res = Db::name('order_list')
             ->where('ol_id',$order_id)
             ->find();
         
         $ols_id = $res['ols_id'];
 
+
+
         $driving = [
-            'status' => $ols_id,
-            'wayArr' => $arr
+            'status'    => $ols_id,
+            'wayArr'    => $arr,
+            'len'       => $len
         ];
 
         echo json_encode($driving);
