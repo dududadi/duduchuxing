@@ -19,9 +19,14 @@ class Wallet extends Controller {
 		echo json_encode($list);
 		exit;
 	}
-	public function user_wallet()
+	public function userWallet()
 	{
-		$openid=input("post.openid");
+		$openid=Request::instance()-> post('openid');
+		$list = DB::name('user')
+					->where('open_id',$openid)
+					->find();
+		echo json_encode($list);
+		exit;
 	}
 } 
 
