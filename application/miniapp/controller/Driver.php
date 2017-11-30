@@ -7,17 +7,15 @@ use think\Request;
 use think\Session;
 
 class Driver extends Controller{
-    public function index()
-    {
+    public function index(){
         $res = Db::name('driver')
         ->select();
 
         echo json_encode($res);
         exit;
     }
-
-    public function getOpenId()
-    {
+    //获取用户openid
+    public function getOpenId(){
         $appid = 'wx0d68f07d877286f6';
         $secret = '49513cc772b525486ac51e6bf998bb77';
         $js_code = Request::instance()-> post('code');
@@ -44,7 +42,6 @@ class Driver extends Controller{
         echo $data;
         exit;
     }
-
     //司机注册
     public function register(){
         //$region = Request::instance()->post('region/a');
@@ -217,7 +214,6 @@ class Driver extends Controller{
         //dump($data);
         exit;
     }
-
     //获取运营类型下拉框
     public function getBtName(){
         $res = Db::name('business_type')
@@ -351,7 +347,6 @@ class Driver extends Controller{
         echo json_encode($userLocation);
         exit;
     }
-
     //接到乘客后，每五秒钟，添加路径点
     public function pushPoint(){
         $latitude = Request::instance()-> post('latitude');
@@ -367,6 +362,16 @@ class Driver extends Controller{
 
         Db::name('distance')
             ->insert($data);
+    }
+    //司机点击已到达终点
+    public function arrive(){
+        $order_id = Request::instance->post('orderId');
+
+        $res = Db::name('order_list')
+            ->where('ol_id',$order_id)
+            ->update(['ols_id'=>4]);
+        echo $res;
+        exit;
     }
 
     

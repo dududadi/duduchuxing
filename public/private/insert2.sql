@@ -33,6 +33,7 @@ INSERT INTO d_order_list_status VALUES
 (null,'未接客'),
 (null,'未过期'),
 (null,'已过期'),
+(null,'待支付'),
 (null,'已支付');
 
 -- 充值付款类型
