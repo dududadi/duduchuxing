@@ -227,7 +227,7 @@ class User extends Controller {
                 'ols_id'=>1,
                 'ol_km_num'=>$distance,
                 'ol_km_price'=>100,
-                'ol_overtime_price'=>3,
+                'ol_time_price'=>0,
                 'ol_tip'=>0,
                 'bt_id'=>$res['bt_id'],
                 'oh_start_name'=>$start,
