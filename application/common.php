@@ -23,6 +23,8 @@ function cookieAssist($name) {
 
 //curl发送请求
 function curlHttp($url, $data) {
+	
+	
     $curl = curl_init();
 
     curl_setopt($curl, CURLOPT_URL, $url);

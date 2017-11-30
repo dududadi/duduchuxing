@@ -11,7 +11,6 @@ class Wexinpay extends Controller
 	public function pay() {
 		$openid=input('get.openid');
 		$packeg_id=$this->packeg_id($openid);
-		Session::set('packeg_id',$packeg_id['prepay_id']);
 		$appId='wxdbf8a607a8dcdfa4';
 		$nonceStr=$this->nonce_str($openid);
 		$data=[
@@ -39,70 +38,126 @@ class Wexinpay extends Controller
     return md5($openid.time().rand(10,99));//32位
 	}
 	//生成packeg_id
-	public function packeg_id($openid)
+	public function packeg_id()
 	{
-		$order_number=$this->order_number($openid);
-		$KnonceStr=Session::get('KnonceStr');
+		$openid='o7r8T0ZhAGxFdtVZAjqF10M2CmeY';
+		//$order_number=$this->order_number($openid);
+		$order_number="20170806125346";
+		//$KnonceStr=$this->nonce_str();
+		$KnonceStr="5K8264ILTKCH16CQ2502SI8ZNMTM67VS";
 		$url='https://api.mch.weixin.qq.com/pay/unifiedorder';
-		$data=[
-	    	'appid' =>'wxdbf8a607a8dcdfa4',
-	    	'mch_id' =>1331063701,
-	    	'timeStamp' =>time(),
+		//$sign="455225859B8BB8E2D73FE7627E198441";
+		$appid='wxdbf8a607a8dcdfa4';
+		$mch_id='1331063701';
+		$body='嘟嘟出行-充值';
+		$spbill_create_ip='47.100.0.162';
+		$notify_url='https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url';
+		$trade_type='JSAPI';
+		$total_fee=1;
+		$sign=$this->packeg_sign($order_number,$KnonceStr,$appid,$mch_id,$body,$spbill_create_ip,$notify_url,$trade_type,$total_fee,$openid); 
+		//$sign=";
+		 
+		 /*$data=[
+	    	'appid' =>$appid,
+	    	'mch_id' =>$mch_id,
 	    	'nonceStr' =>$KnonceStr,
-	    	'body'	=> '嘟嘟出行-充值',
+	    	'body'	=> $body,
 	    	'out_trade_no' =>$order_number,  //订单号
-	    	'sign' =>$this->packeg_sign($order_number),
-	    	'total_fee' => 1,
-	    	'spbill_create_ip'=> '47.100.0.162',
-	    	'notify_url' =>'https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url',
+	    	'sign' =>$sign,
+	    	'total_fee' => $total_fee,
+	    	'spbill_create_ip'=> $spbill_create_ip,
+	    	'notify_url' =>$notify_url,
+	    	'open_id'=>$openid,
 	    	'trade_type'=>'JSAPI'];
-		ksort($data);
+		//ksort($data);
 	    //进行拼接数据
 	    $abc_xml = "<xml>";
 	    foreach ($data as $key => $val) {
 	        if (is_numeric($val)) {
-	            $abc_xml .= "<" . $key . ">" . $val . "</" . $key . ">";
+	            $abc_xml .= "<".$key.">".$val."</".$key.">";
 	        } else {
-	            $abc_xml .= "<" . $key . "><![CDATA[" . $val . "]]></" . $key . ">";
+	            $abc_xml .= "<".$key."><![CDATA[".$val."]]></".$key.">";
 	        }
 	    }
-	    $abc_xml .= "</xml>";
-		$url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-    	$info = http_request_curl($url, $abc_xml);
-		return $info;
+	    $abc_xml .= "</xml>";*/
+		$test ="<xml>
+    <appid>".$appid."</appid>
+    <body>".$body."</body>
+    <mch_id>".$mch_id."</mch_id>
+    <nonce_str>".$KnonceStr."</nonce_str>
+    <notify_url>".$notify_url."</notify_url>
+    <openid>".$openid."</openid>
+    <out_trade_no>".$order_number."</out_trade_no>
+    <spbill_create_ip>".$spbill_create_ip."</spbill_create_ip>
+    <total_fee>1</total_fee>
+    <trade_type>JSAPI</trade_type>
+    <sign>".$sign."</sign>
+ </xml> ";
+		$url ='https://api.mch.weixin.qq.com/pay/unifiedorder';
+		/*$test = '<xml>
+   <appid>wx870f25b8a2a98f0b</appid>
+   <attach>支付测试</attach>
+   <body>JSAPI支付测试</body>
+   <mch_id>1331063701</mch_id>
+   <detail><![CDATA[{ "goods_detail":[ { "goods_id":"iphone6s_16G", "wxpay_goods_id":"1001", "goods_name":"iPhone6s 16G", "quantity":1, "price":528800, "goods_category":"123456", "body":"苹果手机" }, { "goods_id":"iphone6s_32G", "wxpay_goods_id":"1002", "goods_name":"iPhone6s 32G", "quantity":1, "price":608800, "goods_category":"123789", "body":"苹果手机" } ] }]]></detail>
+   <nonce_str>1add1a30ac87aa2db72f57a2375d8fec</nonce_str>
+   <notify_url>http://wxpay.wxutil.com/pub_v2/pay/notify.v2.php</notify_url>
+   <openid>o7r8T0ZhAGxFdtVZAjqF10M2CmeY</openid>
+   <out_trade_no>1415659990</out_trade_no>
+   <spbill_create_ip>127.0.0.1</spbill_create_ip>
+   <total_fee>1</total_fee>
+   <trade_type>JSAPI</trade_type>
+   <sign>0CB01533B8C1EF103065174F50BCA001</sign>
+</xml>';*/
+    	$info =curlHttp($url, $test);
+		var_dump($info);
+		//var_dump($info);
+		exit;
+		//return $info;
 	}
 	//生成packeg——sign
-	public function packeg_sign($order_number)
+	public function packeg_sign($order_number,$KnonceStr,$appid,$mch_id,$body,$spbill_create_ip,$notify_url,$trade_type,$total_fee,$openid)
 	{
-		$KnonceStr=$this->nonce_str();
-		Session::set('KnonceStr',$KnonceStr);
 		$key='af322231e835171608478e16b04889d9';
-		 $data=[
-	    	"appid" =>'wxdbf8a607a8dcdfa4',
-	    	"mch_id" =>1331063701,
-	    	"timeStamp" =>time(),
-	    	"nonceStr" =>$KnonceStr,
-	    	'body'	=> '嘟嘟出行-充值',
+		$data=[
+	    	"appid" =>$appid,
+	    	"mch_id" =>$mch_id,
+	    	"nonce_str" =>$KnonceStr,
+	    	'body'	=> $body,
 	    	'out_trade_no' =>$order_number,  //订单号
-	    	'total_fee' => 1,
-	    	'spbill_create_ip'=> '47.100.0.162',
-	    	'notify_url' =>"https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url",
-	    	'trade_type'=>'JSAPI'
+	    	'total_fee' => $total_fee,
+	    	'spbill_create_ip'=> $spbill_create_ip,
+	    	'notify_url' =>$notify_url,
+	    	'trade_type'=>$trade_type,
+	    	'openid'=>$openid
 	    ];
+		
 		ksort($data);
+		
 	    $buff = "";
 	    foreach ($data as $k => $v) {
-	        if ($k != "sign" && $v != "" && !is_array($v)) {
-	            $buff .= $k . "=" . $v . "&";
+	        if ($k!= "sign"&&$v!= ""&&!is_array($v)) {
+	            $buff.= $k."=".$v."&";
 	        }
 	    }
-	    $buff = trim($buff, "&");
+		
+	    //$buff = trim($buff, "&");
+		
 	    //签名步骤二：在string后加入KEY
-	    $string = $buff . "&key=" . $key;
+	    $string = $buff . "key=" . $key;
+		
+		
 	    //签名步骤三：MD5加密
+	    //echo 'before---'.$string;
+	    //echo $string;
 	    $string = md5($string);
+		
+		
 	    //签名步骤四：所有字符转为大写
 	    $sign = strtoupper($string);
+		
+		//echo '生成的签名---'.$sign;
+		
 		return $sign;
 	}
 	//生成发送sign
@@ -133,31 +188,12 @@ class Wexinpay extends Controller
 	    $sign = strtoupper($string);
 		return $sign;
 	}
+	//统一生成签名
+	
+
 	public function notify_url()
 	{
 		echo "我求求你别报错了";
 		exit;
 	}
-
-	//url请求
-	function http_request_curl($url, $rawData)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $rawData);
-        curl_setopt(
-            $ch, CURLOPT_HTTPHEADER,
-            array(
-                'Content-Type: text'
-            )
-        );
-        $data = curl_exec($ch);
-        curl_close($ch);
-        return $data;
-    }
 }
