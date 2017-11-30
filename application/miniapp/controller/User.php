@@ -15,6 +15,7 @@ class User extends Controller {
         echo json_encode($res);
         exit;
     }
+
     //curl请求获取openid
     public function getOpenId(){
         $appid = 'wx870f25b8a2a98f0b';
@@ -171,12 +172,13 @@ class User extends Controller {
             'ul_latitude'=>$myLatitude,
             'ul_longitude'=>$myLongitude
         ];
+
         Db::name('user_location')
             ->where('open_id',$openid)
             ->delete();
+
         Db::name('user_location')
             ->insert($data);
-
 
         //查看用户订单是否已挂起
         $res = Db::name('order_handup')
@@ -184,18 +186,18 @@ class User extends Controller {
             ->find();
             /*echo count($res);
             exit;*/
+
         //已挂起
         if(count($res)!=0){
             //挂起的订单是否有司机接单
             //未接单
-
             if($res['oh_status']=='未接单'){
                 //挂起的订单是否超时---3分钟        
-                if(strtotime($res['oh_create_time'])+180>strtotime('now')){
+                if(strtotime($res['oh_create_time'])+180>strtotime('now')) {
                     //echo(strtotime('now'));
                     echo '{"status_code":"0"}'; //未超时
                     exit;
-                }else{
+                } else {
                     echo '{"status_code":"1"}'; //超时
 
                     $res = Db::name('order_handup')
@@ -205,6 +207,7 @@ class User extends Controller {
                     exit;
                 }
             }
+
             //已接单
             if($res['oh_status']=='已接单'){
                 //删除挂起的订单，添加入订单表
@@ -212,6 +215,7 @@ class User extends Controller {
                 $res2 = Db::name('user')
                     ->where('open_id',$openid)
                     -> find();
+
                 $user_id = $res2['user_id'];
 
                 $data = [
@@ -225,7 +229,6 @@ class User extends Controller {
                 'ol_km_price'=>100,
                 'ol_overtime_price'=>3,
                 'ol_tip'=>0,
-
                 'bt_id'=>$res['bt_id'],
                 'oh_start_name'=>$start,
                 'oh_end_name'=>$end,
@@ -237,23 +240,26 @@ class User extends Controller {
 
                 $insert = Db::name('order_list')
                 ->insert($data);
+
                 //生成订单成功--删除挂起订单
                 $res3 = Db::name('order_handup')
                 ->where('open_id',$openid)
                 -> delete();
+
                  //返回司机的信息给乘客
                 echo '{"status_code":"2","driv_id":"'.$res['driv_id'].'"}';
+
                 exit;
             }
-            
-        }
+        } else {
         //未挂起
-        else{
             //获取运营类型id
             $res = Db::name('business_type')
                     ->where('bt_name',$carType)
                     -> find();
+
             $bt_id = $res['bt_id'];
+
             $data = [
                 'open_id'=>$openid,
                 'oh_start_name'=>$start,
@@ -267,12 +273,16 @@ class User extends Controller {
                 'oh_status'=>'未接单',
                 'oh_km_num'=>$distance
             ];
+
             $result = Db::name('order_handup')
             ->insert($data);
+
             echo '{"status_code":"3"}';//成功挂起订单行程
+
             exit;
         }
     }
+
     //取消订单
     public function rmOrder() {
         $openid = Request::instance()-> post('openid');
@@ -280,13 +290,16 @@ class User extends Controller {
         $res = Db::name('order_handup')
             ->where('open_id',$openid)
             -> delete();
-        if($res){
+
+        if($res) {
             echo 1;//成功取消
-        }else{
+        } else {
             echo 0;//取消失败
         }
+
         exit;
     }
+
     //司机接单后，跳转页面的默认操作，用户获取接单司机的信息
     public function getDriverLocation(){
         $openid = Request::instance()-> post('openid');
@@ -299,6 +312,7 @@ class User extends Controller {
         $ols = Db::name('order_list')
             ->where('ol_id',$order_id)
             ->find();
+
         $ols_id = $ols['ols_id'];
 
         //将用户位置更新
@@ -317,8 +331,11 @@ class User extends Controller {
             ->join('driver d','d.open_id=dl.open_id')
             ->where('d.driv_id', $driverid )
             ->find();
+
         $driverLocation['ols_id']=$ols_id;
+
         echo json_encode($driverLocation);
+
         exit;
     }
     public function getOrderId(){
@@ -328,21 +345,28 @@ class User extends Controller {
         $user = Db::name('user')
             ->where('open_id',$openid)
             ->find();
+
         $user_id = $user['user_id'];
+
         //获取当前订单的单号
         $res = Db::name('order_list')
             ->where('user_id',$user_id)
             ->where('driv_id',$driverid)
             ->where('ols_id',1)//司机接到了乘客，状态为未过期
             ->find();
+
         $order_id = $res['ol_id'];
+
         echo $order_id;
+
         exit;
     }
 
+    //用户上车后实时信息
     public function getWayArr(){
         $order_id = Request::instance()-> post('orderId');
 
+        //获取计费规则信息
         $res = Db::name('rule')
         -> join('d_order_list', 'd_order_list.bt_id = d_rule.bt_id')
         -> where('d_order_list.ol_id', $order_id)
@@ -355,14 +379,11 @@ class User extends Controller {
             $ruleArr[$res[$i]['rl_price_type']] = $res[$i]['rl_price'];
         }
 
-
-
         $res = Db::name('distance')
         -> where('ol_id', $order_id)
         -> select();
 
         $arr = [];
-        $len = 0;
 
         //创建路径数组
         for($i=0;$i<count($res);$i++){
@@ -371,8 +392,56 @@ class User extends Controller {
             array_push($arr, $one);
         }
 
+        $len = 0;
+        $disCost = 0;
+        $timeCost = 0;
+
+        //路程和金钱计算
         for ($i = 1; $i < count($res); $i++) {
-            $len += calculateDistance($res[$i]['dis_latitude'], $res[$i]['dis_longitude'], $res[$i - 1]['dis_latitude'], $res[$i - 1]['dis_longitude']); 
+            //路程计算
+            $dis = calculateDistance($res[$i]['dis_latitude'], $res[$i]['dis_longitude'], $res[$i - 1]['dis_latitude'], $res[$i - 1]['dis_longitude']);
+            $len += $dis;
+
+            //金钱计算
+            $day = substr($res[$i]['dis_time'], 0, 10);
+            $thisPoint = strtotime($res[$i]['dis_time']);
+            $lastPoint = strtotime($res[$i - 1]['dis_time']);
+            $t_0000 = strtotime($day);
+            $t_0500 = strtotime($day.' 05:00:00');
+            $t_2300 = strtotime($day.' 23:00:00');
+            $t_0730 = strtotime($day.' 07:30:00');
+            $t_0930 = strtotime($day.' 09:30:00');
+            $t_1700 = strtotime($day.' 17:00:00');
+            $t_1900 = strtotime($day.' 19:00:00');
+
+            //按里程计价
+            if ($thisPoint >= $t_0000 && $thisPoint < $t_0500) {
+                $disCost += $dis * $ruleArr['d00_05'] / 1000;
+            } else if ($thisPoint >= $t_0500 && $thisPoint < $t_2300) {
+                $disCost += $dis * $ruleArr['d05_23'] / 1000;
+            } else {
+                $disCost += $dis * $ruleArr['d23_00'] / 1000;
+            }
+
+            //按时间计价
+            if ($thisPoint >= $t_0000 && $thisPoint < $t_0500) {
+                $timeCost += ($thisPoint - $lastPoint) * $ruleArr['t00_05'] / 60;
+            } else if ($thisPoint >= $t_0730 && $thisPoint < $t_0930) {
+                $timeCost += ($thisPoint - $lastPoint) * $ruleArr['t0730_0930'] / 60;
+            } else if ($thisPoint >= $t_1700 && $thisPoint < $t_1900) {
+                $timeCost += ($thisPoint - $lastPoint) * $ruleArr['t17_19'] / 60;
+            } else if ($thisPoint >= $t_2300) {
+                $timeCost += ($thisPoint - $lastPoint) * $ruleArr['t23_00'] / 60;
+            } else {
+                $timeCost += ($thisPoint - $lastPoint) * $ruleArr['t05_23'] / 60;
+            }
+        }
+
+        $cost = $disCost + $timeCost;
+
+        //如果未达到最低消费，则按照最低消费计算
+        if ($cost < $ruleArr['low']) {
+            $cost = $ruleArr['low'];
         }
 
         $res = Db::name('order_list')
@@ -384,7 +453,9 @@ class User extends Controller {
         $driving = [
             'status'    => $ols_id,
             'wayArr'    => $arr,
-            'len'       => $len
+            'len'       => $len,
+            'cost'      => $cost,
+            'low'       => $ruleArr['low']
         ];
 
         echo json_encode($driving);
