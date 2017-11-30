@@ -16,7 +16,7 @@ class Wallet extends Controller {
 		$list = DB::name('driver')
 					->where('open_id',$openid)
 					->find();
-		echo $list;
+		echo json_encode($list);
 		exit;
 	}
 	public function user_wallet()
