@@ -466,7 +466,12 @@ class User extends Controller {
 
     //用户支付信息
     public function setPayInfo(){
+
         $order_id = Request::instance()-> post('orderId');
+
+
+        echo $order_id;
+        exit;
         //获取计费规则信息
         $res = Db::name('rule')
         -> join('d_order_list', 'd_order_list.bt_id = d_rule.bt_id')
