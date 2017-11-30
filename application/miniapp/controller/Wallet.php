@@ -10,9 +10,11 @@ use think\Session;
 class Wallet extends Controller {
     public function driverWallet()
 	{
-		$openid=input("post.openid");
+		$openid=Request::instance()-> post('openid');
+		echo $openid;
+		exit;
 		$list = DB::name('driver')
-					->where('open_id','=',$openid)
+					->where('open_id',$openid)
 					->find();
 		echo $list;
 		exit;
