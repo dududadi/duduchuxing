@@ -13,7 +13,7 @@ class Wexinpay extends Controller
 		$appId='wxdbf8a607a8dcdfa4';
 		$openid='owqCguL4_azImvEDAzM-KnNv6MUE';
 		$nonceStr=$this->nonce_str($openid);
-		var_dump($packeg_id['prepay_id']);
+		var_dump($packeg_id);
 		exit;
 		$data=[
 			'appId' => $appId,
@@ -73,9 +73,10 @@ class Wexinpay extends Controller
 		$url ='https://api.mch.weixin.qq.com/pay/unifiedorder';
 		
     	$info =curlHttp($url, $test);
-		var_dump($info);
+		//var_dump($info);
 		//var_dump($info);
 		//exit;
+		$info = xml2array($info);
 		return $info;
 	}
 	//生成packeg——sign
