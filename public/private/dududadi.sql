@@ -40,6 +40,15 @@ bt_id INT NOT NULL auto_increment PRIMARY KEY, -- 运营类型id
 bt_name VARCHAR(10) NOT NULL -- 运营类型名称
 )ENGINE=INNODB DEFAULT charset=utf8;
 
+-- 规则表
+DROP TABLE IF EXISTS d_rule;
+CREATE TABLE d_rule(
+rule_id INT NOT NULL auto_increment PRIMARY KEY, -- 规则id
+bt_id INT,-- 运营类型id
+rl_price_type VARCHAR(20), -- 价格类型id 
+rl_name VARCHAR(20), -- 价格名称 （普通，早，晚）
+rl_price double(4,2) -- 价格
+)ENGINE=INNODB DEFAULT charset=utf8;                               
 
 -- 创建用户(乘客)表
 DROP TABLE IF EXISTS d_user;
@@ -53,7 +62,7 @@ user_tel CHAR(11) NOT NULL, -- 手机号
 user_score FLOAT NOT NULL, -- 评分
 user_money DECIMAL(7,2) NOT NULL, -- 余额
 user_status enum('锁定','使用') NOT NULL, -- 状态
-user_head_img VARCHAR(100) NOT NULL, -- 头像
+user_head_img VARCHAR(255) NOT NULL, -- 头像
 user_address text, -- 详细地址
 prov_num INT(6) NOT NULL, -- 省份
 city_num INT(6) NOT NULL, -- 地级市
@@ -90,7 +99,7 @@ driv_money DECIMAL(7,2)  NOT NULL, -- 余额
 driv_tel CHAR(11) NOT NULL, -- 手机号
 driv_status enum('锁定','使用','未审核') NOT NULL, -- 状态
 driv_score FLOAT NOT NULL, -- 评分
-driv_head_img VARCHAR(100) NOT NULL, -- 头像
+driv_head_img VARCHAR(255) NOT NULL, -- 头像
 bt_id INT NOT NULL, -- 运营类型id
 FOREIGN KEY(bt_id) REFERENCES d_business_type(bt_id),
 driv_bank_num VARCHAR(19), -- 银行卡号
@@ -115,7 +124,7 @@ ol_start_time datetime NOT NULL, -- 下单时间
 ol_end_time datetime NOT NULL, -- 结束时间
 rpt_id INT(2) NOT NULL, -- 付款方式id
 ols_id INT(2) NOT NULL, -- 订单状态id
-ol_km_num FLOAT(5,2), -- 里程数
+ol_km_num INT, -- 里程数
 ol_km_price DECIMAL(5,2), -- 里程价
 ol_overtime_price DECIMAL(5,2), -- 超时价
 ol_tip DECIMAL(5,2), -- 小费
@@ -148,7 +157,8 @@ oh_start_name VARCHAR(100), -- 起始点名称
 oh_end_name VARCHAR(100),-- 终点名称
 oh_status enum('已接单','未接单'),-- 接单状态
 oh_create_time datetime,-- 挂起时间
-bt_id INT
+bt_id INT,
+oh_km_num INT -- 里程数 
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 -- 用户实时位置表
@@ -171,10 +181,11 @@ dl_longitude FLOAT-- 经度
 -- 创建路程表
 DROP TABLE IF EXISTS d_distance;
 CREATE TABLE d_distance(
-dis_id INT NOT NULL PRIMARY KEY auto_increment, -- 订单id
+dis_id INT NOT NULL PRIMARY KEY auto_increment, -- 路程表id
 dis_latitude float, -- 纬度
 dis_longitude float, -- 经度
-ol_id INT -- 订单
+ol_id INT, -- 订单id
+dis_time datetime -- 每个点创建时间
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 
