@@ -558,7 +558,8 @@ class User extends Controller {
             'ol_time_price'=>$res['ol_time_price'],
             'ol_km_price'=>$res['ol_km_price'],
             'ol_km_num'=>$res['ol_km_num'],
-            'low'=>$ruleArr['low']
+            'low'=>$ruleArr['low'],
+            'cost'=>$cost
         ];
 
         echo json_encode($payInfo);
