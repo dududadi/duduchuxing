@@ -55,7 +55,6 @@ class Wexinpay extends Controller
 		$trade_type='JSAPI';
 		$total_fee=1;
 		$sign=$this->packeg_sign($order_number,$KnonceStr,$appid,$mch_id,$body,$spbill_create_ip,$notify_url,$trade_type,$total_fee,$openid); 
-	    $abc_xml .= "</xml>";
 		$test ="<xml>
     <appid>".$appid."</appid>
     <body>".$body."</body>
