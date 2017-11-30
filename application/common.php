@@ -42,3 +42,20 @@ function curlHttp($url, $data) {
     return $res;
 }
 
+//根据两个点的经纬度计算距离
+function calculateDistance($lat1, $lng1, $lat2, $lng2) {
+    $radLat1 = $lat1 * M_PI / 180.0;
+    $radLat2 = $lat2 * M_PI / 180.0;
+
+    $a = $radLat1 - $radLat2;
+    $b = $lng1 * M_PI / 180.0 - $lng2 * M_PI / 180.0;
+
+    $s = 2 * asin(sqrt(pow(sin($a / 2), 2) + cos($radLat1) * cos($radLat2) * pow(sin($a / 2), 2)));
+
+    $s *= 6378137.0;
+
+    $s = round($s * 10000) / 10000.0;
+
+    return $s;
+}
+
