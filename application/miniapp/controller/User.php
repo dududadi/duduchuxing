@@ -550,7 +550,7 @@ class User extends Controller {
 
         //修改完把数据返回给用户
         $res = Db::name('order_list')
-            ->where('orderId',$order_id)
+            ->where('ol_id',$order_id)
             ->find();
         $payInfo = [
             'ol_end_time' => $res['ol_end_time'],
