@@ -11,8 +11,10 @@ class Wexinpay extends Controller
 	public function pay() {
 		$packeg_id=$this->packeg_id();
 		$appId='wxdbf8a607a8dcdfa4';
+		$openid='owqCguL4_azImvEDAzM-KnNv6MUE';
 		$nonceStr=$this->nonce_str($openid);
 		var_dump($packeg_id['prepay_id']);
+		exit;
 		$data=[
 			'appId' => $appId,
 	        'nonceStr' => $nonceStr,
