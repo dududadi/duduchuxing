@@ -106,7 +106,7 @@ class Conversation extends Controller
 
         $resMsg=curlHttp('http://www.tuling123.com/openapi/api',$data);
 
-        return '<xml>
+        echo '<xml>
 					<ToUserName><![CDATA['.$postObj->FromUserName.']]></ToUserName>
 					<FromUserName><![CDATA['.$postObj->ToUserName.']]></FromUserName>
 					<CreateTime>'.time().'</CreateTime>
