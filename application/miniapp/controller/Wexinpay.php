@@ -26,7 +26,8 @@ class Wexinpay extends Controller
 	        'timeStamp' => $timeStamp,
 	        'paySign' =>$sign
 		];
-		return $data;
+		//var_dump($data);
+		echo $data;
 	}
 	//随机32位字符串
 	private function nonce_str(){
