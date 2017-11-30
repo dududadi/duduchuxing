@@ -365,7 +365,7 @@ class Driver extends Controller{
     }
     //司机点击已到达终点
     public function arrive(){
-        $order_id = Request::instance->post('orderId');
+        $order_id = Request::instance()->post('orderId');
 
         $res = Db::name('order_list')
             ->where('ol_id',$order_id)
