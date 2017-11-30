@@ -24,7 +24,7 @@ class Conversation
         表示它对我们的服务器还没有信任，需要我们先接入配置
         如果没发送过来了
         那么表示接入已经成功了，微信就会放心的把粉丝的消息发送过来*/
-        file_put_contents('debug-2.txt',$echoStr);
+        
         if(empty($echoStr)){
 
             $this->response();
@@ -40,11 +40,9 @@ class Conversation
         $echoStr = $_GET['echostr'];
 
         if($this->checkSignature()){
-            file_put_contents('debug-1.txt', '验证码通过');
             echo $echoStr;
             exit;
         }else{
-            file_put_contents('debug-1.txt', '验证码没通过');
         }
     }
 
