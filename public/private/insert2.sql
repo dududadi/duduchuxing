@@ -10,14 +10,14 @@ INSERT INTO d_rule VALUES
 (null,1,'d23_00','23:00-00:00',2.16),
 (null,1,'d00_05','00:00-05:00',2.16),
 
-(null,1,'t05_23','05:00-23:00',0.38),
+(null,1,'t05_23','普通时段',0.38),
 (null,1,'t23_00','23:00-00:00',0.32),
 (null,1,'t00_05','00:00-05:00',0.32),
 (null,1,'t0730_0930','07:30-09:30',0.44),
 (null,1,'t17_19','17:00-19:00',0.44),
 
 (null,2,'low','最低消费',12),
-(null,2,'d05_23','05:00-23:00',1.3),
+(null,2,'d05_23','普通时段                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ',1.3),
 (null,2,'d23_00','23:00-00:00',1.86),
 (null,2,'d00_05','00:00-05:00',1.86),
 
@@ -59,7 +59,8 @@ INSERT INTO d_fmenu VALUES
 (6,'角色管理','&#xe611;'), -- role
 (7,'资讯管理','&#xe616;'), -- new
 (8,'查询报表','&#xe61a;'), -- chart
-(9,'客服聊天','&#xe6d0;'); -- service
+(9,'客服聊天','&#xe6d0;'), -- service
+(10,'规则管理','&#xe6f5;'); -- rule
 -- 子菜单
 INSERT INTO d_smenu VALUES
 (null,'司机监控','admin/Monitor/driver',   1),
@@ -81,7 +82,9 @@ INSERT INTO d_smenu VALUES
 (null,'订单统计','admin/Chart/orderList',  8),
 (null,'用户统计','admin/Chart/user',       8),
 (null,'营销统计','admin/Chart/market',     8),
-(null,'客服聊天','admin/Service/chat',9);
+(null,'客服聊天','admin/Service/chat',9),
+(null,'快车规则','admin/Rule/car',10),
+(null,'出租车规则','admin/Rule/taxi',10);
 
 -- 角色子菜单表 超管初始化
 INSERT INTO d_role_menu VALUES
@@ -104,7 +107,9 @@ INSERT INTO d_role_menu VALUES
 (null,1,17),
 (null,1,18),
 (null,1,19),
-(null,1,20);
+(null,1,20),
+(null,1,21),
+(null,1,22);
 
 -- 员工表
 INSERT INTO d_employee VALUES

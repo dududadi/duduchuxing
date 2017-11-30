@@ -367,8 +367,9 @@ class Driver extends Controller{
 
         Db::name('distance')
             ->insert($data);
-
     }
+
+    
     
 
 

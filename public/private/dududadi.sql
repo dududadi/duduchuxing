@@ -47,7 +47,7 @@ rule_id INT NOT NULL auto_increment PRIMARY KEY, -- 规则id
 bt_id INT,-- 运营类型id
 rl_price_type VARCHAR(20), -- 价格类型id 
 rl_name VARCHAR(20), -- 价格名称 （普通，早，晚）
-rl_price FLOAT(4,2) -- 价格
+rl_price double(4,2) -- 价格
 )ENGINE=INNODB DEFAULT charset=utf8;                               
 
 -- 创建用户(乘客)表
