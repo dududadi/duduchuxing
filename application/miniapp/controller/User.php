@@ -466,7 +466,9 @@ class User extends Controller {
 
     //用户支付信息
     public function setPayInfo(){
+
         $order_id = Request::instance()-> post('orderId');
+
         //获取计费规则信息
         $res = Db::name('rule')
         -> join('d_order_list', 'd_order_list.bt_id = d_rule.bt_id')
@@ -548,7 +550,7 @@ class User extends Controller {
 
         //修改完把数据返回给用户
         $res = Db::name('order_list')
-            ->where('orderId',$order_id)
+            ->where('ol_id',$order_id)
             ->find();
         $payInfo = [
             'ol_end_time' => $res['ol_end_time'],
@@ -556,7 +558,8 @@ class User extends Controller {
             'ol_time_price'=>$res['ol_time_price'],
             'ol_km_price'=>$res['ol_km_price'],
             'ol_km_num'=>$res['ol_km_num'],
-            'low'=>$ruleArr['low']
+            'low'=>$ruleArr['low'],
+            'cost'=>$cost
         ];
 
         echo json_encode($payInfo);

@@ -13,6 +13,7 @@ class Wexinpay extends Controller
 		$appId='wxdbf8a607a8dcdfa4';
 		$openid='owqCguL4_azImvEDAzM-KnNv6MUE';
 		$nonceStr=$this->nonce_str($openid);
+		
 		$array_packeg=json_decode($json_packeg, true);
 		$packeg_id=$array_packeg['PREPAY_ID'];
 		$timeStamp=(string)time();
@@ -27,10 +28,10 @@ class Wexinpay extends Controller
 	        'paySign' =>$sign
 		];
 		$data=json($data);
-		//var_dump($data);
-		//exit;
-		return $data;
+		var_dump($data);
 		exit;
+		//return $data;
+		//exit;
 	}
 	//随机32位字符串
 	private function nonce_str(){
