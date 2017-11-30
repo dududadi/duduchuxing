@@ -15,7 +15,7 @@ class Wexinpay extends Controller
 		$nonceStr=$this->nonce_str($openid);
 		$array_packeg=json_decode($json_packeg, true);
 		$packeg_id=$array_packeg['PREPAY_ID'];
-		$timeStamp=time();
+		$timeStamp=(string)time();
 		$sign=$this->sign($appId,$nonceStr,$timeStamp,$packeg_id);
 		//var_dump($sign);
 		$data=[
@@ -26,8 +26,10 @@ class Wexinpay extends Controller
 	        'timeStamp' => $timeStamp,
 	        'paySign' =>$sign
 		];
+		$data=json($data);
 		//var_dump($data);
-		return json($data);
+		//exit;
+		return $data;
 		exit;
 	}
 	//随机32位字符串
