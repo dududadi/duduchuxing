@@ -120,9 +120,14 @@
     margin-left: 0;
     border-color: #000;
 }
+#ljf .main >div:nth-child(3){
+    background-color: #E8E8E8;
+}
+#ljf .section >div{
+    padding-top: 70px;
+}
 #ljf .section:last-child .fp-tableCell{
     vertical-align: top;
-    padding: 30px 0 0;
     height: inherit!important;
 }
 #ljf .news .item-left{

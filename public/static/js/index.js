@@ -1,6 +1,4 @@
-$('#ljf .main').fullpage({
-    paddingTop: '72px'
-});
+$('#ljf .main').fullpage({});
 setInterval(function(){
     $.fn.fullpage.moveSlideRight();
 }, 2000);
