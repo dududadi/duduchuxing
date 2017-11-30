@@ -11,8 +11,8 @@ class Wallet extends Controller {
     public function driverWallet()
 	{
 		$openid=Request::instance()-> post('openid');
-		echo $openid;
-		exit;
+		//echo $openid;
+		//exit;
 		$list = DB::name('driver')
 					->where('open_id',$openid)
 					->find();
