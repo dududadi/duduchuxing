@@ -126,7 +126,7 @@ rpt_id INT(2) NOT NULL, -- 付款方式id
 ols_id INT(2) NOT NULL, -- 订单状态id
 ol_km_num INT, -- 里程数
 ol_km_price DECIMAL(5,2), -- 里程价
-ol_time_price DECIMAL(5,2), --时长价
+ol_time_price DECIMAL(5,2), -- 时长价
 ol_tip DECIMAL(5,2), -- 小费
 
 oh_start_latitude FLOAT,  -- 起始经度
