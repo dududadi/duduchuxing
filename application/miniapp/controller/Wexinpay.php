@@ -9,19 +9,22 @@ use think\Session;
 class Wexinpay extends Controller
 {
 	public function pay() {
-		$packeg_id=$this->packeg_id();
+		$json_packeg=$this->packeg_id();
 		$appId='wxdbf8a607a8dcdfa4';
 		$openid='owqCguL4_azImvEDAzM-KnNv6MUE';
 		$nonceStr=$this->nonce_str($openid);
-		var_dump($packeg_id);
-		exit;
+		$array_packeg=json_decode($json_packeg, true);
+		$packeg_id=$array_packeg['PREPAY_ID'];
+		$timeStamp=time();
+		$sign=$this->sign($appId,$nonceStr,$timeStamp,$packeg_id);
+		//var_dump($sign);
 		$data=[
 			'appId' => $appId,
 	        'nonceStr' => $nonceStr,
-	        'package' => 'prepay_id='.$packeg_id['prepay_id'],
+	        'package' => 'prepay_id='.$packeg_id,
 	        'signType' => 'MD5',
-	        'timeStamp' => time(),
-	        'paySign' =>$this->sign()
+	        'timeStamp' => $timeStamp,
+	        'paySign' =>$packeg_id
 		];
 		return $data;
 	}
@@ -73,11 +76,12 @@ class Wexinpay extends Controller
 		$url ='https://api.mch.weixin.qq.com/pay/unifiedorder';
 		
     	$info =curlHttp($url, $test);
-		//var_dump($info);
-		//var_dump($info);
-		//exit;
-		$info = xml2array($info);
-		return $info;
+		//$xmlNode = simplexml_load_file($info);
+		//$arrayData = xmlToArray($xmlNode);
+		//$json = json_encode($arrayData);
+		$array = $this->xml($info);
+		$sign1 =json_encode($array);
+		return $sign1;
 	}
 	//生成packeg——sign
 	public function packeg_sign($order_number,$KnonceStr,$appid,$mch_id,$body,$spbill_create_ip,$notify_url,$trade_type,$total_fee,$openid)
@@ -112,8 +116,8 @@ class Wexinpay extends Controller
 		//echo '生成的签名---'.$sign;
 		return $sign;
 	}
-	//生成发送sign
-	public function sign($nonceStr,$packeg_id,$appId)
+	//生成发送签名
+	public function sign($appId,$nonceStr,$timeStamp,$packeg_id)
 	{
 		$key='shadowhung1208kawenwangluosj1238';
 		$data=[
@@ -121,7 +125,7 @@ class Wexinpay extends Controller
 	        'nonceStr' => $nonceStr,
 	        'package' => 'prepay_id=' . $packeg_id,
 	        'signType' => 'MD5',
-	        'timeStamp' => time()
+	        'timeStamp' => $timeStamp
 		];
 		ksort($data);
 	    $buff = "";
@@ -145,5 +149,20 @@ class Wexinpay extends Controller
 	{
 		echo "我求求你别报错了";
 		exit;
+	}
+	
+	//获取xml
+	private function xml($xml){
+	    $p = xml_parser_create();
+	    xml_parse_into_struct($p, $xml, $vals, $index);
+	    xml_parser_free($p);
+	    $data = "";
+	    foreach ($index as $key=>$value) {
+	        if($key == 'xml' || $key == 'XML') continue;
+	        $tag = $vals[$value[0]]['tag'];
+	        $value = $vals[$value[0]]['value'];
+	        $data[$tag] = $value;
+	    }
+	    return $data;
 	}
 }
