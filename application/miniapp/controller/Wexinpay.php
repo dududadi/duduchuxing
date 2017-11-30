@@ -24,7 +24,7 @@ class Wexinpay extends Controller
 	        'package' => 'prepay_id='.$packeg_id,
 	        'signType' => 'MD5',
 	        'timeStamp' => $timeStamp,
-	        'paySign' =>$packeg_id
+	        'paySign' =>$sign
 		];
 		return $data;
 	}
