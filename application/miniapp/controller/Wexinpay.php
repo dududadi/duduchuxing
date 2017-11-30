@@ -9,10 +9,10 @@ use think\Session;
 class Wexinpay extends Controller
 {
 	public function pay() {
-		$openid=input('get.openid');
-		$packeg_id=$this->packeg_id($openid);
+		$packeg_id=$this->packeg_id();
 		$appId='wxdbf8a607a8dcdfa4';
 		$nonceStr=$this->nonce_str($openid);
+		var_dump($packeg_id['prepay_id']);
 		$data=[
 			'appId' => $appId,
 	        'nonceStr' => $nonceStr,
@@ -100,12 +100,9 @@ class Wexinpay extends Controller
 	            $buff.= $k."=".$v."&";
 	        }
 	    }
-	    //$buff = trim($buff, "&");
 	    //签名步骤二：在string后加入KEY
 	    $string = $buff . "key=" . $key;
 	    //签名步骤三：MD5加密
-	    //echo 'before---'.$string;
-	    //echo $string;
 	    $string = md5($string);
 	    //签名步骤四：所有字符转为大写
 	    $sign = strtoupper($string);
@@ -113,12 +110,11 @@ class Wexinpay extends Controller
 		return $sign;
 	}
 	//生成发送sign
-	public function sign($nonceStr)
+	public function sign($nonceStr,$packeg_id,$appId)
 	{
 		$key='shadowhung1208kawenwangluosj1238';
-		$packeg_id=Session::get('packeg_id');
 		$data=[
-			'appId' => 'wxdbf8a607a8dcdfa4',
+			'appId' => $appId,
 	        'nonceStr' => $nonceStr,
 	        'package' => 'prepay_id=' . $packeg_id,
 	        'signType' => 'MD5',
@@ -131,7 +127,6 @@ class Wexinpay extends Controller
 	            $buff .= $k . "=" . $v . "&";
 	        }
 	    }
-	    $buff = trim($buff, "&");
 	    //签名步骤二：在string后加入KEY
 	    $string = $buff . "&key=" . $key;
 	    //签名步骤三：MD5加密
