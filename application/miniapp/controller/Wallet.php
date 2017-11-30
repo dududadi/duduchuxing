@@ -8,7 +8,7 @@ use think\Request;
 use think\Session;
 
 class Wallet extends Controller {
-    public function driver_wallet()
+    public function driverWallet()
 	{
 		$openid=input("post.openid");
 		$list = DB::name('driver')
