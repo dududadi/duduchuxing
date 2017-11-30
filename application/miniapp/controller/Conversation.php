@@ -8,11 +8,13 @@
 
 namespace app\miniapp\controller;
 
+use think\Controller;
+
 define("TOKEN",'maygodblessus');
 define("USERAPPID",'wx870f25b8a2a98f0b');
 define("USERAPPSECRET",'d51063fe3c3b3f30688c74f1f86ab768');
 define('TULINGAPIKEY','186d105734dd42dd9a8e3f4607a873d4');
-class Conversation
+class Conversation extends Controller
 {
 
     /*进行微信接入*/
@@ -24,11 +26,9 @@ class Conversation
         表示它对我们的服务器还没有信任，需要我们先接入配置
         如果没发送过来了
         那么表示接入已经成功了，微信就会放心的把粉丝的消息发送过来*/
-        
+
         if(empty($echoStr)){
-
             $this->response();
-
         } else{
             $this->valid();
         }
