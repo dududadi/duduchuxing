@@ -464,6 +464,107 @@ class User extends Controller {
     }
     
 
+    //用户支付信息
+    public function setPayInfo(){
+        $order_id = Request::instance->post('orderId');
+        //获取计费规则信息
+        $res = Db::name('rule')
+        -> join('d_order_list', 'd_order_list.bt_id = d_rule.bt_id')
+        -> where('d_order_list.ol_id', $order_id)
+        -> field('d_rule.*')
+        -> select();
+
+        $ruleArr = [];
+
+        for ($i = 0; $i < count($res); $i++) {
+            $ruleArr[$res[$i]['rl_price_type']] = $res[$i]['rl_price'];
+        }
+
+        $res = Db::name('distance')
+        -> where('ol_id', $order_id)
+        -> select();
+        $len = 0;
+        $disCost = 0;
+        $timeCost = 0;
+
+        //路程和金钱计算
+        for ($i = 1; $i < count($res); $i++) {
+            //路程计算
+            $dis = calculateDistance($res[$i]['dis_latitude'], $res[$i]['dis_longitude'], $res[$i - 1]['dis_latitude'], $res[$i - 1]['dis_longitude']);
+            $len += $dis;
+
+            //金钱计算
+            $day = substr($res[$i]['dis_time'], 0, 10);
+            $thisPoint = strtotime($res[$i]['dis_time']);
+            $lastPoint = strtotime($res[$i - 1]['dis_time']);
+            $t_0000 = strtotime($day);
+            $t_0500 = strtotime($day.' 05:00:00');
+            $t_2300 = strtotime($day.' 23:00:00');
+            $t_0730 = strtotime($day.' 07:30:00');
+            $t_0930 = strtotime($day.' 09:30:00');
+            $t_1700 = strtotime($day.' 17:00:00');
+            $t_1900 = strtotime($day.' 19:00:00');
+
+            //按里程计价
+            if ($thisPoint >= $t_0000 && $thisPoint < $t_0500) {
+                $disCost += $dis * $ruleArr['d00_05'] / 1000;
+            } else if ($thisPoint >= $t_0500 && $thisPoint < $t_2300) {
+                $disCost += $dis * $ruleArr['d05_23'] / 1000;
+            } else {
+                $disCost += $dis * $ruleArr['d23_00'] / 1000;
+            }
+
+            //按时间计价
+            if ($thisPoint >= $t_0000 && $thisPoint < $t_0500) {
+                $timeCost += ($thisPoint - $lastPoint) * $ruleArr['t00_05'] / 60;
+            } else if ($thisPoint >= $t_0730 && $thisPoint < $t_0930) {
+                $timeCost += ($thisPoint - $lastPoint) * $ruleArr['t0730_0930'] / 60;
+            } else if ($thisPoint >= $t_1700 && $thisPoint < $t_1900) {
+                $timeCost += ($thisPoint - $lastPoint) * $ruleArr['t17_19'] / 60;
+            } else if ($thisPoint >= $t_2300) {
+                $timeCost += ($thisPoint - $lastPoint) * $ruleArr['t23_00'] / 60;
+            } else {
+                $timeCost += ($thisPoint - $lastPoint) * $ruleArr['t05_23'] / 60;
+            }
+        }
+
+        $cost = $disCost + $timeCost;
+
+        //如果未达到最低消费，则按照最低消费计算
+        if ($cost < $ruleArr['low']) {
+            $cost = $ruleArr['low'];
+        }
+
+        //修改订单表
+        $uarr = [
+            'ol_end_time'=>date("Y-m-d H:i:s"),
+            'ol_km_num'=>$len,
+            'ol_km_price'=>$disCost,
+            'ol_time_price'=>$timeCost,
+        ];
+        $update = Db::name('order_list')
+            ->where('ol_id',$order_id)
+            ->update($uarr);
+
+        //修改完把数据返回给用户
+        $res = Db::name('order_list')
+            ->where('orderId',$order_id)
+            ->find();
+        $payInfo = [
+            'ol_end_time' => $res['ol_end_time'],
+            'ol_start_time'=> $res['ol_start_time'],
+            'ol_time_price'=>$res['ol_time_price'],
+            'ol_km_price'=>$res['ol_km_price'],
+            'ol_km_num'=>$res['ol_km_num'],
+            'low'=>$ruleArr['low']
+        ];
+
+        echo json_encode($payInfo);
+        exit;
+
+
+    }
+
 
 
 
