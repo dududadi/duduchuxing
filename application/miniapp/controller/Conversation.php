@@ -115,7 +115,7 @@ class Conversation extends Controller
             "text"=> ["content"=>$resMsg->text]         //图灵回复的消息
         ];
 
-        curlHttp($url,$msg);        //发送回微信小程序
+        curlHttp($url,json_decode($msg));        //发送回微信小程序
     }
 
     /*小程序获取access_token*/
