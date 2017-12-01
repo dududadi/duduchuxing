@@ -568,6 +568,99 @@ class User extends Controller {
 
     }
 
+    //余额是否充足
+    public function checkMoney(){
+        $money = Request::instance()->post('money');
+        $openid = Request::instance()->post('openid');
+        $res = Db::name('user')
+            ->where('open_id',$openid)
+            ->find();
+        $user_money = $res['user_money'];
+        if($user_money>=$money){
+            echo 1;
+        }else{
+            echo 0;
+        }
+        exit;
+    }
+    //支付检验密码
+    public function checkPsw(){
+        $psw = md5(Request::instance()->post('psw'));
+        $money = Request::instance()->post('money');
+        $openid = Request::instance()->post('openid');
+        $orderId = Request::instance()->post('orderId');
+        $driverid = Request::instance()->post('driverid');
+        $res = Db::name('user')
+            ->where('open_id',$openid)
+            ->where('user_psw',$psw)
+            ->find();
+        $user_id = $res['user_id'];
+        if($res){
+            $user_money = $res['user_money'];
+            if($user_money>$money){
+                $rest = $user_money-$money;
+                $judge = false;
+                Db::transaction(function() use($rest,$money,$user_id,&$judge){
+
+                    //修改订单状态
+                    $res1 = Db::name('order_list')
+                        ->where('ol_id',$orderId)
+                        ->update(['ols_id'=>5]);
+
+                    //司机余额增加
+                    $res2 = Db::name('driver')
+                        ->where('driv_id',$driverid)
+                        ->setInc('driv_money',$money)
+                    
+                    //用户余额减少
+                    $res2 = Db::name('driver')
+                        ->where('open_id',$openid)
+                        ->setDec('user_money',$rest)
+                    //司机钱包记录添加
+                    $driverData=[
+                        'rpt_id'=>3,
+                        'driv_id'=>$driverid,
+                        'dmr_time'=>date("Y-m-d H:i:s"),
+                        'dmr_result'=>'成功',
+                        'dmr_money'=>$money,
+                        'behavior'=>'收入'
+                    ];
+                    $res1 = Db::name('driv_money_record')
+                        ->insert($driverData);
+
+                    //用户钱包记录
+                    $userData=[
+                        'rpt_id'=>3,
+                        'user_id'=>$user_id,
+                        'umr_time'=>date("Y-m-d H:i:s"),
+                        'umr_result'=>'成功',
+                        'umr_money'=>$money,
+                        'behavior'=>'支付'
+                    ];
+                    $res1 = Db::name('user_money_record')
+                        ->insert($userData);
+                });
+                if($judge){
+                    //成功
+                    echo 1;
+                }else{
+                    //回滚
+                    echo 2;
+                }
+
+
+
+            }else{
+                echo 3;//余额不足
+            }
+        }else{
+            echo 0;//密码错误
+        }
+        
+
+        exit;
+    }
+
 
 
 
