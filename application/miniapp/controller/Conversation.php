@@ -98,7 +98,7 @@ class Conversation extends Controller
 
         //$arr   =  json_decode(json_encode($xml),TRUE);	//将XML转换后的字符串，变成标准的json格式字符串，再转成数组
 
-        file_put_contents('debug-1.txt', '进入消息回复:'.json_encode($postObj));
+        file_put_contents('/home/www/duduchuxing/application/miniapp/controller/debug-1.txt', '进入消息回复:'.json_encode($postObj));
         $access_token=$this->getAccessToken();      //用封装好的内置方法获取access_token(有判断)
 
         $data=[
