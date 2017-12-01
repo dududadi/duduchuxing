@@ -610,12 +610,12 @@ class User extends Controller {
                     //司机余额增加
                     $res2 = Db::name('driver')
                         ->where('driv_id',$driverid)
-                        ->setInc('driv_money',$money)
+                        ->setInc('driv_money',$money);
                     
                     //用户余额减少
                     $res2 = Db::name('driver')
                         ->where('open_id',$openid)
-                        ->setDec('user_money',$rest)
+                        ->setDec('user_money',$rest);
                     //司机钱包记录添加
                     $driverData=[
                         'rpt_id'=>3,
