@@ -99,22 +99,24 @@ class Conversation extends Controller
 
         //$arr   =  json_decode(json_encode($xml),TRUE);	//将XML转换后的字符串，变成标准的json格式字符串，再转成数组
 
+
+        $access_token=$this->getAccessToken();      //用封装好的内置方法获取access_token(有判断)
+
         $data=[
-            'key'=>TULINGAPIKEY,
-            'info'=>$postObj->Content
+            'key'=>TULINGAPIKEY,            //图灵接口的key
+            'info'=>$postObj->Content       //用户发送的消息
         ];
 
-        $resMsg=curlHttp('http://www.tuling123.com/openapi/api',$data);
+        $resMsg=curlHttp('http://www.tuling123.com/openapi/api',$data); //调用图灵接口回答的数据
 
-        echo '<xml>
-					<ToUserName><![CDATA['.$postObj->FromUserName.']]></ToUserName>
-					<FromUserName><![CDATA['.$postObj->ToUserName.']]></FromUserName>
-					<CreateTime>'.time().'</CreateTime>
-					<MsgType><![CDATA[text]]></MsgType>
-					<Content><![CDATA['.$resMsg->text.']]></Content>
-					</xml>';
+        $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$access_token;//客服自动回复消息
+        $msg=[
+            "touser"=>$postObj->FromUserName,           //用户openid
+            "msgtype"=>"text",                           //类型是文字
+            "text"=> ["content"=>$resMsg->text]         //图灵回复的消息
+        ];
 
-
+        curlHttp($url,$msg);        //发送回微信小程序
     }
 
     /*小程序获取access_token*/
@@ -123,6 +125,7 @@ class Conversation extends Controller
         // access_token 应该全局存储与更新，以下代码以写入到文件中做示例
         $data = json_decode($this->get_php_file("access_token.php"));
         if ($data->expire_time < time()) {
+            //  超时则获取新access_token，并做保存操作
             // 如果是企业号用以下URL获取access_token
             // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".APPID."&secret=".APPSECRET;
@@ -135,9 +138,9 @@ class Conversation extends Controller
                 $this->set_php_file("access_token.php", json_encode($data));
             }
         } else {
-            $access_token = $data->access_token;
+            $access_token = $data->access_token;        //如果没有超时，则调用原来的access_token
         }
-        return $access_token;
+        return $access_token;       //返回access_token
 
     }
 
