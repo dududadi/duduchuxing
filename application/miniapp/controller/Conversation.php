@@ -20,18 +20,17 @@ class Conversation extends Controller
     /*进行微信接入*/
     public function wechatApi(){
         /*获取微信发送过来的校验随机字符串*/
-        /*$echoStr = isset($_GET['echostr']) ? $_GET['echostr'] : '';*/
+        $echoStr = isset($_GET['echostr']) ? $_GET['echostr'] : '';
 
         /*判断微信是否有发送过来，如果有发送过来
         表示它对我们的服务器还没有信任，需要我们先接入配置
         如果没发送过来了
         那么表示接入已经成功了，微信就会放心的把粉丝的消息发送过来*/
-        file_put_contents('debug-0.txt', '123');
-       /* if(empty($echoStr)){
+        if(empty($echoStr)){
             $this->response();
         } else{
             $this->valid();
-        }*/
+        }
     }
 
     /*做验证操作*/
@@ -90,16 +89,14 @@ class Conversation extends Controller
     /*验证成功后，捕捉粉丝的消息，并且回复*/
     public function response(){
         /*微信是以XML格式发送给我们所以我们要以 php 获取XML数据流格式的方式去获取*/
-        /*$fensMsg = $GLOBALS['HTTP_RAW_POST_DATA'];*/
+        $fensMsg = $GLOBALS['HTTP_RAW_POST_DATA'];
         /*接受到的粉丝的消息数据是以XML格式获取的，
         由于PHP中，对数组的操作最便捷，所以php中很习惯的将数据转换成数组来处理*/
-        /*libxml_disable_entity_loader(ture);
-        $postObj = simplexml_load_string($fensMsg,'SimpleXMLElement',LIBXML_NOCDATA);*/
+        libxml_disable_entity_loader(ture);
+        $postObj = simplexml_load_string($fensMsg,'SimpleXMLElement',LIBXML_NOCDATA);
 
         //$arr   =  json_decode(json_encode($xml),TRUE);	//将XML转换后的字符串，变成标准的json格式字符串，再转成数组
 
-        file_put_contents('debug-1.txt', '123');
-        exit();
         $access_token=$this->getAccessToken();      //用封装好的内置方法获取access_token(有判断)
 
         $data=[
