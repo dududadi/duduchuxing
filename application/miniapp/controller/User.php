@@ -590,13 +590,24 @@ class User extends Controller {
         $openid = Request::instance()->post('openid');
         $orderId = Request::instance()->post('orderId');
         $driverid = Request::instance()->post('driverid');
-        echo json_encode(['pse'=>$psw,'money'=>$money,'openid'=>$openid,'orderId'=>$orderId,'driverid'=>$driverid]);
-        exit;
+
         $res = Db::name('user')
             ->where('open_id',$openid)
             ->where('user_psw',$psw)
             ->find();
         $user_id = $res['user_id'];
+
+        echo json_encode([
+            'psw'=>$psw,
+            'money'=>$money,
+            'openid'=>$openid,
+            'orderId'=>$orderId,
+            'driverid'=>$driverid,
+            'user_money'=>$res['user_money']
+        ]);
+        exit;
+
+
         if($res){
             $user_money = $res['user_money'];
             if($user_money>$money){
