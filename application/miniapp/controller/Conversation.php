@@ -92,7 +92,7 @@ class Conversation extends Controller
         $fensMsg = $GLOBALS['HTTP_RAW_POST_DATA'];
         file_put_contents('debug.txt',$fensMsg);
         exit;
-       
+
     }
 
     /*小程序获取access_token*/
