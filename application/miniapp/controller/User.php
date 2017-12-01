@@ -610,7 +610,7 @@ class User extends Controller {
 
         if($res){
             $user_money = $res['user_money'];
-            if($user_money>$money){
+            if($user_money>=$money){
                 $rest = $user_money-$money;
                 $judge = false;
                 Db::transaction(function() use($rest,$money,$user_id,$orderId,$driverid,$openid,&$judge){
@@ -628,7 +628,7 @@ class User extends Controller {
                     //用户余额减少
                     $res2 = Db::name('user')
                         ->where('open_id',$openid)
-                        ->setDec('user_money',$rest);
+                        ->setDec('user_money',$money);
                     //司机钱包记录添加
                     $driverData=[
                         'rpt_id'=>3,
