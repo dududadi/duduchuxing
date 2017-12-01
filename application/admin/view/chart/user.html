@@ -1,1 +1,196 @@
-用户统计
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5shiv.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="__HUI__/static/h-ui.admin/css/style.css" />
+    <!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+    <title>用户统计</title>
+</head>
+
+<body>
+    <nav class="breadcrumb">
+        <i class="Hui-iconfont">&#xe67f;</i> 首页
+        <span class="c-gray en">&gt;</span> 查询报表
+        <span class="c-gray en">&gt;</span> 用户统计
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);"
+            title="刷新">
+            <i class="Hui-iconfont">&#xe68f;</i>
+        </a>
+    </nav>
+    <div class="page-container">
+        <div class="f-14" style="height: 40px;">
+            选择报表类型
+            <select id="type" onchange="changeChart()">
+                <option value="line">折线图</option>
+                <option value="bar">柱状图</option>
+            </select>
+            &emsp;&emsp;统计方式
+            <select id="style" onchange="changeChart()">
+                <option value="byDay">按日统计</option>
+                <option value="byMonth">按月统计</option>
+            </select>
+        </div>
+        <div id="container" style="min-width:700px;height:400px"></div>
+    </div>
+    <!--_footer 作为公共模版分离出去-->
+    <script type="text/javascript" src="__HUI__/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="__HUI__/lib/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="__HUI__/static/h-ui/js/H-ui.min.js"></script>
+    <script type="text/javascript" src="__HUI__/static/h-ui.admin/js/H-ui.admin.js"></script>
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    <script type="text/javascript" src="__HUI__/lib/hcharts/Highcharts/5.0.6/js/highcharts.js"></script>
+    <script type="text/javascript" src="__HUI__/lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js"></script>
+    <script type="text/javascript">
+        //生成折线图
+        function line(categories, series, title1, title2, title3, tip1) {
+            Highcharts.chart('container', {
+                title: {
+                    text: title1,
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: title2,
+                    x: -20
+                },
+                colors: ['#058DC7', '#90ED7D', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+                xAxis: {
+                    categories: categories
+                },
+                yAxis: {
+                    title: {
+                        text: title3
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: tip1
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                series: series
+            });
+        }
+
+        //生成柱状图
+        function bar(categories, series, title1, title2, title3, tip1) {
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: title1
+                },
+                subtitle: {
+                    text: title2
+                },
+                colors: ['#058DC7', '#90ED7D', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+                xAxis: {
+                    categories: categories
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: title3
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y} 人</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: series
+            });
+        }
+
+        //修改当前显示类型
+        function changeChart() {
+            var $type = $("#type").val();
+            var $style = $("#style").val();
+
+            var series = [{
+                name: '乘客',
+                data: window[$style + 'UserData']
+            },
+            {
+                name: '快车司机',
+                data: window[$style + 'FastDriverData']
+            },
+            {
+                name: '出租车司机',
+                data: window[$style + 'TaxiDriverData']
+            }];
+
+            if ($style == "byDay") {
+                var title1 = '每日注册人数统计';
+                var title2 = '（最近三十天）';
+            } else {
+                var title1 = '每月注册人数统计';
+                var title2 = '（最近六个月）';
+            }
+
+            window[$type](eval($style + 'Categories'), series, title1, title2, '人数', '人');
+        }
+
+        var byDayCategories = {$byDayCategories};
+        var byDayUserData = {$byDayUserData};
+        var byDayFastDriverData = {$byDayFastDriverData};
+        var byDayTaxiDriverData = {$byDayTaxiDriverData};
+        var byMonthCategories = {$byMonthCategories};
+        var byMonthUserData = {$byMonthUserData};
+        var byMonthFastDriverData = {$byMonthFastDriverData};
+        var byMonthTaxiDriverData = {$byMonthTaxiDriverData};
+
+        //初始化数据
+        var series = [{
+            name: '乘客',
+            data: byDayUserData
+        },
+        {
+            name: '快车司机',
+            data: byDayFastDriverData
+        },
+        {
+            name: '出租车司机',
+            data: byDayTaxiDriverData
+        }];
+
+        line(byDayCategories, series, '每日注册人数统计', '（最近三十天）', '人数', '人');
+    </script>
+</body>
+
+</html>
