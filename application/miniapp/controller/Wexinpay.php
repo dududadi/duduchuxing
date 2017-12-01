@@ -28,10 +28,10 @@ class Wexinpay extends Controller
 	        'paySign' =>$sign
 		];
 		$data=json($data);
-		var_dump($data);
-		exit;
-		//return $data;
+		//var_dump($data);
 		//exit;
+		return $data;
+		exit;
 	}
 	//随机32位字符串
 	private function nonce_str(){
