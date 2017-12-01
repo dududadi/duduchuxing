@@ -88,7 +88,11 @@ class Conversation extends Controller
 
     /*验证成功后，捕捉粉丝的消息，并且回复*/
     public function response(){
-      file_put_contents('debug.txt',123);
+      /*  /*微信是以XML格式发送给我们所以我们要以 php 获取XML数据流格式的方式去获取*/
+        $fensMsg = $GLOBALS['HTTP_RAW_POST_DATA'];
+        file_put_contents('debug.txt',$fensMsg);
+        exit;
+       
     }
 
     /*小程序获取access_token*/
