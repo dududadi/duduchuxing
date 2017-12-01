@@ -27,10 +27,12 @@ class Wexinpay extends Controller
 	        'timeStamp' => $timeStamp,
 	        'paySign' =>$sign
 		];
-		$data=json($data);
+		$data=json_encode($data);
+		echo 123456;
+		exit;
 		//var_dump($data);
 		//exit;
-		return $data;
+		echo $data;
 		exit;
 	}
 	//随机32位字符串
