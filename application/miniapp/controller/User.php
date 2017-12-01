@@ -600,7 +600,7 @@ class User extends Controller {
             if($user_money>$money){
                 $rest = $user_money-$money;
                 $judge = false;
-                Db::transaction(function() use($rest,$money,$user_id,&$judge){
+                Db::transaction(function() use($rest,$money,$user_id,$orderId,$driverid,$openid,&$judge){
 
                     //修改订单状态
                     $res1 = Db::name('order_list')
