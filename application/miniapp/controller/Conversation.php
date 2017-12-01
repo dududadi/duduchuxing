@@ -93,13 +93,12 @@ class Conversation extends Controller
         $fensMsg = $GLOBALS['HTTP_RAW_POST_DATA'];
         /*接受到的粉丝的消息数据是以XML格式获取的，
         由于PHP中，对数组的操作最便捷，所以php中很习惯的将数据转换成数组来处理*/
-
         libxml_disable_entity_loader(ture);
         $postObj = simplexml_load_string($fensMsg,'SimpleXMLElement',LIBXML_NOCDATA);
 
         //$arr   =  json_decode(json_encode($xml),TRUE);	//将XML转换后的字符串，变成标准的json格式字符串，再转成数组
 
-
+        file_put_contents('debug-1.txt', '进入消息回复:'.json_encode($postObj));
         $access_token=$this->getAccessToken();      //用封装好的内置方法获取access_token(有判断)
 
         $data=[
