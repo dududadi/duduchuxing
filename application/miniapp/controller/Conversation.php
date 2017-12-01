@@ -20,18 +20,18 @@ class Conversation extends Controller
     /*进行微信接入*/
     public function wechatApi(){
         /*获取微信发送过来的校验随机字符串*/
-        $echoStr = isset($_GET['echostr']) ? $_GET['echostr'] : '';
+        /*$echoStr = isset($_GET['echostr']) ? $_GET['echostr'] : '';*/
 
         /*判断微信是否有发送过来，如果有发送过来
         表示它对我们的服务器还没有信任，需要我们先接入配置
         如果没发送过来了
         那么表示接入已经成功了，微信就会放心的把粉丝的消息发送过来*/
         file_put_contents('debug-0.txt', '123');
-        if(empty($echoStr)){
+       /* if(empty($echoStr)){
             $this->response();
         } else{
             $this->valid();
-        }
+        }*/
     }
 
     /*做验证操作*/
