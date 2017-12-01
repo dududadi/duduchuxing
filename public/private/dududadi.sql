@@ -397,3 +397,15 @@ news_status enum('发布','未发布') NOT NULL,
 news_img VARCHAR(100) NOT NULL,
 news_content VARCHAR(999) NOT NULL
 )ENGINE=INNODB DEFAULT charset=utf8;
+
+-- 创建聊天测试表
+CREATE TABLE d_test_chat(
+tc_id INT NOT NULL auto_increment PRIMARY KEY,
+tc_text text 
+)ENGINE=INNODB DEFAULT charset=utf8;
+-- access_token表
+CREATE TABLE d_access_token(
+at_id INT NOT NULL auto_increment PRIMARY KEY,
+at_access_token text,
+at_expire_time INT(11)
+)ENGINE=INNODB DEFAULT charset=utf8;
