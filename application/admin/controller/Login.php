@@ -48,23 +48,22 @@ class Login extends Controller {
                     {
                         //结果不为空，则说明选择了七天登录，所以存下当前ID作为cookie凭证，并设置7天期限
                         cookie('isLogin', $res['emp_id'], 604800);
-                        return input('post.online');
                     }
-                    //return 1;//登录成功
+                    return 1;//登录成功
                 }
                 else
                 {
                     //登录失败,账号或密码输入错误
-                   // return 2;
+                    return 2;
                 }
             }else{
                 //该用户被锁定
-                //return 3;
+                return 3;
             }
         }else{
             //验证失败，请重新输入验证码
             //跳转页面并友好提示
-            //return 4;
+            return 4;
         }
     }
 }
