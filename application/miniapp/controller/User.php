@@ -652,6 +652,8 @@ class User extends Controller {
                     ];
                     $res1 = Db::name('user_money_record')
                         ->insert($userData);
+
+                    $judge=true;
                 });
                 if($judge){
                     //成功
