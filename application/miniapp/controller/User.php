@@ -597,7 +597,7 @@ class User extends Controller {
             ->find();
         $user_id = $res['user_id'];
 
-        echo json_encode([
+        /*echo json_encode([
             'psw'=>$psw,
             'money'=>$money,
             'openid'=>$openid,
@@ -605,7 +605,7 @@ class User extends Controller {
             'driverid'=>$driverid,
             'user_money'=>$res['user_money']
         ]);
-        exit;
+        exit;*/
 
 
         if($res){
