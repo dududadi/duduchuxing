@@ -613,7 +613,7 @@ class User extends Controller {
                         ->setInc('driv_money',$money);
                     
                     //用户余额减少
-                    $res2 = Db::name('driver')
+                    $res2 = Db::name('user')
                         ->where('open_id',$openid)
                         ->setDec('user_money',$rest);
                     //司机钱包记录添加
@@ -647,8 +647,6 @@ class User extends Controller {
                     //回滚
                     echo 2;
                 }
-
-
 
             }else{
                 echo 3;//余额不足
