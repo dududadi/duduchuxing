@@ -147,7 +147,7 @@ class Wexinpay extends Controller
 	    $sign = strtoupper($string);
 		return $sign;
 	}
-	//统一生成签名
+	//异步
 	
 
 	public function notify_url()

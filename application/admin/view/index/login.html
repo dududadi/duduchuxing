@@ -106,10 +106,10 @@
 		$.ajax({
 			type:"post",
 			url:"{:url('admin/login/checkUser')}",
-			data:{'user':$admin,'password':$password,'code':$code,'cook':$cook},
+			data:{'user':$admin,'password':$password,'code':$code,'online':$cook},
 			success:function(result)
 			{
-				//console.log(result);
+				console.log(result);
 				switch(result)
 				{
 					case 1:
@@ -124,8 +124,9 @@
 						history.go(0)
 						break;
 					case 4:
-						alert("验证失败");
-						history.go(0)
+						alert("登入失败");
+						$("#codeDiv img").attr("src",$(this).attr("src")+"?"+Math.random());
+						//history.go(0)
 						
 					break;
 				}
