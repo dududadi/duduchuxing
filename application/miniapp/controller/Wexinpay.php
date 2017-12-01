@@ -28,7 +28,7 @@ class Wexinpay extends Controller
 	        'paySign' =>$sign
 		];
 		$data=json($data);
-		var_dump($data);
+		//var_dump($data);
 		//exit;
 		return $data;
 		exit;
