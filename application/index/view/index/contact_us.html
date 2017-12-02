@@ -167,7 +167,6 @@
 </style>
 {/block}
 
-
 {block name="title"}
 嘟嘟打车-联系我们
 {/block}
@@ -231,7 +230,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <input type="submit" value="Save" class="btn btn-success">
+                                <input type="button" value="Save" onclick="save()" class="btn btn-success">
                             </div>
                         </div>
                     </form>
@@ -244,7 +243,7 @@
                         <div class="text">
                             <h3>地址</h3>
                             <p>
-                                House #1, Road #2, AA Street, USA.
+                                福州市 仓山区 大榕树创意园
                             </p>
                         </div>
                     </div>
@@ -255,8 +254,8 @@
                         <div class="text">
                             <h3>联系电话</h3>
                             <ul>
-                                <li>+44 111-222-333</li>
-                                <li>+44 111-222-555</li>
+                                <li>- 15605907283</li>
+                                <li>- 15606923823</li>
                             </ul>
                         </div>
                     </div>
@@ -267,15 +266,12 @@
                         <div class="text">
                             <h3>邮箱</h3>
                             <p>
-                                info@yokobd.com
+                                duduchuxing@163.com
                             </p>
                         </div>
                     </div>
                 </div>
-
             </div>
-
-
             <div class="gap-small"></div>
             <div class="row">
                 <div class="col-md-12">
@@ -291,6 +287,22 @@
         </div>
     </section>
 </div>
+
+<!-- 消息提示模态框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">谢谢您对嘟嘟出行的支持</h4>
+            </div>
+            <div class="modal-body">&emsp;&emsp;后台已保存您的相关信息，将在近几日联系您</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 {/block}
 
 {block name="footer"}
@@ -298,6 +310,7 @@
 {/block}
 
 {block name="js"}
+<script src="__JS__/footer.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
 <script type="text/javascript">
     //创建和初始化地图函数：
@@ -340,6 +353,7 @@
     //标注点数组
     var markerArr = [{title:"嘟嘟出行&nbsp;项目研发基地",content:"福州市仓山区金达路130号5号楼3层",point:"119.267364|26.063228",isOpen:1,icon:{w:23,h:25,l:46,t:21,x:9,lb:12}}
     ];
+
     //创建marker
     function addMarker(){
         for(var i=0;i<markerArr.length;i++){
@@ -396,25 +410,10 @@
 
     initMap();//创建和初始化地图
 </script>
+<script>
+    function save() {
+        $('#myModal').modal()
+    }
+</script>
 {/block}
 
-
-
-
-
-<!--
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
-    <meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
-    <title>百度地图API自定义地图</title>
-    &lt;!&ndash;引用百度地图API&ndash;&gt;
-</head>
-
-<body>
-
-</body>
-
-</html>-->
