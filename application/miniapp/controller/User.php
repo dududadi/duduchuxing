@@ -223,7 +223,7 @@ class User extends Controller {
                 'driv_id'=>$res['driv_id'],
                 'ol_start_time'=>date('Y-m-d H:i:s') ,
                 'ol_end_time'=>'',
-                'rpt_id'=>1,
+                'rpt_id'=>3,
                 'ols_id'=>1,
                 'ol_km_num'=>$distance,
                 'ol_km_price'=>100,
@@ -236,6 +236,7 @@ class User extends Controller {
                 'oh_start_latitude'=>$startLatitude,
                 'oh_end_longitude'=>$endLongitude,
                 'oh_end_latitude'=>$endLatitude,
+                'ol_cost'=>0
                 ];
 
                 $insert = Db::name('order_list')
@@ -543,6 +544,7 @@ class User extends Controller {
             'ol_km_num'=>$len,
             'ol_km_price'=>$disCost,
             'ol_time_price'=>$timeCost,
+            'ol_cost'=>$cost
         ];
         $update = Db::name('order_list')
             ->where('ol_id',$order_id)
