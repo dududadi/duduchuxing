@@ -10,10 +10,7 @@ use think\Session;
 class Bill extends Controller {
     public function driverBill()
 	{
-		//$openid=Request::instance()-> post('openid');
-		//echo $openid;
-		$openid="oMv4i0V0AJjNUjlmwC17b3tfmB94";
-		//exit;
+		$openid=Request::instance()-> post('openid');
 		$list = DB::name('order_list')
 					->alias('o')//给表起别名
             ->join('business_type b', 'b.bt_id = o.bt_id')//联表查询
@@ -39,16 +36,12 @@ class Bill extends Controller {
                 'driv_head_img' => 'headImg'
             ])
             ->select();
-			//var_dump($list);
-		return json_encode($list);
+		echo json_encode($list);
 		exit;
 	}
 	public function userBill()
 	{
-		//$openid=Request::instance()-> post('openid');
-		//echo $openid;
-		//exit;
-		$openid="o7r8T0ZhAGxFdtVZAjqF10M2CmeY";
+		$openid=Request::instance()-> post('openid');
 		$list = DB::name('order_list')
 					->alias('o')//给表起别名
             ->join('business_type b', 'b.bt_id = o.bt_id')//联表查询
