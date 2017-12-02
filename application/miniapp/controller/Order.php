@@ -40,7 +40,7 @@ class Order extends Controller{
                 'ol_tip' => 'tips',
                 'oh_start_name' => 'startName',
                 'oh_end_name' => 'endName',
-                'driv_head_img' => 'headImg'
+                'user_head_img' => 'headImg'
             ])
             ->select();
         echo json_encode($res);

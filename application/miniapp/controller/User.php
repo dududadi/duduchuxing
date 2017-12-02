@@ -235,8 +235,7 @@ class User extends Controller {
                 'oh_start_longitude'=>$startLongitude,
                 'oh_start_latitude'=>$startLatitude,
                 'oh_end_longitude'=>$endLongitude,
-                'oh_end_latitude'=>$endLatitude,
-                'ol_cost'=>0
+                'oh_end_latitude'=>$endLatitude
                 ];
 
                 $insert = Db::name('order_list')
@@ -544,7 +543,6 @@ class User extends Controller {
             'ol_km_num'=>$len,
             'ol_km_price'=>$disCost,
             'ol_time_price'=>$timeCost,
-            'ol_cost'=>$cost
         ];
         $update = Db::name('order_list')
             ->where('ol_id',$order_id)
