@@ -45,9 +45,10 @@ class Bill extends Controller {
 	}
 	public function userBill()
 	{
-		$openid=Request::instance()-> post('openid');
+		//$openid=Request::instance()-> post('openid');
 		//echo $openid;
 		//exit;
+		$openid="o7r8T0ZhAGxFdtVZAjqF10M2CmeY";
 		$list = DB::name('order_list')
 					->alias('o')//给表起别名
             ->join('business_type b', 'b.bt_id = o.bt_id')//联表查询
