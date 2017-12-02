@@ -128,7 +128,6 @@ ol_km_num INT, -- 里程数
 ol_km_price DECIMAL(5,2), -- 里程价
 ol_time_price DECIMAL(5,2), -- 时长价
 ol_tip DECIMAL(5,2), -- 小费
-ol_cost DECIMAL(6,2), -- 总价
 
 oh_start_latitude FLOAT,  -- 起始经度
 oh_start_longitude FLOAT,-- 起始纬度

@@ -43,6 +43,13 @@ class Order extends Controller{
                 'user_head_img' => 'headImg'
             ])
             ->select();
+        for($i=0;$i<count($res);$i++){
+            $kmp = $res[$i]['kmPrice'];
+            $tp = $res[$i]['overTimePrice'];
+            $tip = $res[$i]['tips'];
+            $cost = $kmp+$tp+$tip;
+            $res[$i]['cost']=$cost;
+        }
         echo json_encode($res);
         exit;
     }
@@ -75,6 +82,13 @@ class Order extends Controller{
                 'driv_head_img' => 'headImg'
             ])
             ->select();
+        for($i=0;$i<count($res);$i++){
+            $kmp = $res[$i]['kmPrice'];
+            $tp = $res[$i]['overTimePrice'];
+            $tip = $res[$i]['tips'];
+            $cost = $kmp+$tp+$tip;
+            $res[$i]['cost']=$cost;
+        }
         echo json_encode($res);
         exit;
     }
