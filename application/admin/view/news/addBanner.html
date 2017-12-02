@@ -26,13 +26,7 @@
 <div class="page-container">
 	<form class="form form-horizontal" id="form-article-add" enctype="multipart/form-data" method="post" action="{:url('admin/News/pushNews')}">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">新闻标题：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" id="newsTitle" name="newsTitle">
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">新闻发布时间：</label>
+			<label class="form-label col-xs-4 col-sm-2">图片发布时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="date"  id="datemin" class="input-text Wdate" style="width:180px;">
 			</div>
@@ -44,12 +38,6 @@
 					<option value="1">发布</option>
 					<option value="2">未发布</option>
 				</select>
-			</div>
-		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-2">新闻摘要：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<textarea id="newsContent" name="newsContent" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！"></textarea>
 			</div>
 		</div>
 		<div class="row cl">
@@ -75,7 +63,7 @@
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-				<button onClick="pushNews()" class="btn btn-primary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
+				<button onClick="pushPicture()" class="btn btn-primary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
 				<button onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
 			</div>
 		</div>
@@ -115,10 +103,10 @@ $(function(){
 
 	var uploader = WebUploader.create({
 		auto: true,
-		swf: '../public/static/img/hy/Uploader.swf',
+		swf: 'lib/webuploader/0.1.5/Uploader.swf',
 	
 		// 文件接收服务端。
-		server: "{:url('admin/News/pushNews')}",
+		server: 'lib/webuploader/0.1.5/server/fileupload.php',
 	
 		// 选择文件的按钮。可选。
 		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -337,7 +325,7 @@ $(function(){
 
                 })($wrap);
 
-            // 压根就没有安装。
+            // 压根就没有安转。
             } else {
                 $wrap.html('<a href="http://www.adobe.com/go/getflashplayer" target="_blank" border="0"><img alt="get flash player" src="http://www.adobe.com/macromedia/style_guide/images/160x41_Get_Flash_Player.jpg" /></a>');
             }
@@ -362,7 +350,7 @@ $(function(){
             swf: 'lib/webuploader/0.1.5/Uploader.swf',
             chunked: false,
             chunkSize: 512 * 1024,
-            server: "{:url('admin/News/pushNews')}",
+            server: 'lib/webuploader/0.1.5/server/fileupload.php',
             // runtimeOrder: 'flash',
 
             // accept: {
@@ -412,7 +400,10 @@ $(function(){
         // });
 
         // 添加“添加文件”的按钮，
-        
+        uploader.addButton({
+            id: '#filePicker2',
+            label: '继续添加'
+        });
 
         uploader.on('ready', function() {
             window.uploader = uploader;
@@ -649,6 +640,8 @@ $(function(){
                     break;
 
                 case 'paused':
+                    $progress.show();
+                    $upload.text( '继续上传' );
                     break;
 
                 case 'confirm':
@@ -666,7 +659,6 @@ $(function(){
                     stats = uploader.getStats();
                     if ( stats.successNum ) {
                         alert( '上传成功' );
-                        
                     } else {
                         // 没有成功的图片，重设
                         state = 'done';
@@ -764,50 +756,11 @@ $(function(){
 
 })( jQuery );
 </script>
-<!--自己写的js-->
+//自己写的
 <script type="text/javascript">
-	var $click=0;		//判断是否点击
-	//点击让变量加一
-	function picPush()
+	public function pushPicture()
 	{
-		$click++;
-	}
-	//点击上传
-	function pushNews()
-	{
-		if($click==1)
-		{
-			$newsTitle=$("#newsTitle").val();
-			$datemin=$("#datemin").val();
-			$newsType=$("#newsType").val();
-			$newsContent=$("#newsContent").val();
-
-			$.ajax({
-				type:"post",
-				url:"{:url('admin/news/subNews')}",
-				data:{
-					'newsTitle':$newsTitle,
-					'datemin':$datemin,
-					'newsType':$newsType,
-					'newsContent':$newsContent
-				},
-				success:function(result)
-				{
-					console.log(result);
-					alert("提交成功");
-					history.go(0);
-				},
-				error:function(result){ 
-					console.log(result);
-					alert("提交错误");
-					history.go(0);
-				}
-			});
-		}
-		else if($click==0)
-		{
-			alert("请点击开始上传图片");
-		}
+		
 	}
 </script>
 </body>

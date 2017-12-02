@@ -13,6 +13,11 @@ class News extends Controller
 	{
 		return $this->fetch();
 	}
+	//banner信息推广界面 
+	public function addBanner()
+	{
+		return $this->fetch();
+	}
 	//新闻发布页面
 	public function publish()
 	{

@@ -29,5 +29,5 @@ class Wallet extends Controller {
 		exit;
 	}
 } 
-
+?>
 
