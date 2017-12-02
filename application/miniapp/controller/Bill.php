@@ -8,10 +8,11 @@ use think\Request;
 use think\Session;
 
 class Bill extends Controller {
-    public function driver()
+    public function driverBill()
 	{
-		$openid=Request::instance()-> post('openid');
+		//$openid=Request::instance()-> post('openid');
 		//echo $openid;
+		$openid="oMv4i0V0AJjNUjlmwC17b3tfmB94";
 		//exit;
 		$list = DB::name('order_list')
 					->alias('o')//给表起别名
@@ -38,10 +39,11 @@ class Bill extends Controller {
                 'driv_head_img' => 'headImg'
             ])
             ->select();
-		echo json_encode($list);
+			//var_dump($list);
+		return json_encode($list);
 		exit;
 	}
-	public function userWallet()
+	public function userBill()
 	{
 		$openid=Request::instance()-> post('openid');
 		//echo $openid;
