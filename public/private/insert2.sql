@@ -35,7 +35,9 @@ INSERT INTO d_order_list_status VALUES
 (null,'已过期'),
 (null,'待支付'),
 (null,'已支付'),
-(null,'已评价');
+(null,'用户已评价'), -- 用户已评价
+(null,'司机已评价'), -- 司机已评价
+(null.'均已评价'); -- 司机用户均已评价
 
 -- 充值付款类型
 INSERT INTO d_recharge_pay_type VALUES

@@ -383,7 +383,7 @@ class Driver extends Controller{
         echo $res;
         exit;
     }
-    //用户对司机评分+评价
+    //司机对用户评分+评价
     public function comment(){
         $driverId = Request::instance()-> post('driverId');
         $comment = Request::instance()-> post('comment');
@@ -397,9 +397,18 @@ class Driver extends Controller{
 
         $judge = false;
         Db::transaction(function() use($score,$comment,$user_id,$orderId,$driverId,&$judge){
-            //更改订单状态为已支付
+            //更改订单状态为已评价
+            $res = Db::name('order_list')
+                ->where('ol_id',$orderId)
+                ->find();
+            $olsId = $res['ols_id'];
+            if($olsId==6){
+                $olsId=8;
+            }else{
+                $olsId=7;
+            }
             $update = Db::name('order_list')
-                ->update(['ols_id'=>6])
+                ->update(['ols_id'=>$olsId])
                 ->where('ol_id',$orderId);
             //插入评论表
             $data = [

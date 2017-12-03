@@ -686,9 +686,18 @@ class User extends Controller {
         $judge = false;
         Db::transaction(function() use($score,$comment,$user_id,$orderId,$driverId,$openid,&$judge){
             //更改订单状态为已评价
-            $update = Db::name('order_list')
+            $res = Db::name('order_list')
                 ->where('ol_id',$orderId)
-                ->update(['ols_id'=>6]);
+                ->find();
+            $olsId = $res['ols_id'];
+            if($olsId==7){
+                $olsId=8;
+            }else{
+                $olsId=6;
+            }
+            $update = Db::name('order_list')
+                ->update(['ols_id'=>$olsId])
+                ->where('ol_id',$orderId);
             //插入评论表
             $data = [
                 'cutd_content'=>$comment,
