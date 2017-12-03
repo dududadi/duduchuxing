@@ -408,7 +408,7 @@ class Driver extends Controller{
                 $olsId=7;
             }
             $res = Db::name('order_list')
-                ->where('ol_id',$order_id)
+                ->where('ol_id',$orderId)
                 ->update(['ols_id'=>$olsId]);
             //插入评论表
             $data = [
