@@ -40,7 +40,8 @@ class Order extends Controller{
                 'ol_tip' => 'tips',
                 'oh_start_name' => 'startName',
                 'oh_end_name' => 'endName',
-                'user_head_img' => 'headImg'
+                'user_head_img' => 'headImg',
+                'ol_id'=>'orderId'
             ])
             ->select();
         $ruleArr = Db::name('business_type')
@@ -92,7 +93,8 @@ class Order extends Controller{
                 'ol_tip' => 'tips',
                 'oh_start_name' => 'startName',
                 'oh_end_name' => 'endName',
-                'driv_head_img' => 'headImg'
+                'driv_head_img' => 'headImg',
+                'ol_id'=>'orderId'
             ])
             ->select();
         $ruleArr = Db::name('business_type')
