@@ -225,14 +225,14 @@ class Chart extends Controller {
 
             $oneFast = Db::name('order_list')
             -> where('ol_start_time', 'like', $theDay.'%')
-            -> where('ols_id', 4)
+            -> where('ols_id', 5)
             -> where('bt_id', 2)
             -> field('sum(ol_km_price) + sum(ol_time_price) sum')
             -> find();
 
             $oneTaxi = Db::name('order_list')
             -> where('ol_start_time', 'like', $theDay.'%')
-            -> where('ols_id', 4)
+            -> where('ols_id', 5)
             -> where('bt_id', 1)
             -> field('sum(ol_km_price) + sum(ol_time_price) sum')
             -> find();
@@ -248,14 +248,14 @@ class Chart extends Controller {
 
             $oneFast = Db::name('order_list')
             -> where('ol_start_time', 'like', $theMonth.'%')
-            -> where('ols_id', 4)
+            -> where('ols_id', 5)
             -> where('bt_id', 2)
             -> field('sum(ol_km_price) + sum(ol_time_price) sum')
             -> find();
 
             $oneTaxi = Db::name('order_list')
             -> where('ol_start_time', 'like', $theMonth.'%')
-            -> where('ols_id', 4)
+            -> where('ols_id', 5)
             -> where('bt_id', 1)
             -> field('sum(ol_km_price) + sum(ol_time_price) sum')
             -> find();

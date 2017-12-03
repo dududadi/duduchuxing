@@ -15,6 +15,7 @@ class User extends Controller {
         }
     }
 
+    //显示用户列表
     public function lists() {
         if (!sessionAssist('userminDate')) {
             Session::set('userminDate', '1970-1-1');
@@ -32,8 +33,6 @@ class User extends Controller {
             $maxDate = Session::get('usermaxDate');
         }
 
-        
-
         if (!sessionAssist('userKey')) {
             Session::set('userKey', '');
 
@@ -49,8 +48,6 @@ class User extends Controller {
         -> where('user_reg_time', '>', $minDate)
         -> where('user_reg_time', '<',  date("Y-m-d", strtotime("+1 day",strtotime($maxDate))))
         -> where('user_name like "%'. $keyDate. '%" or user_tel like "%'. $keyDate. '%" or user_id_num like "%'. $keyDate. '%"')
-        // -> whereOr('user_tel like "%'. $key. '%"')
-        // -> whereOr('user_id_num like "%'. $key. '%"')
         -> field('user_id, user_reg_time, user_name, user_id_num, user_tel, user_score, user_money, user_status, user_head_img, user_address, prov_name, city_name, area_name')
         -> paginate(5);
 
@@ -62,6 +59,7 @@ class User extends Controller {
         return $this -> fetch(); 
     }
 
+    //筛选条件设定
     public function setCondition() {
         $minDate = Request::instance()
         -> post('minDate', '1970-1-2');
@@ -77,6 +75,7 @@ class User extends Controller {
         return 0;
     }
 
+    //用户详情显示
     public function show() {
         $arr = Request::instance()
         -> param();
@@ -96,6 +95,7 @@ class User extends Controller {
         return $this -> fetch();
     }
 
+    //修改某个用户的使用/锁定状态
     public function changeStatusOne() {
         $tel = Request::instance()
         -> post('tel', '');
@@ -113,6 +113,7 @@ class User extends Controller {
         }
     }
 
+    //重置密码
     public function resetPsw() {
         $psw = 'duduchuxing';
         
@@ -130,6 +131,7 @@ class User extends Controller {
         }
     }
 
+    //批量解锁
     public function unlockAll() {
         $str = Request::instance()
         -> post('list', '[]');
@@ -153,6 +155,7 @@ class User extends Controller {
         }
     }
 
+    //批量锁定
     public function lockAll() {
         $str = Request::instance()
         -> post('list', '[]');

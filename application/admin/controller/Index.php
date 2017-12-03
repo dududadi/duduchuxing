@@ -77,6 +77,6 @@ class Index extends Controller {
         Cookie::delete('isLogin');
 
         //跳转页面并友好提示
-        $this ->success('已退出','admin/login/index',3);
+        $this ->success('已退出','admin/login/index', 3);
     }
 }
