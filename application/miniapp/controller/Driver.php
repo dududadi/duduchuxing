@@ -413,7 +413,7 @@ class Driver extends Controller{
             $res = Db::name('comment_dtu')
                 ->insert($data);
             $judge=true;    
-        }
+        });
         if($judge){
             //成功
             echo 1;
