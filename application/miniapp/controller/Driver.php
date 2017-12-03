@@ -385,7 +385,7 @@ class Driver extends Controller{
     }
     //司机对用户评分+评价
     public function comment(){
-        $driverId = Request::instance()-> post('driverId');
+        $driverOpenId = Request::instance()-> post('driverOpenId');
         $comment = Request::instance()-> post('comment');
         $score = Request::instance()-> post('score');
         $orderId = Request::instance()-> post('orderId');
@@ -395,6 +395,10 @@ class Driver extends Controller{
             ->find();
         $user_id = $user['user_id'];
 
+        $driver = Db::name('driver')
+            ->where('open_id',$driverOpenId)
+            ->find();
+        $driverId = $driver['driv_id'];
         $judge = false;
         Db::transaction(function() use($score,$comment,$user_id,$orderId,$driverId,&$judge){
             //更改订单状态为已评价
