@@ -43,11 +43,24 @@ class Order extends Controller{
                 'user_head_img' => 'headImg'
             ])
             ->select();
+        $ruleArr = Db::name('business_type')
+            ->alias('bt')
+            ->join('order_list ol','ol.bt_id=bt.bt_id')
+            ->join('user u','u.user_id=ol.user_id')
+            ->join('rule r','r.bt_id=bt.bt_id')
+            ->where('r.rl_price_type','low')
+            ->where('u.open_id',$wxopid)
+            ->find();
+        $low = $ruleArr['rl_price'];
+
         for($i=0;$i<count($res);$i++){
             $kmp = $res[$i]['kmPrice'];
             $tp = $res[$i]['overTimePrice'];
             $tip = $res[$i]['tips'];
             $cost = $kmp+$tp+$tip;
+            if($low>$cost){
+                $cost = $low;
+            }
             $res[$i]['cost']=$cost;
         }
         echo json_encode($res);
@@ -82,11 +95,23 @@ class Order extends Controller{
                 'driv_head_img' => 'headImg'
             ])
             ->select();
+        $ruleArr = Db::name('business_type')
+            ->alias('bt')
+            ->join('driver d','d.bt_id=bt.bt_id')
+            ->join('rule r','r.bt_id=bt.bt_id')
+            ->where('r.rl_price_type','low')
+            ->where('d.open_id',$wxopid)
+            ->find();
+        $low = $ruleArr['rl_price'];
+
         for($i=0;$i<count($res);$i++){
             $kmp = $res[$i]['kmPrice'];
             $tp = $res[$i]['overTimePrice'];
             $tip = $res[$i]['tips'];
             $cost = $kmp+$tp+$tip;
+            if($low>$cost){
+                $cost = $low;
+            }
             $res[$i]['cost']=$cost;
         }
         echo json_encode($res);
