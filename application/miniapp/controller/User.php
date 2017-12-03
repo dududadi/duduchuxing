@@ -577,9 +577,9 @@ class User extends Controller {
             ->find();
         $user_money = $res['user_money'];
         if($user_money>=$money){
-            echo 1;
+            echo '{"status_code":"1","money":"'.$user_money.'"}';
         }else{
-            echo 0;
+            echo '{"status_code":"0","money":"'.$user_money.'"}';
         }
         exit;
     }
@@ -672,6 +672,32 @@ class User extends Controller {
         
 
         exit;
+    }
+    //用户对司机评分+评价
+    public function comment(){
+        $openid = Request::instance()-> post('openid');
+        $driverId = Request::instance()-> post('driverId');
+        $comment = Request::instance()-> post('comment');
+        $score = Request::instance()-> post('score');
+        $orderId = Request::instance()-> post('orderId');
+        $user = Db::name('user')
+            ->where('open_id',$openid)
+            ->find();
+        $user_id = $user['user_id'];
+        $data = [
+            'cutd_content'=>$comment,
+            'cutd_score'=>$score,
+            'user_id'=>$user_id,
+            'driv_id'=>$driverId,
+            'ol_id'=>$orderId,
+            'cutd_time'=>date('Y-m-d H:i:s')
+        ];
+        $res = Db::name('comment_utd')
+            ->insert($data);
+        echo $res;
+        exit;
+
+
     }
 
 
