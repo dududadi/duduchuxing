@@ -696,7 +696,7 @@ class User extends Controller {
                 $olsId=6;
             }
             $update = Db::name('order_list')
-                ->update(['ols_id'=>$olsId])
+                ->setField('ols_id',$olsId)
                 ->where('ol_id',$orderId);
             //插入评论表
             $data = [
