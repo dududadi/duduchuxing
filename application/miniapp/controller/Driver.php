@@ -373,6 +373,16 @@ class Driver extends Controller{
         echo $res;
         exit;
     }
+    //司机查询结算结果
+    public function checkOlsId(){
+        $orderId = Request::instance()-> post('orderId');
+        $res = Db::name('order_list')
+            ->where('ol_id',$orderId)
+            ->where('ols_id',5)
+            ->find();
+        echo $res;
+        exit;
+    }
     //用户对司机评分+评价
     public function comment(){
         $driverId = Request::instance()-> post('driverId');
@@ -411,8 +421,6 @@ class Driver extends Controller{
             //回滚
             echo 0;
         }
-
-
     }
 
 
