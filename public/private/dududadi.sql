@@ -250,7 +250,7 @@ DROP TABLE IF EXISTS d_comment_dtu;
 CREATE TABLE d_comment_dtu(
 cdtu_id INT NOT NULL PRIMARY KEY auto_increment, -- 司机对用户评价id
 cdtu_score float, -- 评分
-cdtu_content vachar(50), --内容
+cdtu_content varchar(50), --内容
 user_id INT NOT NULL, -- 用户id
 driv_id INT NOT NULL, -- 司机id
 ol_id INT NOT NULL, -- 订单id
