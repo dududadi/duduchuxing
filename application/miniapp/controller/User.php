@@ -564,10 +564,7 @@ class User extends Controller {
 
         echo json_encode($payInfo);
         exit;
-
-
     }
-
     //余额是否充足
     public function checkMoney(){
         $money = Request::instance()->post('money');
@@ -704,7 +701,7 @@ class User extends Controller {
             $res = Db::name('comment_utd')
                 ->insert($data);
             $judge=true;    
-        }
+        });
         if($judge){
             //成功
             echo 1;
@@ -712,8 +709,6 @@ class User extends Controller {
             //回滚
             echo 0;
         }
-
-
     }
 
 
