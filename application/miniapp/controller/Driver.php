@@ -373,10 +373,47 @@ class Driver extends Controller{
         echo $res;
         exit;
     }
+    //用户对司机评分+评价
+    public function comment(){
+        $driverId = Request::instance()-> post('driverId');
+        $comment = Request::instance()-> post('comment');
+        $score = Request::instance()-> post('score');
+        $orderId = Request::instance()-> post('orderId');
 
-    
-    
+        $user = Db::name('order_list')
+            ->where('ol_id',$orderId)
+            ->find();
+        $user_id = $user['user_id'];
 
+        $judge = false;
+        Db::transaction(function() use($score,$comment,$user_id,$orderId,$driverId,&$judge){
+            //更改订单状态为已支付
+            $update = Db::name('order_list')
+                ->update(['ols_id'=>6])
+                ->where('ol_id',$orderId);
+            //插入评论表
+            $data = [
+                'cdtu_content'=>$comment,
+                'cdtu_score'=>$score,
+                'user_id'=>$user_id,
+                'driv_id'=>$driverId,
+                'ol_id'=>$orderId,
+                'cdtu_time'=>date('Y-m-d H:i:s')
+            ];
+            $res = Db::name('comment_dtu')
+                ->insert($data);
+            $judge=true;    
+        }
+        if($judge){
+            //成功
+            echo 1;
+        }else{
+            //回滚
+            echo 0;
+        }
+
+
+    }
 
 
 }

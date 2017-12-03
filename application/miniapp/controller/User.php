@@ -680,22 +680,38 @@ class User extends Controller {
         $comment = Request::instance()-> post('comment');
         $score = Request::instance()-> post('score');
         $orderId = Request::instance()-> post('orderId');
+
         $user = Db::name('user')
             ->where('open_id',$openid)
             ->find();
         $user_id = $user['user_id'];
-        $data = [
-            'cutd_content'=>$comment,
-            'cutd_score'=>$score,
-            'user_id'=>$user_id,
-            'driv_id'=>$driverId,
-            'ol_id'=>$orderId,
-            'cutd_time'=>date('Y-m-d H:i:s')
-        ];
-        $res = Db::name('comment_utd')
-            ->insert($data);
-        echo $res;
-        exit;
+
+        $judge = false;
+        Db::transaction(function() use($score,$comment,$user_id,$orderId,$driverId,$openid,&$judge){
+            //更改订单状态为已支付
+            $update = Db::name('order_list')
+                ->update(['ols_id'=>6])
+                ->where('ol_id',$orderId);
+            //插入评论表
+            $data = [
+                'cutd_content'=>$comment,
+                'cutd_score'=>$score,
+                'user_id'=>$user_id,
+                'driv_id'=>$driverId,
+                'ol_id'=>$orderId,
+                'cutd_time'=>date('Y-m-d H:i:s')
+            ];
+            $res = Db::name('comment_utd')
+                ->insert($data);
+            $judge=true;    
+        }
+        if($judge){
+            //成功
+            echo 1;
+        }else{
+            //回滚
+            echo 0;
+        }
 
 
     }
