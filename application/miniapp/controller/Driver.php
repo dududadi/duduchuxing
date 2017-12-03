@@ -407,9 +407,9 @@ class Driver extends Controller{
             }else{
                 $olsId=7;
             }
-            $update = Db::name('order_list')
-                ->update(['ols_id'=>$olsId])
-                ->where('ol_id',$orderId);
+            $res = Db::name('order_list')
+                ->where('ol_id',$order_id)
+                ->update(['ols_id'=>$olsId]);
             //插入评论表
             $data = [
                 'cdtu_content'=>$comment,

@@ -695,9 +695,9 @@ class User extends Controller {
             }else{
                 $olsId=6;
             }
-            $update = Db::name('order_list')
-                ->setField('ols_id',$olsId)
-                ->where('ol_id',$orderId);
+            $res = Db::name('order_list')
+                ->where('ol_id',$order_id)
+                ->update(['ols_id'=>$olsId]);
             //插入评论表
             $data = [
                 'cutd_content'=>$comment,
