@@ -485,14 +485,15 @@ class Driver extends Controller{
         //修改数据库手机号
         $res = Db::name('driver')
             ->where('open_id',$openid)
-            ->where('driv_psw',$psw)
+            ->where('driv_psw',md5($psw))
             ->update(['driv_tel' => $tel]);
 
-        if ($res !== false) {
-            echo 10;
-        } else {
-            echo 11;
-        }
+//        if ($res !== false) {
+//            echo 10;
+//        } else {
+//            echo 11;
+//        }
+        echo $res;
         exit;
     }
 
