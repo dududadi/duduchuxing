@@ -159,8 +159,7 @@ class Driver extends Controller
         if(!empty($password) || !empty($password2)){
             if(strlen($password)>=6 && strlen($password)<=16){
                 if($password===$password2){
-                    $res = Db::name('driver')
-                        -> update(['driv_id'=>$id,'driv_psw'=>md5($password)]);
+                    $res = Db::name('driver')->where('driv_id',$id)-> update(['driv_psw'=>md5($password)]);
                     if($res)
                     {
                         return 1;
