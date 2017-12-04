@@ -98,8 +98,8 @@ class Monitor extends Controller {
     //显示详细路径
     public function details() {
         $getOrderId = input('get.id','');
-        $getStartName = input('get.sSite','');
-        $getEndName = input('get.eSite','');
+        $getStartName = input('get.sName','');
+        $getEndName = input('get.eName','');
         if (!$getOrderId) {
             return '<h1>请求出错！请联系管理员！</h1>';
         } else {
@@ -162,8 +162,8 @@ class Monitor extends Controller {
     //显示乘客位置
     public function location() {
         $getUserId = input('get.id','');
-        $getStartName = input('get.sSite','');
-        $getEndName = input('get.eSite','');
+        $getStartName = input('get.sName','');
+        $getEndName = input('get.eName','');
         if (!$getUserId) {
             return '<h1>请求出错！请联系管理员！</h1>';
         } else {
