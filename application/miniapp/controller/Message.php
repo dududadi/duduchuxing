@@ -15,7 +15,7 @@ define("TOKEN",'maygodblessus');
 define("APPID",'wx0d68f07d877286f6');
 define("APPSECRET",'49513cc772b525486ac51e6bf998bb77');
 define('TULINGAPIKEY','186d105734dd42dd9a8e3f4607a873d4');
-class Conversation extends Controller
+class Message extends Controller
 {
 
     /*进行微信接入*/
