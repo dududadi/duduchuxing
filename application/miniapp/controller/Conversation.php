@@ -105,7 +105,8 @@ class Conversation extends Controller
 
             $data=[
                 'key'=>TULINGAPIKEY,            //图灵接口的key
-                'info'=>$postObj->Content       //用户发送的消息
+                'info'=>$postObj->Content,       //用户发送的消息
+                'userid'=>'163413'
             ];
 
             $resMsg=json_decode(curlHttp('http://www.tuling123.com/openapi/api',$data)); //调用图灵接口回答的数据,并将结果转换成JSON格式
