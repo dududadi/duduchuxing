@@ -24,23 +24,23 @@
 </head>
 <body>
 <div class="page-container">
-	<form class="form form-horizontal" id="form-article-add" enctype="multipart/form-data" method="post" action="{:url('admin/News/pushNews')}">
+	<form class="form form-horizontal" id="form-article-add" enctype="multipart/form-data" method="post" action="{:url('admin/News/newsEdit')}">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">新闻标题：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" id="newsTitle" name="newsTitle">
+				<input type="text" class="input-text" id="newsTitle" name="newsTitle" value='{$list.news_title}'>
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">新闻发布时间：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="date"  id="datemin" class="input-text Wdate" style="width:180px;">
+			<input type="date"  id="datemin" class="input-text Wdate" style="width:180px;">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">发布类型：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<select name="newsType" id="newsType" class="">
+				<select name="newsType" id="newsType" class="" value="{$list.news_status}">
 					<option value="1">发布</option>
 					<option value="2">未发布</option>
 				</select>
@@ -49,7 +49,9 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">新闻摘要：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea id="newsContent" name="newsContent" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！"></textarea>
+				<textarea id="newsContent" name="newsContent" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true">
+					{$list.news_content}
+				</textarea>
 			</div>
 		</div>
 		<div class="row cl">
@@ -75,7 +77,7 @@
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-				<button onClick="pushNews()" class="btn btn-primary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
+				<button id="sub" newsid="{$list.news_id}" onClick="pushNews()" class="btn btn-primary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
 				<button onClick="layer_close();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
 			</div>
 		</div>
@@ -118,7 +120,7 @@ $(function(){
 		swf: '../public/static/img/hy/Uploader.swf',
 	
 		// 文件接收服务端。
-		server: "{:url('admin/News/pushNews')}",
+		server: "{:url('admin/News/updateNews')}",
 	
 		// 选择文件的按钮。可选。
 		// 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -775,39 +777,34 @@ $(function(){
 	//点击上传
 	function pushNews()
 	{
-		if($click==1)
-		{
-			$newsTitle=$("#newsTitle").val();
-			$datemin=$("#datemin").val();
-			$newsType=$("#newsType").val();
-			$newsContent=$("#newsContent").val();
-
-			$.ajax({
-				type:"post",
-				url:"{:url('admin/news/subNews')}",
-				data:{
-					'newsTitle':$newsTitle,
-					'datemin':$datemin,
-					'newsType':$newsType,
-					'newsContent':$newsContent
-				},
-				success:function(result)
-				{
-					console.log(result);
-					alert("提交成功");
-					history.go(0);
-				},
-				error:function(result){ 
-					console.log(result);
-					alert("提交错误");
-					history.go(0);
-				}
-			});
-		}
-		else if($click==0)
-		{
-			alert("请点击开始上传图片");
-		}
+		var $sub=$('#sub').attr('newsid');
+		var $newsTitle=$("#newsTitle").val();
+		var $datemin=$("#datemin").val();
+		var $newsType=$("#newsType").val();
+		var $newsContent=$("#newsContent").val();
+		//console.log($newsTitle);
+		$.ajax({
+			type:"post",
+			url:"{:url('admin/news/updateNews')}",
+			data:{
+				'id':$sub,
+				'newsTitle':$newsTitle,
+				'datemin':$datemin,
+				'newsType':$newsType,
+				'newsContent':$newsContent
+			},
+			success:function(result)
+			{
+				console.log(result);
+				alert("提交成功");
+				history.go(0);
+			},
+			error:function(result){ 
+				console.log(result);
+				alert("提交错误");
+				history.go(0);
+			}
+		});
 	}
 </script>
 </body>
