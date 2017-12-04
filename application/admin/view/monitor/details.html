@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="Bookmark" href="/favicon.ico" >
+    <link rel="Shortcut Icon" href="/favicon.ico" />
+    <title>地图</title>
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .map{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="page" style="width: 100%;height: 100%;">
+        <div id="my-map" class="map"></div>
+    </div>
+</body>
+<script type="text/javascript" src="__HUI__/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="__HUI__/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src='//webapi.amap.com/maps?v=1.4.2&key=19ea604f2c70652cfafbe4843a5ac736'></script>
+<!-- UI组件库 1.0 -->
+<script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script type="text/javascript">
+    function transformObj(objArr,callback){
+        if (!objArr) {
+           return false;
+        }
+        debugger;
+        var arr = [],newPathArr = [];
+        for (var i = 0; i < objArr.length; i++) {
+            arr = [];
+            for(var item in objArr[i]){
+                arr.push(objArr[i][item]);
+            }
+            newPathArr.push(arr);
+        }
+
+        callback(newPathArr);
+        return newPathArr;
+    }
+
+    function drawMap() {
+        var map = new AMap.Map('my-map', {
+            zoom: 10
+        });
+
+        AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.OverView'],
+            function(){
+                map.addControl(new AMap.ToolBar());
+
+                map.addControl(new AMap.Scale());
+
+                map.addControl(new AMap.OverView({isOpen:true}));
+            }
+        );
+
+        AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function(PathSimplifier, $) {
+            //just some colors
+            var colors = [
+                "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00",
+                "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707",
+                "#651067", "#329262", "#5574a6", "#3b3eac"
+            ];
+
+            var pathSimplifierIns = new PathSimplifier({
+                zIndex: 100,
+                //autoSetFitView:false,
+                map: map, //所属的地图实例
+
+                getPath: function(pathData, pathIndex) {
+
+                    return pathData.path;
+                },
+                getHoverTitle: function(pathData, pathIndex, pointIndex) {
+
+                    if (pointIndex >= 0) {
+                        //point
+                        return pathData.name + '，点：' + pointIndex + '/' + pathData.path.length;
+                    }
+
+                    return pathData.name + '，点数量' + pathData.path.length;
+                },
+                renderOptions: {
+                    pathLineStyle: {
+                        dirArrowStyle: true
+                    },
+                    getPathStyle: function(pathItem, zoom) {
+
+                        var color = colors[pathItem.pathIndex % colors.length],
+                            lineWidth = 6;
+
+                        return {
+                            pathLineStyle: {
+                                strokeStyle: color,
+                                lineWidth: lineWidth
+                            },
+                            pathLineSelectedStyle: {
+                                lineWidth: lineWidth + 2
+                            },
+                            pathNavigatorStyle: {
+                                fillStyle: color
+                            }
+                        };
+                    }
+                }
+            });
+
+            window.pathSimplifierIns = pathSimplifierIns;
+
+            transformObj(pathArr,function (pathArr) {
+                $('#loadingTip').remove();
+                AMapUI.loadUI(['overlay/SimpleMarker'], function(SimpleMarker) {
+                    //创建SimpleMarker实例
+                    new SimpleMarker({
+
+                        //前景文字
+                        iconLabel: '',
+
+                        //图标主题
+                        iconTheme: 'default',
+
+                        //背景图标样式
+                        iconStyle: 'red',
+
+                        map: map,
+                        position: pathArr[pathArr.length-1]
+                    });
+                });
+            });
+
+            //initRoutesContainer(d);
+
+            function onload() {
+                pathSimplifierIns.renderLater();
+            }
+
+            function onerror(e) {
+                alert('图片加载失败！');
+            }
+
+        });
+    }
+
+
+    var pathArr = JSON.parse('{$data}');
+    if (pathArr.length === 0) {
+        $('<div id="loadingTip">未查询到该司机的行车路径！</div>').prependTo($('#page'));
+    } else {
+        $('<div id="loadingTip">加载数据，请稍候...</div>').prependTo($('#page'));
+        drawMap();
+    }
+
+</script>
+</html>
