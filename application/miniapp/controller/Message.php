@@ -101,19 +101,14 @@ class Message extends Controller
         if($postObj->MsgType == 'text'){
 
             $access_token=$this->getAccessToken();      //用封装好的内置方法获取access_token(有判断，有保存的方法)
-            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'进入到判断并获取到token:'.$access_token]);
+
 
             $url='http://www.tuling123.com/openapi/api?key=186d105734dd42dd9a8e3f4607a873d4&info='.$postObj->Content;
             $resMsg=json_decode(curlHttp($url,[])); //调用图灵接口回答的数据,并将结果转换成JSON格式
 
-            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'图灵回复的信息:'.json_encode($resMsg)]);
+
 
             $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$access_token;//客服自动回复消息
-            $msg=[
-                "touser"=>"",           //用户openid
-                "msgtype"=>"text",                           //类型是文字
-                "text"=> ["content"=>""]         //图灵回复的消息
-            ];
 
             $msg='{
                     "touser":"'.$postObj->FromUserName.'",
@@ -123,10 +118,10 @@ class Message extends Controller
                          "content":"'.$resMsg->text.'"
                     }
                 }';
-            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'准备回复给用户的信息:'.json_encode($msg)]);
-            $res=curlHttp($url,$msg);        //发送回微信小程序*/
 
-            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'发送后的回调:'.json_encode($res)]);
+            curlHttp($url,$msg);        //发送回微信小程序*/
+
+
         }
 
     }
