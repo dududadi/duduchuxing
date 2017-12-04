@@ -141,7 +141,7 @@ class Conversation extends Controller
                 Db::name('access_token')->insert(['at_access_token'=>$access_token,'at_expire_time'=>$expire_time]);
             }
         }else{
-            if ($data->expire_time < time()) {
+            if ($data['at_expire_time'] < time()) {
                 $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".APPID."&secret=".APPSECRET;
                 $res = json_decode(curlHttp($url,[]));  //转换成json格式
                 $access_token = $res->access_token;     //获取其中的access_token
@@ -152,7 +152,7 @@ class Conversation extends Controller
                     Db::name('access_token')->where('at_id',1)->update(['at_access_token'=>$access_token,'at_expire_time'=>$expire_time]);
                 }
             } else {
-                $access_token = $data->access_token;        //如果没有超时，则调用原来的access_token
+                $access_token = $data['at_access_token'];        //如果没有超时，则调用原来的access_token
 
             }
         }
