@@ -91,7 +91,7 @@ class Conversation extends Controller
     public function response(){
       /*  /*微信是以XML格式发送给我们所以我们要以 php 获取XML数据流格式的方式去获取*/
         $fensMsg = $GLOBALS['HTTP_RAW_POST_DATA'];
-
+        Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>$fensMsg]);
         /*接受到的粉丝的消息数据是以XML格式获取的，
         由于PHP中，对数组的操作最便捷，所以php中很习惯的将数据转换成数组来处理*/
         libxml_disable_entity_loader(ture);
