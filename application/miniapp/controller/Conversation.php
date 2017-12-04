@@ -122,7 +122,7 @@ class Conversation extends Controller
     public function getAccessToken()
     {
         // access_token 应该全局存储与更新，以下代码以存储到数据库中做示例
-        $data = Db::name('order_list')->where('at_id',1)->find();
+        $data = Db::name('access_token')->where('at_id',1)->find();
         if(empty($data)){
             if ($data->expire_time < time()) {
                 //  超时则获取新access_token，并做保存操作
@@ -135,7 +135,7 @@ class Conversation extends Controller
                     //如果获取到access_token，做一个时间增加，并储存至文件
                     $data->expire_time = time() + 7000;
                     $data->access_token = $access_token;
-                    $access_token= Db::name('order_list')->where('at_id',1)->update(['at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
+                    $access_token= Db::name('access_token')->where('at_id',1)->update(['at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
                 }
             } else {
                 $access_token = $data->access_token;        //如果没有超时，则调用原来的access_token
@@ -148,7 +148,7 @@ class Conversation extends Controller
                 //如果获取到access_token，做一个时间增加，并储存至文件
                 $data->expire_time = time() + 7000;
                 $data->access_token = $access_token;
-                $access_token= Db::name('order_list')->insert(['at_id'=>null,'at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
+                $access_token= Db::name('access_token')->insert(['at_id'=>null,'at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
             }
         }
         return $access_token;       //返回access_token
