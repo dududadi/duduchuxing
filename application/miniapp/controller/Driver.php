@@ -462,17 +462,17 @@ class Driver extends Controller{
         $openid = Request::instance()->post('openId');
 
         //手机号验证
-        if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) {
-            echo 0;
-            exit;
-        }
+//        if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) {
+//            echo 0;
+//            exit;
+//        }
         //手机号是否注册
-        $res = Db::name('driver')
+        $telTest = Db::name('driver')
             -> where('driv_tel', $tel)
             -> field('driv_tel')
             -> select();
 
-        if ($res) {
+        if ($telTest) {
             echo 1;
             exit;
         }
@@ -493,7 +493,7 @@ class Driver extends Controller{
 //        } else {
 //            echo 11;
 //        }
-        echo $res;
+        echo 'telTest@'.$telTest.'@update@'.$res.'@regexp@'.preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel.'').'@phone@'.$tel.'@psw@'.$psw.'@openid@'.$openid;
         exit;
     }
 
