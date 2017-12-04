@@ -111,7 +111,7 @@ class Conversation extends Controller
     {
         // access_token 应该全局存储与更新，以下代码以存储到数据库中做示例
         $data = Db::name('access_token')->where('at_id',1)->find();
-        Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'看看是什么东西'.$data]);
+        Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'看看是什么东西'."$data"]);
         if(empty($data)){
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".APPID."&secret=".APPSECRET;
             $res = json_decode(curlHttp($url,[]));  //转换成json格式
@@ -119,6 +119,7 @@ class Conversation extends Controller
             Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'创建语句'.$access_token]);
             if ($access_token) {
                 //如果获取到access_token，做一个时间增加，并储存至文件
+                Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'能不能进判断1']);
                 $data->expire_time = time() + 7000;
                 $data->access_token = $access_token;
                 Db::name('access_token')->insert(['at_id'=>null,'at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
