@@ -467,20 +467,20 @@ class Driver extends Controller{
             exit;
         }
         //手机号是否注册
-        $res = Db::name('driver')
+        $repeatTel = Db::name('driver')
             -> where('driv_tel', $tel)
             -> field('driv_tel')
-            -> select();
+            -> find();
 
-        if ($res) {
+        if ($repeatTel) {
             echo 1;
             exit;
         }
         //密码验证
-//        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/", $psw)) {
-//            echo 2;
-//            exit;
-//        }
+        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/", $psw)) {
+            echo 2;
+            exit;
+        }
 
         //修改数据库手机号
         $res = Db::name('driver')
@@ -488,12 +488,11 @@ class Driver extends Controller{
             ->where('driv_psw',md5($psw))
             ->update(['driv_tel' => $tel]);
 
-//        if ($res !== false) {
-//            echo 10;
-//        } else {
-//            echo 11;
-//        }
-        echo $res;
+        if ($res) {
+            echo 10;
+        } else {
+            echo 11;
+        }
         exit;
     }
 
