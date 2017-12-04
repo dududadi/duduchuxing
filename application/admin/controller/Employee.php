@@ -8,9 +8,6 @@ use think\Session;
 use think\Request;
 
 class Employee extends Controller{
-    function test () {
-        echo 123;
-    }
     //构造函数
     public function _initialize() {
         if(!sessionAssist('isLogin')) {
@@ -42,14 +39,11 @@ class Employee extends Controller{
         if (isset($keywordArr)) {
             foreach ($keywordArr as $item) {
                 $whereKeyword_name .= " and emp_name like '%{$item}%'";
-                $whereKeyword_name .= " and emp_name like '%{$item}%'";
-                $whereKeyword_name .= " and emp_nickname like '%{$item}%'";
                 $whereKeyword_nickname .= " and emp_nickname like '%{$item}%'";
             }
         }
 
         //查询员工列表数据
-        $val = Db::name('employee')->where(['emp_id'=>['like','%1%'], 'role_id'=>['<>',1]])->select();
         $data = Db::name('employee')
             ->alias('t1')
             ->join('d_role t2','t1.role_id = t2.role_id')
@@ -57,8 +51,7 @@ class Employee extends Controller{
             ->join('d_city t4','t4.city_num = t1.city_num')
             ->join('d_area t5','t5.area_num = t1.area_num')
             ->where(empty($whereDate)?[]:['emp_reg_time' => $whereDate])
-            ->where(empty($whereKeyword_name)?[]:$whereKeyword_name)
-            ->whereOr(empty($whereKeyword_nickname)?[]:$whereKeyword_nickname)
+            ->where('('.$whereKeyword_name.') or ('.$whereKeyword_nickname.')')
             ->order('t1.emp_id asc')
             ->field('t1.emp_id,t1.emp_name,t1.emp_status,t2.role_name,t3.prov_name,t4.city_name,t5.area_name')
             ->paginate($getPageSize , false , ['type'=>'Hui']);
@@ -68,6 +61,7 @@ class Employee extends Controller{
         $this->assign('dateMax',$getDateMax); //绑定最大日期数据
         $this->assign('keyword',$getSearch); //绑定关键字数据
         return $this->fetch();
+
     }
 
     //查询员工详细信息
@@ -239,8 +233,15 @@ class Employee extends Controller{
     //删除
     public function delete() {
         $id = input('get.id','');
-        $res = Db::name('employee')->where('emp_id', $id)->delete();
-        return json($res);
+        $res[] = Db::name('employee')->where('emp_id', $id)->delete();
+        $res[] = Db::name('comment_dts')->where('emp_id', $id)->delete();
+        $res[] = Db::name('chat_record_us')->where('emp_id', $id)->delete();
+        $res[] = Db::name('chat_record_ds')->where('emp_id', $id)->delete();
+        if (in_array(1,$res)) {
+            return json(true);
+        } else {
+            return json(false);
+        }
     }
 
     public function getSelectVal() {

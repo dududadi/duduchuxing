@@ -42,6 +42,7 @@
                 <input type="text" onfocus="WdatePicker()" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
                 <input type="text" class="input-text" name="phone" style="width:250px" placeholder="输入姓名或昵称关键字" >
                 <button type="button" class="btn btn-success radius" name="search-emp"><i class="Hui-iconfont">&#xe665;</i> 搜员工</button>
+                <button type="button" class="btn btn-success radius" onclick="test()"><i class="Hui-iconfont">&#xe665;</i> 搜员工</button>
             </form>
             <div class="cl pd-5 bg-1 bk-gray mt-20" style="position: relative;">
                 <span class="l">
@@ -125,6 +126,28 @@
     <script type="text/javascript" src="__HUI__/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="__HUI__/lib/laypage/1.2/laypage.js"></script>
     <script type="text/javascript">
+        function test() {
+            $.ajax({
+
+                url: '{:url("miniapp/driver/verify")}',
+                type: 'POST',
+                data:{openId:123123},
+                success: function (res) {
+                    console.log(res);
+                    if (res.data) {
+                        //审核已通过
+                       console.log(res);
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+
+
+
+
+            });
+        }
         function savePoint() {
             $.ajax({
                 url:'{:url("miniapp/TestPoint/index")}',
@@ -160,31 +183,30 @@
             paging: false
         });
 
-        //按条件显示用户列表
-        function getEmpByconditions() {
-            //搜索按钮
-            var $searchBtn = $('[name="search-emp"]');
-
+        //返回拼接的查询条件
+        function searchData() {
             var $dateMinNode = $('#datemin');
             var $dateMaxNode = $('#datemax');
             var $keywordNode = $('[name="phone"]');
+            //日期条件
+            var dateMinVal = $dateMinNode.val();
+            var dateMaxVal = $dateMaxNode.val();
 
-            $searchBtn.click(function (e) {
-                e.stopPropagation();
-                //日期条件
-                var dateMinVal = $dateMinNode.val();
-                var dateMaxVal = $dateMaxNode.val();
+            //关键字条件
+            var keywordArr = unique($keywordNode.val().replace(/\s+/g,' ').split(' ')); //过滤关键字的空格和重复部分
+            var keywordVal = keywordArr.join('@');
+            var condition = '?';
+            condition += dateMinVal?'dateMin='+dateMinVal:'';
+            condition += dateMaxVal?'&dateMax='+dateMaxVal:'';
+            condition += keywordVal?'&keyword='+keywordVal:'';
+            return condition;
+        }
 
-                //关键字条件
-                var keywordArr = unique($keywordNode.val().replace(/\s+/g,' ').split(' ')); //过滤关键字的空格和重复部分
-                var keywordVal = keywordArr.join('@');
-                var condition = '?';
-                condition += dateMinVal?'dateMin='+dateMinVal:'';
-                condition += dateMaxVal?'&dateMax='+dateMaxVal:'';
-                condition += keywordVal?'&keyword='+keywordVal:'';
-                window.location.href = '{:url("admin/employee/lists")}' + condition;
-            });
-
+        //设置查询条件
+        function setSearchData() {
+            var $dateMinNode = $('#datemin');
+            var $dateMaxNode = $('#datemax');
+            var $keywordNode = $('[name="phone"]');
             //选择每页显示条数
             var $pageSizeNode = $('.pageSize');
             var options = $pageSizeNode.children();
@@ -213,17 +235,39 @@
             //将关键字填入
             keywordVal = '{$keyword}'.replace('@',' ');
             $keywordNode.val(keywordVal);
+        }
+
+        //按条件显示用户列表
+        function getEmpByconditions() {
+            //搜索按钮
+            var $searchBtn = $('[name="search-emp"]');
+
+            $searchBtn.click(function (e) {
+                e.stopPropagation();
+                window.location.href = '{:url("admin/employee/lists")}' + searchData();
+            });
+
+            //点击翻页时
+            $('.pagination li a').click(function (e) {
+                e.stopPropagation();
+                var $this = $(this);
+                var url = $this.attr('href');
+                $this.attr('href',url+searchData());
+            });
+
+            setSearchData();
 
         }
         getEmpByconditions();
 
         /*用户-查看*/
-        function member_show(title,id,w,h){
+        function member_show(title,id,w,h) {
             var url = "{:url('admin/employee/details')}?id=" + id;
             layer_show(title,url,w,h);
         }
+
         /*用户-停用*/
-        function member_stop(obj,id){
+        function member_stop(obj,id) {
             layer.confirm('确认要停用吗？',function(index){
                 $.ajax({
                     type: 'POST',
@@ -243,7 +287,7 @@
         }
 
         /*用户-启用*/
-        function member_start(obj,id){
+        function member_start(obj,id) {
             layer.confirm('确认要启用吗？',function(index){
                 $.ajax({
                     type: 'POST',
@@ -262,21 +306,39 @@
             });
         }
         /*用户-编辑*/
-        function member_edit(title,id,w,h){
+        function member_edit(title,id,w,h) {
             var url = "{:url('admin/employee/add')}?id=" + id;
             layer_show(title,url,w,h);
         }
 
         /*用户-删除*/
-        function member_del(obj,id){
+        function member_del(obj,id) {
             layer.confirm('确认要删除吗？',function(index){
                 $.ajax({
                     type: 'POST',
                     url: "{:url('admin/employee/delete')}?id=" + id,
                     dataType: 'json',
                     success: function(data){
-                        $(obj).parents("tr").remove();
-                        layer.msg('已删除!',{icon:1,time:1000});
+                        if (data) {
+                            $(obj).parents("tr").remove();
+                            layer.msg('已删除!',{icon:1,time:1000});
+
+                            if ($('.table tbody tr').length === 0) {
+                                var pageSize = parseInt('{$pageSize}');
+                                var total = parseInt('{$list->total()}');
+                                var nowPage = parseInt('{$list->currentPage()}');
+                                if (nowPage*pageSize <= pageSize) {
+                                    return;
+                                } else if (nowPage*pageSize < total) {
+                                    location.href = '/duduchuxing/public/admin/employee/lists.html?page=' + nowPage;
+                                } else {
+                                    location.href = '/duduchuxing/public/admin/employee/lists.html?page=' + (nowPage - 1);
+                                }
+                            }
+                        } else {
+                            alert('删除失败，请联系管理员！');
+                            layer.closeAll();
+                        }
                     },
                     error:function(data) {
                         console.log(data.msg);
