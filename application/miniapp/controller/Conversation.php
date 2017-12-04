@@ -108,8 +108,8 @@ class Conversation extends Controller
                     "info":"'.$postObj->Content.'",
                     "userid":"163413"
                  }';
-
-            $resMsg=json_decode(curlHttp('http://www.tuling123.com/openapi/api',json_decode($data))); //调用图灵接口回答的数据,并将结果转换成JSON格式
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'发送给图灵的信息:'.$data]);
+            $resMsg=json_decode(curlHttp('http://www.tuling123.com/openapi/api',$data)); //调用图灵接口回答的数据,并将结果转换成JSON格式
 
             Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'图灵回复的信息:'.json_encode($resMsg)]);
 
