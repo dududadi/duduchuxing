@@ -117,7 +117,7 @@ class Conversation extends Controller
                 "msgtype"=>"text",                           //类型是文字
                 "text"=> ["content"=>$resMsg->text]         //图灵回复的消息
             ];
-
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'准备回复给用户的信息:'.json_encode($msg)]);
             curlHttp($url,$msg);        //发送回微信小程序*/
         }
 
