@@ -103,11 +103,11 @@ class Conversation extends Controller
             $access_token=$this->getAccessToken();      //用封装好的内置方法获取access_token(有判断，有保存的方法)
             Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'进入到判断并获取到token:'.$access_token]);
 
-            $data=[
-                'key'=>TULINGAPIKEY,            //图灵接口的key
-                'info'=>$postObj->Content,       //用户发送的消息
-                'userid'=>'163413'
-            ];
+            $data='{
+                    "key":"'.TULINGAPIKEY.'",
+                    "info":"'.$postObj->Content.'",
+                    "userid":"163413"
+                 }';
 
             $resMsg=json_decode(curlHttp('http://www.tuling123.com/openapi/api',$data)); //调用图灵接口回答的数据,并将结果转换成JSON格式
 
