@@ -719,6 +719,16 @@ class User extends Controller {
             echo 0;
         }
     }
+    //充值
+    public function addMoney(){
+        $openid = Request::instance()-> post('openid');
+        $addMoney = Request::instance()-> post('addMoney');
+        $res = Db::name('user')
+            ->where('open_id',$openid)
+            ->setInc('user_money',$addMoney);
+        echo $res;
+        exit;
+    }
 
 
 
