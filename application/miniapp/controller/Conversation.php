@@ -111,10 +111,12 @@ class Conversation extends Controller
     {
         // access_token 应该全局存储与更新，以下代码以存储到数据库中做示例
         $data = Db::name('access_token')->where('at_id',1)->find();
+        Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'看看是什么东西'.$data]);
         if(empty($data)){
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".APPID."&secret=".APPSECRET;
             $res = json_decode(curlHttp($url,[]));  //转换成json格式
             $access_token = $res->access_token;     //获取其中的access_token
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'创建语句'.$access_token]);
             if ($access_token) {
                 //如果获取到access_token，做一个时间增加，并储存至文件
                 $data->expire_time = time() + 7000;
@@ -126,6 +128,7 @@ class Conversation extends Controller
                 $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".APPID."&secret=".APPSECRET;
                 $res = json_decode(curlHttp($url,[]));  //转换成json格式
                 $access_token = $res->access_token;     //获取其中的access_token
+                Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'更新语句'.$access_token]);
                 if ($access_token) {
                     //如果获取到access_token，做一个时间增加，并储存至文件
                     $data->expire_time = time() + 7000;
@@ -134,6 +137,7 @@ class Conversation extends Controller
                 }
             } else {
                 $access_token = $data->access_token;        //如果没有超时，则调用原来的access_token
+                Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'数据库有数据'.$access_token]);
             }
         }
         return $access_token;       //返回access_token
