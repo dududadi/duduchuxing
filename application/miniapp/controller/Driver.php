@@ -477,10 +477,10 @@ class Driver extends Controller{
             exit;
         }
         //密码验证
-        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/", $psw)) {
-            echo 2;
-            exit;
-        }
+//        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/", $psw)) {
+//            echo 2;
+//            exit;
+//        }
 
         //修改数据库手机号
         $res = Db::name('driver')
