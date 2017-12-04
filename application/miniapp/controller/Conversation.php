@@ -94,7 +94,7 @@ class Conversation extends Controller
         Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>$fensMsg]);
         /*接受到的粉丝的消息数据是以XML格式获取的，
         由于PHP中，对数组的操作最便捷，所以php中很习惯的将数据转换成数组来处理*/
-        libxml_disable_entity_loader(ture);
+        /*libxml_disable_entity_loader(ture);*/
         $postObj = simplexml_load_string($fensMsg,'SimpleXMLElement',LIBXML_NOCDATA);
         Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>$postObj]);
         //$arr   =  json_decode(json_encode($xml),TRUE);	//将XML转换后的字符串，变成标准的json格式字符串，再转成数组
