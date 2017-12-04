@@ -758,10 +758,10 @@ class User extends Controller {
         }
 
         //修改数据库手机号
-        $res = Db::name('driver')
+        $res = Db::name('user')
             ->where('open_id',$openid)
-            ->where('driv_psw',md5($psw))
-            ->update(['driv_tel' => $tel]);
+            ->where('user_psw',md5($psw))
+            ->update(['user_tel' => $tel]);
 
         if ($res) {
             echo 10;
