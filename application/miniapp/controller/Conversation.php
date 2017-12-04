@@ -97,18 +97,16 @@ class Conversation extends Controller
         /*libxml_disable_entity_loader(ture);这个语句是做安全防御用的官方接口服务器运行空白/有的服务器正常有的服务器不能正常运行/weixin 所以进行注释*/
         $postObj = simplexml_load_string($fensMsg,'SimpleXMLElement',LIBXML_NOCDATA);
         //$arr   =  json_decode(json_encode($xml),TRUE);	//将XML转换后的字符串，变成标准的json格式字符串，再转成数组
-
+        Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'postObj:'.json_encode($postObj)]);
         if($postObj->MsgType == 'text'){
 
             $access_token=$this->getAccessToken();      //用封装好的内置方法获取access_token(有判断，有保存的方法)
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'进入到判断并获取到User_token:'.$access_token]);
 
-            $data='{
-                    "key":"'.TULINGAPIKEY.'",
-                    "info":"'.$postObj->Content.'",
-                    "userid":"163413"
-                 }';
-            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'发送给图灵的信息:'.$data]);
-            $resMsg=json_decode(curlHttp('http://www.tuling123.com/openapi/api',$data)); //调用图灵接口回答的数据,并将结果转换成JSON格式
+            $url='http://www.tuling123.com/openapi/api?key=186d105734dd42dd9a8e3f4607a873d4&info='.$postObj->Content;
+            $resMsg=json_decode(curlHttp($url,[])); //调用图灵接口回答的数据,并将结果转换成JSON格式
+
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'图灵回复的信息:'.json_encode($resMsg)]);
 
             $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$access_token;//客服自动回复消息
 
@@ -120,8 +118,10 @@ class Conversation extends Controller
                          "content":"'.$resMsg->text.'"
                     }
                 }';
-
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'准备回复给用户的信息:'.json_encode($msg)]);
             $res=curlHttp($url,$msg);        //发送回微信小程序*/
+
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'发送后的回调:'.json_encode($res)]);
         }
 
     }
