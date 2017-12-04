@@ -91,31 +91,49 @@ class Conversation extends Controller
     public function response(){
       /*  /*微信是以XML格式发送给我们所以我们要以 php 获取XML数据流格式的方式去获取*/
         $fensMsg = $GLOBALS['HTTP_RAW_POST_DATA'];
-
+        Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>$fensMsg]);
         /*接受到的粉丝的消息数据是以XML格式获取的，
         由于PHP中，对数组的操作最便捷，所以php中很习惯的将数据转换成数组来处理*/
-        libxml_disable_entity_loader(ture);
+        /*libxml_disable_entity_loader(ture);这个语句是做安全防御用的官方接口服务器运行空白/有的服务器正常有的服务器不能正常运行/weixin 所以进行注释*/
         $postObj = simplexml_load_string($fensMsg,'SimpleXMLElement',LIBXML_NOCDATA);
-
         //$arr   =  json_decode(json_encode($xml),TRUE);	//将XML转换后的字符串，变成标准的json格式字符串，再转成数组
+        Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'postObj:'.json_encode($postObj)]);
+        if($postObj->MsgType == 'text'){
 
-        $access_token=$this->getAccessToken();      //用封装好的内置方法获取access_token(有判断)
+            $access_token=$this->getAccessToken();      //用封装好的内置方法获取access_token(有判断，有保存的方法)
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'进入到判断并获取到token:'.$access_token]);
 
-        $data=[
-            'key'=>TULINGAPIKEY,            //图灵接口的key
-            'info'=>$postObj->Content       //用户发送的消息
-        ];
+            $data=[
+                'key'=>TULINGAPIKEY,            //图灵接口的key
+                'info'=>$postObj->Content,       //用户发送的消息
+                'userid'=>'163413'
+            ];
 
-        $resMsg=curlHttp('http://www.tuling123.com/openapi/api',$data); //调用图灵接口回答的数据
+            $resMsg=json_decode(curlHttp('http://www.tuling123.com/openapi/api',$data)); //调用图灵接口回答的数据,并将结果转换成JSON格式
 
-        $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$access_token;//客服自动回复消息
-        $msg=[
-            "touser"=>$postObj->FromUserName,           //用户openid
-            "msgtype"=>"text",                           //类型是文字
-            "text"=> ["content"=>$resMsg->text]         //图灵回复的消息
-        ];
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'图灵回复的信息:'.json_encode($resMsg)]);
 
-        curlHttp($url,json_decode($msg));        //发送回微信小程序*/
+            $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$access_token;//客服自动回复消息
+            $msg=[
+                "touser"=>"",           //用户openid
+                "msgtype"=>"text",                           //类型是文字
+                "text"=> ["content"=>""]         //图灵回复的消息
+            ];
+
+            $msg='{
+                    "touser":"'.$postObj->FromUserName.'",
+                    "msgtype":"text",
+                    "text":
+                    {
+                         "content":"'.$resMsg->text.'"
+                    }
+                }';
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'准备回复给用户的信息:'.json_encode($msg)]);
+            $res=curlHttp($url,$msg);        //发送回微信小程序*/
+
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'发送后的回调:'.json_encode($res)]);
+        }
+
     }
 
     /*小程序获取access_token*/
@@ -123,32 +141,31 @@ class Conversation extends Controller
     {
         // access_token 应该全局存储与更新，以下代码以存储到数据库中做示例
         $data = Db::name('access_token')->where('at_id',1)->find();
+
         if(empty($data)){
-            if ($data->expire_time < time()) {
-                //  超时则获取新access_token，并做保存操作
-                // 如果是企业号用以下URL获取access_token
-                // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
-                $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".APPID."&secret=".APPSECRET;
-                $res = json_decode(curlHttp($url,[]));  //转换成json格式
-                $access_token = $res->access_token;     //获取其中的access_token
-                if ($access_token) {
-                    //如果获取到access_token，做一个时间增加，并储存至文件
-                    $data->expire_time = time() + 7000;
-                    $data->access_token = $access_token;
-                    Db::name('access_token')->where('at_id',1)->update(['at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
-                }
-            } else {
-                $access_token = $data->access_token;        //如果没有超时，则调用原来的access_token
-            }
-        }else{
             $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".APPID."&secret=".APPSECRET;
             $res = json_decode(curlHttp($url,[]));  //转换成json格式
             $access_token = $res->access_token;     //获取其中的access_token
+
             if ($access_token) {
                 //如果获取到access_token，做一个时间增加，并储存至文件
-                $data->expire_time = time() + 7000;
-                $data->access_token = $access_token;
-                Db::name('access_token')->insert(['at_id'=>null,'at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
+                $expire_time = time() + 7000;
+                Db::name('access_token')->insert(['at_access_token'=>$access_token,'at_expire_time'=>$expire_time]);
+            }
+        }else{
+            if ($data['at_expire_time'] < time()) {
+                $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".APPID."&secret=".APPSECRET;
+                $res = json_decode(curlHttp($url,[]));  //转换成json格式
+                $access_token = $res->access_token;     //获取其中的access_token
+
+                if ($access_token) {
+                    //如果获取到access_token，做一个时间增加，并储存至文件
+                    $expire_time = time() + 7000;
+                    Db::name('access_token')->where('at_id',1)->update(['at_access_token'=>$access_token,'at_expire_time'=>$expire_time]);
+                }
+            } else {
+                $access_token = $data['at_access_token'];        //如果没有超时，则调用原来的access_token
+
             }
         }
         return $access_token;       //返回access_token

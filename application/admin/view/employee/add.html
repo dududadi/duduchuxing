@@ -167,7 +167,7 @@
         $('[name="adminRole"]').val(empData.role_id);
         //图...
         //console.log(empData);
-        selectVal.push(empData.prov_num,empData.city_num,empData.area_num,empData.role_id);
+        selectVal.push(empData.prov_num,empData.city_num,empData.area_num,empData.role_id);  //存储下拉框应显示的信息
 
     }
     if (empData !== '') editEmp();
@@ -212,6 +212,7 @@
                         $citySelect.attr('disabled',true);
                         $areaSelect.attr('disabled',true);
                         $citySelect.children().not(':first').remove();
+                        $areaSelect.children().not(':first').remove();
                         if ($provNum !== '') {
                             getCityList($provNum,selectVal[1]?selectVal[1]:'');
                         }
