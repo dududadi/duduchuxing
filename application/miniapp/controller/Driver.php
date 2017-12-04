@@ -493,7 +493,7 @@ class Driver extends Controller{
 //        } else {
 //            echo 11;
 //        }
-        echo 'telTest@'.$telTest.'@update@'.$res.'@regexp@'.preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel.'').'@phone@'.$tel.'@psw@'.$psw.'@openid@'.$openid;
+        echo json_encode('telTest@'.$telTest.'@update@'.$res.'@regexp@'.preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel.'').'@phone@'.$tel.'@psw@'.$psw.'@openid@'.$openid);
         exit;
     }
 
