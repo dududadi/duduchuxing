@@ -107,10 +107,9 @@ class Conversation extends Controller
                 'info'=>$postObj->Content       //用户发送的消息
             ];
 
-            $resMsg=curlHttp('http://www.tuling123.com/openapi/api',$data); //调用图灵接口回答的数据
+            $resMsg=json_decode(curlHttp('http://www.tuling123.com/openapi/api',$data)); //调用图灵接口回答的数据,并将结果转换成JSON格式
 
             Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'图灵回复的信息:'.json_encode($resMsg)]);
-
 
             $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$access_token;//客服自动回复消息
             $msg=[
@@ -119,7 +118,7 @@ class Conversation extends Controller
                 "text"=> ["content"=>$resMsg->text]         //图灵回复的消息
             ];
 
-            curlHttp($url,json_decode($msg));        //发送回微信小程序*/
+            curlHttp($url,$msg);        //发送回微信小程序*/
         }
 
     }
