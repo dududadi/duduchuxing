@@ -113,12 +113,14 @@ class Conversation extends Controller
 
             $url='https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$access_token;//客服自动回复消息
             $msg=[
-                "touser"=>$postObj->FromUserName,           //用户openid
+                "touser"=>$postObj->FromUserName[0],           //用户openid
                 "msgtype"=>"text",                           //类型是文字
                 "text"=> ["content"=>$resMsg->text]         //图灵回复的消息
             ];
             Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'准备回复给用户的信息:'.json_encode($msg)]);
-            curlHttp($url,json_encode($msg));        //发送回微信小程序*/
+            $res=curlHttp($url,json_encode($msg));        //发送回微信小程序*/
+
+            Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'发送后的回调:'.json_encode($res)]);
         }
 
     }
