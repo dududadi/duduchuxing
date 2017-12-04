@@ -435,6 +435,22 @@ class Driver extends Controller{
             echo 0;
         }
     }
+      public function verify(){
+        $openid = input('post.openId','');
+        if (!$openid) {
+            echo 0;
+        } else {
+            $res = Db::name('driver')
+            ->where('open_id','oMv4i0WyQpcxfHoqMYlu7hi65nz8')
+            ->field('driv_status')
+            ->find();
+            if ($res) {
+                echo 1;
+            } else {
+                echo 0;
+            }
+        }
+    }
 
 
 }
