@@ -119,7 +119,7 @@ class Conversation extends Controller
                 "text"=> ["content"=>$resMsg->text]         //图灵回复的消息
             ];
             Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'准备回复给用户的信息:'.json_encode($msg)]);
-            $res=curlHttp($url,json_encode($msg));        //发送回微信小程序*/
+            $res=curlHttp($url,$msg);        //发送回微信小程序*/
 
             Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'发送后的回调:'.json_encode($res)]);
         }
