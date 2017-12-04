@@ -126,16 +126,22 @@
                                     <li data-target="#myCarousel" data-slide-to="2"></li>
                                 </ol>
                                 <div class="carousel-inner">
+                                	{volist name='list' id='vle' key='k'}
+                                	{if condition="$k==1"}
                                     <div class="item clearfix active">
+                                    {else /}
+                                    <div class="item clearfix ">
+                                    {/if}
                                         <div class="item-left pull-left">
-                                            <img src="__IMG__/ljf/index/news1.jpg">
+                                            <img src="{$vle.news_img}">
                                         </div>
                                         <div class="item-right pull-left">
-                                            <h3 class="news-title">滴滴完成超55亿美元新一轮融资 布局国际化与前沿智能交通科技</h3>
-                                            <p class="news-detail">4月28日，全球领先的出行平台滴滴出行今日宣布完成新一轮超过55亿美元融资，以支持其全球化战略的推进和前沿技术领域的投资。</p>
+                                            <h3 class="news-title">{$vle.news_title}</h3>
+                                            <p class="news-detail">{$vle.news_content}</p>
                                         </div>
                                     </div>
-                                    <div class="item clearfix">
+                                    {/volist}
+                                    <!--<div class="item clearfix">
                                         <div class="item-left pull-left">
                                             <img src="__IMG__/ljf/index/news2.jpg">
                                         </div>
@@ -153,6 +159,7 @@
                                             <p class="news-detail">3月2日消息，滴滴出行今天宣布，经过天津市交通运输委员会等多部门审查，滴滴平台已获得天津市颁发的《网络预约出租车汽车经营许可证》，这一获批意味着滴滴网约车平台符合国家政策，得到政府认可。</p>
                                         </div>
                                     </div>
+                                	{/volist}-->
                                 </div>
                             </div>
                         </div>
