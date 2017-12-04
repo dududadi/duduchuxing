@@ -119,10 +119,8 @@ class Conversation extends Controller
             Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'创建语句'.$access_token]);
             if ($access_token) {
                 //如果获取到access_token，做一个时间增加，并储存至文件
-                Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'能不能进判断1']);
-                $data->expire_time = time() + 7000;
-                $data->access_token = $access_token;
-                Db::name('access_token')->insert(['at_id'=>null,'at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
+                $expire_time = time() + 7000;
+                Db::name('access_token')->insert(['at_access_token'=>$access_token,'at_expire_time'=>$expire_time]);
             }
         }else{
             if ($data->expire_time < time()) {
@@ -132,13 +130,12 @@ class Conversation extends Controller
                 Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'更新语句'.$access_token]);
                 if ($access_token) {
                     //如果获取到access_token，做一个时间增加，并储存至文件
-                    $data->expire_time = time() + 7000;
-                    $data->access_token = $access_token;
-                    Db::name('access_token')->where('at_id',1)->update(['at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
+                    $expire_time = time() + 7000;
+                    Db::name('access_token')->where('at_id',1)->update(['at_access_token'=>$access_token,'at_expire_time'=>$expire_time]);
                 }
             } else {
                 $access_token = $data->access_token;        //如果没有超时，则调用原来的access_token
-                Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'数据库有数据'.$access_token]);
+                Db::name('test_chat')->insert(['tc_id'=>null,'tc_text'=>'数据库有数据并且没超时'.$access_token]);
             }
         }
         return $access_token;       //返回access_token
