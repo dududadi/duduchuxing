@@ -255,7 +255,7 @@
     } else {
         /**/
         function member_show(userId,startName,endName){
-            var url = "{:url('admin/Monitor/location')}?id=" + userId + "&sSite=" + startName + "&eSite=" + endName;
+            var url = "{:url('admin/Monitor/location')}?id=" + userId + "&sName=" + startName + "&eName=" + endName;
             layer_show('查看路径',url);
             $('.layui-layer').css({
                 top: '2%',
