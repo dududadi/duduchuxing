@@ -59,7 +59,7 @@ user_psw CHAR(32) NOT NULL, -- 密码
 user_name VARCHAR(32) NOT NULL, -- 真实姓名
 user_id_num VARCHAR(18),  -- 身份证号
 user_tel CHAR(11) NOT NULL, -- 手机号
-user_score FLOAT NOT NULL, -- 评分
+user_score double NOT NULL, -- 评分
 user_money DECIMAL(7,2) NOT NULL, -- 余额
 user_status enum('锁定','使用') NOT NULL, -- 状态
 user_head_img VARCHAR(255) NOT NULL, -- 头像
@@ -98,7 +98,7 @@ driv_car_reg_time datetime NOT NULL, -- 车辆注册日期
 driv_money DECIMAL(7,2)  NOT NULL, -- 余额
 driv_tel CHAR(11) NOT NULL, -- 手机号
 driv_status enum('锁定','使用','未审核') NOT NULL, -- 状态
-driv_score FLOAT NOT NULL, -- 评分
+driv_score double NOT NULL, -- 评分
 driv_head_img VARCHAR(255) NOT NULL, -- 头像
 bt_id INT NOT NULL, -- 运营类型id
 FOREIGN KEY(bt_id) REFERENCES d_business_type(bt_id),
@@ -129,10 +129,10 @@ ol_km_price DECIMAL(5,2), -- 里程价
 ol_time_price DECIMAL(5,2), -- 时长价
 ol_tip DECIMAL(5,2), -- 小费
 
-oh_start_latitude FLOAT,  -- 起始经度
-oh_start_longitude FLOAT,-- 起始纬度
-oh_end_latitude FLOAT,-- 终点经度
-oh_end_longitude FLOAT,-- 终点纬度
+oh_start_latitude double,  -- 起始经度
+oh_start_longitude double,-- 起始纬度
+oh_end_latitude double,-- 终点经度
+oh_end_longitude double,-- 终点纬度
 oh_start_name VARCHAR(100), -- 起始点名称
 oh_end_name VARCHAR(100),-- 终点名称
 
@@ -149,10 +149,10 @@ DROP TABLE IF EXISTS d_order_handup;
 CREATE TABLE d_order_handup(
 open_id VARCHAR(28) PRIMARY KEY,-- 用户openid
 driv_id INT,-- 司机id
-oh_start_latitude FLOAT,  -- 起始经度
-oh_start_longitude FLOAT,-- 起始纬度
-oh_end_latitude FLOAT,-- 终点经度
-oh_end_longitude FLOAT,-- 终点纬度
+oh_start_latitude double,  -- 起始经度
+oh_start_longitude double,-- 起始纬度
+oh_end_latitude double,-- 终点经度
+oh_end_longitude double,-- 终点纬度
 oh_start_name VARCHAR(100), -- 起始点名称
 oh_end_name VARCHAR(100),-- 终点名称
 oh_status enum('已接单','未接单'),-- 接单状态
@@ -165,16 +165,16 @@ oh_km_num INT -- 里程数
 DROP TABLE IF EXISTS d_user_location;
 CREATE TABLE d_user_location(
 open_id VARCHAR(28) PRIMARY KEY,-- 用户openid
-ul_latitude FLOAT,-- 纬度
-ul_longitude FLOAT-- 经度
+ul_latitude double,-- 纬度
+ul_longitude double-- 经度
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 -- 司机实时位置表
 DROP TABLE IF EXISTS d_driver_location;
 CREATE TABLE d_driver_location(
 open_id VARCHAR(28) PRIMARY KEY,-- 司机openid
-dl_latitude FLOAT,-- 纬度
-dl_longitude FLOAT-- 经度
+dl_latitude double,-- 纬度
+dl_longitude double-- 经度
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
 
 
@@ -182,8 +182,8 @@ dl_longitude FLOAT-- 经度
 DROP TABLE IF EXISTS d_distance;
 CREATE TABLE d_distance(
 dis_id INT NOT NULL PRIMARY KEY auto_increment, -- 路程表id
-dis_latitude float, -- 纬度
-dis_longitude float, -- 经度
+dis_latitude double, -- 纬度
+dis_longitude double, -- 经度
 ol_id INT, -- 订单id
 dis_time datetime -- 每个点创建时间
 )ENGINE=INNODB DEFAULT CHARSET=utf8;
@@ -234,7 +234,7 @@ DROP TABLE IF EXISTS d_comment_utd;
 CREATE TABLE d_comment_utd(
 cutd_id INT NOT NULL PRIMARY KEY auto_increment, -- 用户对司机评价id
 cutd_content varchar(50), -- 内容
-cutd_score float, -- 评分
+cutd_score double, -- 评分
 user_id INT NOT NULL, -- 用户id
 driv_id INT NOT NULL, -- 司机id
 ol_id INT NOT NULL, -- 订单id
@@ -249,7 +249,7 @@ FOREIGN KEY(ol_id) REFERENCES d_order_list(ol_id)
 DROP TABLE IF EXISTS d_comment_dtu;
 CREATE TABLE d_comment_dtu(
 cdtu_id INT NOT NULL PRIMARY KEY auto_increment, -- 司机对用户评价id
-cdtu_score float, -- 评分
+cdtu_score double, -- 评分
 cdtu_content varchar(50), -- 内容
 user_id INT NOT NULL, -- 用户id
 driv_id INT NOT NULL, -- 司机id
@@ -266,7 +266,7 @@ DROP TABLE IF EXISTS d_comment_uts;
 CREATE TABLE d_comment_uts(
 cuts_id INT NOT NULL PRIMARY KEY auto_increment, -- 用户对客服评价id
 cuts_content varchar(50), -- 内容
-cuts_score float, -- 评分
+cuts_score double, -- 评分
 user_id INT NOT NULL, -- 用户id
 emp_id INT NOT NULL, -- 客服id
 cuts_time datetime, -- 评价时间
@@ -280,7 +280,7 @@ DROP TABLE IF EXISTS d_comment_dts;
 CREATE TABLE d_comment_dts(
 cdts_id INT NOT NULL PRIMARY KEY auto_increment, -- 司机对客服评价id
 cdts_content varchar(50), -- 内容
-cdts_score float, -- 评分
+cdts_score double, -- 评分
 driv_id INT NOT NULL, -- 司机id
 emp_id INT NOT NULL, -- 客服id
 cdts_time datetime, -- 评价时间

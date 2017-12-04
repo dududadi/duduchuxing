@@ -306,7 +306,7 @@ class OrderList extends Controller
                     'ols_name'=>'olsName',
                     'ol_km_num'=>'kmNum',
                     'ol_km_price'=>'kmPrice',
-                    'ol_overtime_price'=>'overTimePrice',
+                    'ol_time_price'=>'overTimePrice',
                     'ol_tip'=>'tips',
                     'oh_start_name'=>'startName',
                     'oh_end_name'=>'endName',

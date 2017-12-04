@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="Bookmark" href="/favicon.ico" >
+    <link rel="Shortcut Icon" href="/favicon.ico" />
+    <title>地图</title>
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .map{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="page" style="width: 100%;height: 100%;">
+        <div id="my-map" class="map"></div>
+    </div>
+</body>
+<script type="text/javascript" src="__HUI__/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="__HUI__/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src='//webapi.amap.com/maps?v=1.4.2&key=19ea604f2c70652cfafbe4843a5ac736'></script>
+<!-- UI组件库 1.0 -->
+<script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script type="text/javascript">
+    function transformObj(objArr,callback){
+        if (!objArr) {
+           return false;
+        }
+        var arr = [],newPathArr = [];
+        for (var i = 0; i < objArr.length; i++) {
+            arr = [];
+            for(var item in objArr[i]){
+                arr.push(objArr[i][item]);
+            }
+            newPathArr.push(arr);
+        }
+        callback(newPathArr);
+        return newPathArr;
+    }
+
+    function drawMap() {
+
+        transformObj(pathArr,function (pathArr) {
+
+            var map = new AMap.Map('my-map', {
+                zoom: 18,
+                center: pathArr[pathArr.length-1]
+            });
+
+            AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.OverView'],
+                function(){
+                    map.addControl(new AMap.ToolBar());
+
+                    map.addControl(new AMap.Scale());
+
+                    map.addControl(new AMap.OverView({isOpen:true}));
+                }
+            );
+
+            AMapUI.loadUI(['overlay/SimpleMarker'], function(SimpleMarker) {
+                //创建SimpleMarker实例
+                new SimpleMarker({
+
+                    //前景文字
+                    iconLabel: '',
+
+                    //图标主题
+                    iconTheme: 'default',
+
+                    //背景图标样式
+                    iconStyle: 'red',
+
+                    map: map,
+                    position: pathArr[pathArr.length-1]
+                });
+            });
+        });
+
+    }
+
+
+    var pathArr = JSON.parse('{$data}');
+    console.log(pathArr);
+    if (pathArr.length === 0) {
+        $('<div id="loadingTip">未查询到该乘客的位置！</div>').prependTo($('#page'));
+    } else {
+        $('<div id="loadingTip">加载数据，请稍候...</div>').prependTo($('#page'));
+        drawMap();
+    }
+
+</script>
+</html>

@@ -60,19 +60,19 @@ class User extends Controller {
         $nickname = Request::instance()-> post('nickname');
 
         //手机号验证
-        if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) { 
+        if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) {
             echo 0;
             exit;
         }
 
         //密码验证
-        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/", $pwd)) { 
+        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/", $pwd)) {
             echo 1;
             exit;
         }
-        
+
         //身份证号码验证
-        if (!preg_match("/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/", $idNum)) { 
+        if (!preg_match("/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/", $idNum)) {
             echo 2;
             exit;
         }
@@ -162,7 +162,7 @@ class User extends Controller {
         $carType = Request::instance()-> post('carType');
         $distance = Request::instance()-> post('distance');
         $createTime = date('Y-m-d H:i:s');
-       
+
         //获取用户当前经纬度
         $myLatitude = Request::instance()-> post('myLatitude');
         $myLongitude = Request::instance()-> post('myLongitude');
@@ -192,7 +192,7 @@ class User extends Controller {
             //挂起的订单是否有司机接单
             //未接单
             if($res['oh_status']=='未接单'){
-                //挂起的订单是否超时---3分钟        
+                //挂起的订单是否超时---3分钟
                 if(strtotime($res['oh_create_time'])+180>strtotime('now')) {
                     //echo(strtotime('now'));
                     echo '{"status_code":"0"}'; //未超时
@@ -323,7 +323,7 @@ class User extends Controller {
 
         Db::name('user_location')
             ->where('open_id',$openid)
-            ->update($data); 
+            ->update($data);
 
         //获取司机位置
         $driverLocation = Db::name('driver_location')
@@ -447,7 +447,7 @@ class User extends Controller {
         $res = Db::name('order_list')
             ->where('ol_id',$order_id)
             ->find();
-        
+
         $ols_id = $res['ols_id'];
 
         $driving = [
@@ -462,7 +462,7 @@ class User extends Controller {
 
         exit;
     }
-    
+
 
     //用户支付信息
     public function setPayInfo(){
@@ -621,7 +621,7 @@ class User extends Controller {
                     $res2 = Db::name('driver')
                         ->where('driv_id',$driverid)
                         ->setInc('driv_money',$money);
-                    
+
                     //用户余额减少
                     $res2 = Db::name('user')
                         ->where('open_id',$openid)
@@ -666,7 +666,7 @@ class User extends Controller {
         }else{
             echo 0;//密码错误
         }
-        
+
 
         exit;
     }
@@ -709,7 +709,7 @@ class User extends Controller {
             ];
             $res = Db::name('comment_utd')
                 ->insert($data);
-            $judge=true;    
+            $judge=true;
         });
         if($judge){
             //成功
@@ -719,11 +719,60 @@ class User extends Controller {
             echo 0;
         }
     }
+    //充值
+    public function addMoney(){
+        $openid = Request::instance()-> post('openid');
+        $addMoney = Request::instance()-> post('addMoney');
+        $res = Db::name('user')
+            ->where('open_id',$openid)
+            ->setInc('user_money',$addMoney);
+        echo $res;
+        exit;
+    }
+
+    //修改手机号
+    public function editInfo() {
+        $psw = Request::instance()->post('psw');
+        $tel = Request::instance()->post('tel');
+        $openid = Request::instance()->post('openId');
+
+        //手机号验证
+        if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) {
+            echo 0;
+            exit;
+        }
+        //手机号是否注册
+        $repeatTel = Db::name('driver')
+            -> where('driv_tel', $tel)
+            -> field('driv_tel')
+            -> find();
+
+        if ($repeatTel) {
+            echo 1;
+            exit;
+        }
+        //密码验证
+        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/", $psw)) {
+            echo 2;
+            exit;
+        }
+
+        //修改数据库手机号
+        $res = Db::name('user')
+            ->where('open_id',$openid)
+            ->where('user_psw',md5($psw))
+            ->update(['user_tel' => $tel]);
+
+        if ($res) {
+            echo 10;
+        } else {
+            echo 11;
+        }
+        exit;
+    }
 
 
 
-
-
-} 
+}
 
 
