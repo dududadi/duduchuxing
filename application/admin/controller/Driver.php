@@ -171,6 +171,8 @@ class Driver extends Controller
                     return 2;
                 }
             }else{
+                echo $password;
+                echo '<br/>2:'.$password2;
                 return 3;
             }
         }else{
