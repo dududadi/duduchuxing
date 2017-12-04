@@ -37,7 +37,7 @@
         if (!objArr) {
            return false;
         }
-        debugger;
+
         var arr = [],newPathArr = [];
         for (var i = 0; i < objArr.length; i++) {
             arr = [];
@@ -121,6 +121,12 @@
 
             transformObj(pathArr,function (pathArr) {
                 $('#loadingTip').remove();
+
+                pathSimplifierIns.setData([{
+                    name: '{$sName}' + ' -> ' + '{$eName}',
+                    path: pathArr
+                }]);
+
                 AMapUI.loadUI(['overlay/SimpleMarker'], function(SimpleMarker) {
                     //创建SimpleMarker实例
                     new SimpleMarker({
