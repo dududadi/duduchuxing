@@ -135,7 +135,7 @@ class Conversation extends Controller
                     //如果获取到access_token，做一个时间增加，并储存至文件
                     $data->expire_time = time() + 7000;
                     $data->access_token = $access_token;
-                    $access_token= Db::name('access_token')->where('at_id',1)->update(['at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
+                    Db::name('access_token')->where('at_id',1)->update(['at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
                 }
             } else {
                 $access_token = $data->access_token;        //如果没有超时，则调用原来的access_token
@@ -148,7 +148,7 @@ class Conversation extends Controller
                 //如果获取到access_token，做一个时间增加，并储存至文件
                 $data->expire_time = time() + 7000;
                 $data->access_token = $access_token;
-                $access_token= Db::name('access_token')->insert(['at_id'=>null,'at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
+                Db::name('access_token')->insert(['at_id'=>null,'at_access_token'=>$access_token,'at_expire_time'=>time() + 7000]);
             }
         }
         return $access_token;       //返回access_token
