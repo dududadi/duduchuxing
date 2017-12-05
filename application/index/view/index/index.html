@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="__CSS__/footer.css">
     <link rel="stylesheet" href="__CSS__/index.css">
     <link rel="stylesheet" href="__FULLPAGE__/jquery.fullPage.css">
+    <link rel="stylesheet" href="__CSS__/chat.css">
 {/block}
 
 
@@ -19,6 +20,16 @@
 
 <body>
     {block name="content"}
+    <div class="chat">
+        <a href="javascript:void(0);" onclick="openChat()" class="chat-a">
+            <span class="kf-icon"></span>
+            <p>
+                在线<br/>
+                客服
+            </p>
+        </a>
+
+    </div>
         <div id="ljf">
             <div class="main">
                 <div class="section">
@@ -223,4 +234,5 @@
     <script type="text/javascript" src="__FULLPAGE__/jquery.fullPage.js"></script>
     <script type="text/javascript" src="__JS__/index.js"></script>
     <script type="text/javascript" src="__JS__/footer.js"></script>
+    <script type="text/javascript" src="__JS__/chat.js"></script>
 {/block}

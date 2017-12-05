@@ -1,0 +1,54 @@
+.chat{
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    right: 20px;
+    z-index: 9999;
+    top:25%;
+
+    /*background: url(../img/hjw/chat.gif) no-repeat #ff6800 center;*/
+}
+.chat-a{
+    position: relative;
+    background-color:#ff6800 ;
+    display: block;
+    width: 50px;
+    height: 50px;
+    text-decoration: none;
+}
+
+.kf-icon{
+    width: 50px;
+    height: 50px;
+    background: url(../img/hjw/chat.gif) no-repeat #ff6800 center;
+    font-family: "icomoon";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    position: absolute;
+    display: inline-block;
+    text-decoration: inherit;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    font-size: 24px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 24px;
+    color: #999;
+}
+.chat-a p{
+    line-height: 20px;
+    display: none;
+    position: absolute;
+}
+
+.chat-a:hover .kf-icon{
+    display: none;
+}
+.chat-a:hover p{
+    display: block;
+    color: white;
+    margin:8px 10px;
+}
+
