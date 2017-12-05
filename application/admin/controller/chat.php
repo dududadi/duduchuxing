@@ -25,4 +25,8 @@ class Chat extends Controller {
             $this -> redirect('http://www.hjw123.xin:55151/');
         }
     }
+
+    public function chat(){
+        $this -> redirect('http://www.hjw123.xin:55151/');
+    }
 }
