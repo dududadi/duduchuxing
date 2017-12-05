@@ -8,6 +8,8 @@
 namespace app\admin\controller;
 
 use think\Controller;           //引用官方封装的控制类
+use think\Db;
+use think\Session;
 class Chat extends Controller {
     public function _initialize() {
         if (sessionAssist('isLogin')) {
