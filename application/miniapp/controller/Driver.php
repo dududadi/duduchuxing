@@ -259,7 +259,7 @@ class Driver extends Controller{
             ->where('open_id',$open_id)
             ->update(['oh_status'=>'已接单','driv_id'=>$driv_id]);
 
-       
+
         $latitude = Request::instance()-> post('latitude');
         $longitude = Request::instance()-> post('longitude');
         //上传司机当前位置
@@ -272,7 +272,7 @@ class Driver extends Controller{
             ->where('open_id',$driv_open_id)
             ->delete();
         Db::name('driver_location')
-            ->insert($data);   
+            ->insert($data);
 
         if($res)
         {
@@ -338,7 +338,7 @@ class Driver extends Controller{
             ->where('ols_id',1)
             ->find();
         $user_id = $res['user_id'];
-        
+
         $userLocation = Db::name('user_location')
             ->alias('ul')
             ->join('user u','u.open_id=ul.open_id')
@@ -425,7 +425,7 @@ class Driver extends Controller{
             ];
             $res = Db::name('comment_dtu')
                 ->insert($data);
-            $judge=true;    
+            $judge=true;
         });
         if($judge){
             //成功
@@ -435,22 +435,65 @@ class Driver extends Controller{
             echo 0;
         }
     }
-      public function verify(){
-        $openid = input('post.openId','');
+
+    //司机是否已通过审核
+    public function verify() {
+        $openid = input('post.openId', '');
         if (!$openid) {
             echo 0;
         } else {
             $res = Db::name('driver')
-            ->where('open_id','oMv4i0WyQpcxfHoqMYlu7hi65nz8')
-            ->field('driv_status')
-            ->find();
+                ->where('open_id', $openid)
+                ->field('driv_status')
+                ->find();
             if ($res) {
                 echo 1;
             } else {
                 echo 0;
             }
         }
+        exit;
     }
 
+    //修改手机号
+    public function editInfo() {
+        $psw = Request::instance()->post('psw');
+        $tel = Request::instance()->post('tel');
+        $openid = Request::instance()->post('openId');
+
+        //手机号验证
+        if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) {
+            echo 0;
+            exit;
+        }
+        //手机号是否注册
+        $repeatTel = Db::name('driver')
+            -> where('driv_tel', $tel)
+            -> field('driv_tel')
+            -> find();
+
+        if ($repeatTel) {
+            echo 1;
+            exit;
+        }
+        //密码验证
+        if (!preg_match("/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/", $psw)) {
+            echo 2;
+            exit;
+        }
+
+        //修改数据库手机号
+        $res = Db::name('driver')
+            ->where('open_id',$openid)
+            ->where('driv_psw',md5($psw))
+            ->update(['driv_tel' => $tel]);
+
+        if ($res) {
+            echo 10;
+        } else {
+            echo 11;
+        }
+        exit;
+    }
 
 }

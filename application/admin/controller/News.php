@@ -54,37 +54,81 @@ class News extends Controller
 		$res= DB::name('news')->insert($data);
 		echo $res;
 	}
+	//新闻修改上传
+	public function updateNews()
+	{
+		$id=input('post.id');
+		$newsTitle=trim(input('post.newsTitle',''));
+		$datemin=trim(input('post.datemin',''));
+		$newsType=trim(input('post.newsType',''));
+		$newsContent=trim(input('post.newsContent',''));
+		$newsUrl=Session::get('newsUrl');
+		//var_dump($newsTitle);
+		//exit;
+		$res = DB::name('news')
+			   ->where('news_id',$id)
+			   ->find();
+		if($res['news_img']!=$newsUrl['success'])
+		{
+			$ret=DB::name('news')
+				 ->where('news_id',$id)
+				 ->update([ 'news_title' =>$newsTitle,
+							'news_release_time' =>$datemin,
+							'news_status' =>$newsType,
+							'news_img' =>$newsUrl['success'],
+							'news_content' =>$newsContent
+						]);
+			//拼接地址，转为数组去除index.php
+		$arry=explode("/index.php",Request::instance()->root().$ret['news_img']);
+		$string=implode("/",$arry);
+		//删除图片
+		@unlink($_SERVER['DOCUMENT_ROOT'].$string);
+		//新图片上传
+		
+		}else
+		{
+			$ret=DB::name('news')
+				 ->where('news_id',$id)
+				 ->update([ 'news_title' =>$newsTitle,
+							'news_release_time' =>$datemin,
+							'news_status' =>$newsType,
+							'news_img' =>$res['news_img'],
+							'news_content' =>$newsContent
+						]);
+		}
+		echo $ret;
+	}
 	//新闻编辑数据显示
 	public function edit()
 	{
-		
  		if(input('?get.news')!=null)
 		{
 			$news=input('get.news');
-			if(input('startTime')==null )
+			if(empty(input('startTime')))
 			{
-				$startTime=('1970-1-1');
+				$startTime='1970-1-1';
 			}
 			else
 			{
-				$startTime=input('get.starTime');
+				$startTime=input('get.startTime');
 			}
 			if(empty(input('get.endTime')))
 			{
-				$endTime=date($format);
+				$endTime=date("Y-m-d");
 			}
 			else
 			{
 				$endTime=input('get.endTime');
 			}
+			
 			$list = DB::name('news')
 					->where('news_release_time','>',$startTime)
-					->where('news_release_time','<',$endTime)
+					->where('news_release_time','<',date("Y-m-d", strtotime("+1 day",strtotime($endTime))))
 					->where('news_content|news_title','like','%'.$news.'%')
 					-> paginate(6 , false , [
                     'type' => 'Hui',
                     'query' => [
-                            'details'=>$details,
+                            'news'=>$news,
                             'startTime'=>$startTime,
                             'endTime'=>$endTime
                         ]
@@ -95,17 +139,24 @@ class News extends Controller
 			$list = DB::name('news')
 					->paginate(6,false,['type' => 'Hui']);
 		}
+		
 		$this->assign('list',$list);
-        return $this->fetch();//渲染出司机列表的页面
+        return $this->fetch();
 	}
 	//新闻添加,就是进行新闻跳转
 	public function addNews()
 	{
 		$this->publish();
 	}
+	//新闻编辑
 	public function newsEdit()
 	{
-		
+		$id=input('get.id');
+		$list = DB::name('news')
+				->where('news_id',$id)
+				->find();
+		$this->assign('list',$list);
+		//dump($list);
 		return $this->fetch();
 	}
 	//新闻改变状态
@@ -129,7 +180,19 @@ class News extends Controller
 	//删除新闻
 	public function delateNews()
 	{
+		
 		$id=input('post.news_id');
+		//$id=2;
+		$imgPath=DB::name('news')
+			->where('news_id','=',$id)
+			->field('news_img')
+			->select();
+		//拼接地址，转为数组去除index.php
+		$arry=explode("/index.php",Request::instance()->root().$imgPath[0]['news_img']);
+		$string=implode("/",$arry);
+		//删除图片
+		@unlink($_SERVER['DOCUMENT_ROOT'].$string);
+		//删除数据库内容
 		$res=DB::name('news')
 			->where('news_id','=',$id)
 			->delete();

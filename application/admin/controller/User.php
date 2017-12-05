@@ -17,7 +17,7 @@ class User extends Controller {
 
     //显示用户列表
     public function lists() {
-        if (!sessionAssist('userminDate')) {
+        if (!sessionAssist('userminDate') || Session::get('userminDate') == '') {
             Session::set('userminDate', '1970-1-1');
 
             $minDate = '1970-1-1';
@@ -25,7 +25,7 @@ class User extends Controller {
             $minDate = Session::get('userminDate');
         }
         
-        if (!sessionAssist('usermaxDate')) {
+        if (!sessionAssist('usermaxDate') || Session::get('usermaxDate') == '') {
             Session::set('usermaxDate', date("Y-m-d"));
 
             $maxDate = date("Y-m-d");
