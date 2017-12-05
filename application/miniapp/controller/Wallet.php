@@ -50,17 +50,24 @@ class Wallet extends Controller {
 	//司机假装充值
 	public function enchashment()
 	{
-		//取值
-		$money=Request::instance()-> post('money');
-		$openid=Request::instance()-> post('openid');
+		//$money=Request::instance()-> post('money');
+		//$openid=Request::instance()-> post('openid');
+		$openid='oMv4i0V0AJjNUjlmwC17b3tfmB94';
+		$money=10;
 		//查询司机现有的钱
 		$list = DB::name('driver')
 					->where('open_id',$openid)
 					->find();
 		//扣款
 		
+		//$list=json_encode($list);
+		//echo $list['driv_money'];
+		//var_dump($list);
+		//exit;
 		$list['driv_money']-=floatval($money);
-		if($list['driv_money']<0)
+		//var_dump($list['driv_money']);
+		//判断
+		if($list['driv_money']<0.00)
 		{
 			echo 1;
 			exit;
