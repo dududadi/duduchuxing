@@ -49,7 +49,6 @@ class Message extends Controller
     /*验证算法*/
     public function checkSignature(){
 
-
         if(!defined("TOKEN")){
             throw new Exception("TOKEN is not defined!");
         }
@@ -66,7 +65,6 @@ class Message extends Controller
         /*双方都定义好的暗号*/
         $token = TOKEN;
 
-
         //字典排序
         $tmpArr = array($token,$timestamp,$nonce);
 
@@ -77,7 +75,6 @@ class Message extends Controller
 
         /*sha1 加密*/
         $tmpStr = sha1($tmpStr);
-
 
         if($tmpStr == $signature){
             return true;
