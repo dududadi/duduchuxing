@@ -27,7 +27,7 @@ class Chat extends Controller {
     }*/
 
     public function chat(){
-        echo "hello word";exit;
+//        echo "hello word";exit;
         $this -> redirect('http://www.hjw123.xin:55151/');
     }
 }
