@@ -274,4 +274,5 @@ class Chart extends Controller {
 
         return $this -> fetch();
     }
+    
 } 
