@@ -20,7 +20,7 @@ class Chat extends Controller {
 
             //将当前用户ID存入session中
             Session::set('isLogin',$user);
-
+            echo "hello word";exit;
             $this -> redirect('http://www.hjw123.xin:55151/');
         }
     }
