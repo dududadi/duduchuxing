@@ -2,7 +2,7 @@
  * Created by huangjianwu on 2017/11/30.
  */
 openChat = function () {
-    window.location.href="http://www.hjw123.xin:55151/";
+    //window.location.href="http://www.hjw123.xin:55151/";
     var newFrame = document.createElement("iframe");
     newFrame.src ="http://www.hjw123.xin:55151/";
     newFrame.frameBorder = 0;//FF、IE隐藏边框有效
