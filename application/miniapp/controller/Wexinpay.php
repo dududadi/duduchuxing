@@ -9,23 +9,25 @@ use think\Session;
 class Wexinpay extends Controller
 {
 	public function pay() {
+		//获取包id
 		$json_packeg=$this->packeg_id();
 		$appId='wxdbf8a607a8dcdfa4';
 		$openid='owqCguL4_azImvEDAzM-KnNv6MUE';
 		$nonceStr=$this->nonce_str($openid);
-		
+		//将xml转json
 		$array_packeg=json_decode($json_packeg, true);
+		//获取packegid
 		$packeg_id=$array_packeg['PREPAY_ID'];
 		$timeStamp=(string)time();
 		$sign=$this->sign($appId,$nonceStr,$timeStamp,$packeg_id);
 		//var_dump($sign);
 		$data=[
-			'appId' => $appId,
-	        'nonceStr' => $nonceStr,
-	        'package' => 'prepay_id='.$packeg_id,
-	        'signType' => 'MD5',
-	        'timeStamp' => $timeStamp,
-	        'paySign' =>$sign
+			'appId' => $appId,						
+	        'nonceStr' => $nonceStr,				//随机数
+	        'package' => 'prepay_id='.$packeg_id,	//包id
+	        'signType' => 'MD5',					//md5
+	        'timeStamp' => $timeStamp,				//时间戳
+	        'paySign' =>$sign						//签名
 		];
 		$data=json_encode($data);
 		//var_dump($data);
@@ -51,17 +53,23 @@ class Wexinpay extends Controller
 	public function packeg_id()
 	{
 		$openid='owqCguL4_azImvEDAzM-KnNv6MUE';
+		//订单号
 		$order_number=$this->order_number($openid);
-		//$order_number="20170806125346";
+		//随机数
 		$KnonceStr=$this->nonce_str();
-		//$KnonceStr="5K8264ILTKCH16CQ2502SI8ZNMTM67VS";
+		//url
 		$url='https://api.mch.weixin.qq.com/pay/unifiedorder';
-		//$sign="455225859B8BB8E2D73FE7627E198441";
+		//小程序appid
 		$appid='wxdbf8a607a8dcdfa4';
+		//商户号
 		$mch_id='1331063701';
+		//类型
 		$body='嘟嘟出行-充值';
-		$spbill_create_ip='47.100.0.162';
+		//服务器地址
+		$spbill_create_ip='47.100.0.162';	
+		//回调地址		
 		$notify_url='https://www.forhyj.cn/miniapp/WexinPay/Pay/notify_url';
+		//传值格式（固定）
 		$trade_type='JSAPI';
 		$total_fee=1;
 		$sign=$this->packeg_sign($order_number,$KnonceStr,$appid,$mch_id,$body,$spbill_create_ip,$notify_url,$trade_type,$total_fee,$openid); 

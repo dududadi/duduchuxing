@@ -39,6 +39,7 @@ class Wallet extends Controller {
 		$list = DB::name('user')
 					->where('open_id',$openid)
 					->find();
+		//金钱处理
 		$list['user_money']+=floatval($money);
 		$res=DB::name('user')
 					->where('open_id',$openid)
@@ -57,12 +58,21 @@ class Wallet extends Controller {
 					->find();
 		//扣款
 		$list['driv_money']-=floatval($money);
-		$res=DB::name('driver')
+		//判断
+		if($list['driv_money'])<0)
+		{
+			echo 1;
+			exit;
+		}else
+		{
+			$res=DB::name('driver')
 					->where('open_id',$openid)
 					->update(['driv_money' => $list['driv_money']]);
-		//传值
-		echo json_encode($res);
-		exit;
+			//传值
+			echo json_encode($res);
+			exit;
+		}
+		
 	}
 } 
 ?>
