@@ -168,6 +168,11 @@
     width: 130px;
 }
 
+@media screen and (min-width: 1366px) {
+    #ljf #download img{
+        width: 150px;
+    }
+}
 @media screen and (min-width: 970px) {
     #ljf #myCarousel{
         padding: 0 50px;
