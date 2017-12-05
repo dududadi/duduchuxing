@@ -168,18 +168,23 @@
     width: 130px;
 }
 
-@media screen and (min-width: 970px) {
+@media screen and (min-width: 1367px) {
+    #ljf #download img{
+        width: 200px;
+    }
+}
+@media screen and (min-width: 970px) and (max-width: 1367px) {
+    #ljf #download img{
+        width: 150px;
+    }
+}
+@media screen and (max-width: 970px) {
     #ljf #myCarousel{
         padding: 0 50px;
     }
     #ljf #myCarousel .carousel-inner{
         height: 420px;
     }
-    #ljf #download img{
-        width: 200px;
-    }
-}
-@media screen and (max-width: 970px) {
     #ljf .news .item-left,#ljf .news .item-right{
         width: 100%;
         height: 100%;

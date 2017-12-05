@@ -771,7 +771,38 @@ class User extends Controller {
         exit;
     }
 
+    //查找乘客当前正在进行的订单
+    function getOnlineOrder() {
+        $openId = input('post.openId', '');
 
+        $res = Db::name('user')
+            ->alias('t1')
+            ->join('d_order_list t2','t1.user_id = t2.user_id')
+            ->join('d_order_list_status t3','t2.ols_id = t3.ols_id')
+            ->whereOr('t3.ols_name','未接客')
+            ->whereOr('t3.ols_name','未过期')
+            ->where('t1.open_id',$openId)
+            ->select();
+        if ($res) {
+            echo 1;
+        } else {
+            echo 0;
+        }
+        exit;
+    }
+
+    //查看订单评价
+    function getOrderComment() {
+        $orderId = input('post.orderId', '');
+
+        $res = Db::name('comment_utd')
+            ->where('ol_id',$orderId)
+            ->field('cutd_score,cutd_content,cutd_time')
+            ->find();
+
+        echo json_encode($res);
+        exit;
+    }
 
 }
 

@@ -41,7 +41,8 @@ class Order extends Controller{
                 'oh_start_name' => 'startName',
                 'oh_end_name' => 'endName',
                 'user_head_img' => 'headImg',
-                'ol_id'=>'orderId'
+                'ol_id'=>'orderId',
+                'd.driv_id'=>'driverId'
             ])
             ->select();
         $ruleArr = Db::name('business_type')

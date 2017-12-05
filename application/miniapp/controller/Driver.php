@@ -230,6 +230,23 @@ class Driver extends Controller{
         //获取司机的openid--得到司机的运营类型id
         $open_id = Request::instance()->param('openid');
 
+        Db::execute('delete from d_order_handup WHERE now() >= DATE_add(oh_create_time,INTERVAL 180 SECOND)');
+
+        $olsId = Db::name('order_list_status')
+            ->field('ols_id')
+            ->where('ols_name','=','已过期')
+            ->find();
+
+        //查找司机当前正在进行的订单并关闭
+        $count = Db::name('driver')
+            ->alias('t1')
+            ->join('d_order_list t2','t1.driv_id = t2.driv_id')
+            ->join('d_order_list_status t3','t2.ols_id = t3.ols_id')
+            ->whereOr('t3.ols_name','未接客')
+            ->whereOr('t3.ols_name','未过期')
+            ->where('t1.open_id',$open_id)
+            ->update(['t2.ols_id' => $olsId['ols_id']]);
+
         $res = Db::name('driver')
             ->where('open_id',$open_id)
             ->find();
@@ -380,7 +397,11 @@ class Driver extends Controller{
             ->where('ol_id',$orderId)
             ->where('ols_id',5)
             ->find();
-        echo $res;
+        if ($res) {
+            echo 1;
+        } else {
+            echo 0;
+        }
         exit;
     }
     //司机对用户评分+评价
@@ -493,6 +514,19 @@ class Driver extends Controller{
         } else {
             echo 11;
         }
+        exit;
+    }
+
+    //查看订单评价
+    function getOrderComment() {
+        $orderId = input('post.orderId', '');
+
+        $res = Db::name('comment_dtu')
+            ->where('ol_id',$orderId)
+            ->field('cdtu_score,cdtu_content,cdtu_time')
+            ->find();
+
+        echo json_encode($res);
         exit;
     }
 

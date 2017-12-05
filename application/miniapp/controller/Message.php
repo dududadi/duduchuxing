@@ -49,7 +49,6 @@ class Message extends Controller
     /*验证算法*/
     public function checkSignature(){
 
-
         if(!defined("TOKEN")){
             throw new Exception("TOKEN is not defined!");
         }
@@ -66,7 +65,6 @@ class Message extends Controller
         /*双方都定义好的暗号*/
         $token = TOKEN;
 
-
         //字典排序
         $tmpArr = array($token,$timestamp,$nonce);
 
@@ -77,7 +75,6 @@ class Message extends Controller
 
         /*sha1 加密*/
         $tmpStr = sha1($tmpStr);
-
 
         if($tmpStr == $signature){
             return true;
@@ -128,16 +125,19 @@ class Message extends Controller
             if ($access_token) {
                 //如果获取到access_token，做一个时间增加，并储存至文件
                 $expire_time = time() + 7000;
+                //存入数据库
                 Db::name('access_token')->insert(['at_id'=>2,'at_access_token'=>$access_token,'at_expire_time'=>$expire_time]);
             }
         }else{
+            //如果低于当前时间，则获取一份新的access_token
             if ($data['at_expire_time'] < time()) {
                 $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".APPID."&secret=".APPSECRET;
                 $res = json_decode(curlHttp($url,[]));  //转换成json格式
                 $access_token = $res->access_token;     //获取其中的access_token
                 if ($access_token) {
-                    //如果获取到access_token，做一个时间增加，并储存至文件
+                    //如果获取到access_token，做一个时间增加，并更新数据库
                     $expire_time = time() + 7000;
+                    //更新数据库
                     Db::name('access_token')->where('at_id',2)->update(['at_access_token'=>$access_token,'at_expire_time'=>$expire_time]);
                 }
             } else {
