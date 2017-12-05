@@ -64,7 +64,16 @@ class Wallet extends Controller {
 		//echo $list['driv_money'];
 		//var_dump($list);
 		//exit;
-		$list['driv_money']-=floatval($money);
+		if($list)
+		{
+			$list['driv_money']-=floatval($money);
+		}
+		else
+		{
+			echo 0;
+			exit;
+		}
+		//$list['driv_money']-=floatval($money);
 		//var_dump($list['driv_money']);
 		//判断
 		if($list['driv_money']<0.00)
