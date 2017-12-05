@@ -36,8 +36,8 @@ class Login extends Controller {
             $res = Db::name('employee')
             -> where(['emp_id'=>$user,'emp_psw'=>md5($upas)])
             -> find();    //带着查询条件向数据库查询
-            if($res['emp_status']=='使用'){
-                if(!empty($res))
+            if(!empty($res)){
+                if($res['emp_status']=='使用')
                 {
                     //结果不为空  则session缓存更新
                     Session::set('isLogin',$res['emp_id']);
@@ -53,12 +53,12 @@ class Login extends Controller {
                 }
                 else
                 {
-                    //登录失败,账号或密码输入错误
-                    return 2;
+                    //该用户被锁定
+                    return 3;
                 }
             }else{
-                //该用户被锁定
-                return 3;
+                //登录失败,账号或密码输入错误
+                return 2;
             }
         }else{
             //验证失败，请重新输入验证码
