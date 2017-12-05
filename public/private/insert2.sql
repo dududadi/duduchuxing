@@ -63,7 +63,7 @@ INSERT INTO d_fmenu VALUES
 (6,'角色管理','&#xe611;'), -- role
 (7,'资讯管理','&#xe616;'), -- new
 (8,'查询报表','&#xe61a;'), -- chart
-(9,'客服聊天','&#xe6d0;'), -- service
+(9,'客服聊天','&#xe6d0;'), -- chat
 (10,'规则管理','&#xe6f5;'); -- rule
 -- 子菜单
 INSERT INTO d_smenu VALUES
@@ -86,7 +86,7 @@ INSERT INTO d_smenu VALUES
 (null,'订单统计','admin/Chart/orderList',  8),
 (null,'用户统计','admin/Chart/user',       8),
 (null,'营销统计','admin/Chart/market',     8),
-(null,'客服聊天','admin/Service/chat',9),
+(null,'客服聊天','admin/Chat/chat',9),
 (null,'快车规则','admin/Rule/car',10),
 (null,'出租车规则','admin/Rule/taxi',10);
 
