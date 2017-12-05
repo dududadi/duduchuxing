@@ -59,7 +59,7 @@ class Wallet extends Controller {
 		//扣款
 		$list['driv_money']-=floatval($money);
 		//判断
-		if($list['driv_money'])<0)
+		if($list['driv_money']<0)
 		{
 			echo 1;
 			exit;
