@@ -167,6 +167,13 @@
 #ljf #download img{
     width: 130px;
 }
+#ljf .paddingTB60{
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+#ljf #download >div:nth-child(2) >h5{
+    padding: 0;
+}
 
 @media screen and (min-width: 1367px) {
     #ljf #download img{

@@ -47,17 +47,17 @@ class User extends Controller {
 
     //用户注册验证
     public function register(){
-        $prov     = Request::instance()-> post('prov');
-        $city     = Request::instance()-> post('city');
-        $area     = Request::instance()-> post('area');
-        $tel      = Request::instance()-> post('tel');
-        $pwd      = Request::instance()-> post('pwd');
-        $idNum    = Request::instance()-> post('idNum');
-        $address  = Request::instance()-> post('address');
-        $name     = Request::instance()-> post('name');
-        $openid   = Request::instance()-> post('openid');
-        $headImg  = Request::instance()-> post('headImg');
-        $nickname = Request::instance()-> post('nickname');
+        $prov     = Request::instance()-> post('prov');         //省份
+        $city     = Request::instance()-> post('city');         //地级市
+        $area     = Request::instance()-> post('area');         //区/县/县级市
+        $tel      = Request::instance()-> post('tel');          //电话号码
+        $pwd      = Request::instance()-> post('pwd');          //密码
+        $idNum    = Request::instance()-> post('idNum');        //身份证
+        $address  = Request::instance()-> post('address');      //详细地址
+        $name     = Request::instance()-> post('name');         //真实姓名
+        $openid   = Request::instance()-> post('openid');       //微信开发ID
+        $headImg  = Request::instance()-> post('headImg');      //头像
+        $nickname = Request::instance()-> post('nickname');     //昵称
 
         //手机号验证
         if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) {
@@ -126,19 +126,19 @@ class User extends Controller {
         $res = Db::name('user')
         -> insert([
             'user_reg_time' => date("Y-m-d H:i:s"),
-            'user_psw'      => md5($pwd),
-            'user_name'     => $name,
-            'user_id_num'   => $idNum,
-            'user_tel'      => $tel,
-            'user_score'    => 10,
-            'user_money'    => 0,
-            'user_status'   => '使用',
-            'user_head_img' => $headImg,
-            'user_address'  => $address,
-            'prov_num'      => $prov_num,
-            'city_num'      => $city_num,
-            'area_num'      => $area_num,
-            'open_id'       => $openid
+            'user_psw'      => md5($pwd),                   //密码
+            'user_name'     => $name,                       //真实姓名
+            'user_id_num'   => $idNum,                      //身份证
+            'user_tel'      => $tel,                        //电话号码
+            'user_score'    => 10,                          //评分
+            'user_money'    => 0,                           //余额
+            'user_status'   => '使用',                     //状态
+            'user_head_img' => $headImg,                    //头像
+            'user_address'  => $address,                    //详细地址
+            'prov_num'      => $prov_num,                    //省份
+            'city_num'      => $city_num,                   //地级市
+            'area_num'      => $area_num,                   //区/县/县级市
+            'open_id'       => $openid                      //微信开发ID
         ]);
 
         if ($res !== false) {
@@ -152,25 +152,25 @@ class User extends Controller {
 
     //用户发起订单--实时监听
     public function checkHandUp(){
-        $openid = Request::instance()-> post('openid');
-        $start = Request::instance()-> post('start');
-        $end = Request::instance()-> post('end');
-        $startLongitude = Request::instance()-> post('startLongitude');
-        $startLatitude = Request::instance()-> post('startLatitude');
-        $endLongitude = Request::instance()-> post('endLongitude');
-        $endLatitude = Request::instance()-> post('endLatitude');
-        $carType = Request::instance()-> post('carType');
-        $distance = Request::instance()-> post('distance');
-        $createTime = date('Y-m-d H:i:s');
+        $openid = Request::instance()-> post('openid');                     //微信开放ID
+        $start = Request::instance()-> post('start');                       //起点
+        $end = Request::instance()-> post('end');                           //终点
+        $startLongitude = Request::instance()-> post('startLongitude');    //起始经度
+        $startLatitude = Request::instance()-> post('startLatitude');      //起始纬度
+        $endLongitude = Request::instance()-> post('endLongitude');         //结束经度
+        $endLatitude = Request::instance()-> post('endLatitude');           //结束纬度
+        $carType = Request::instance()-> post('carType');                   //运营类型
+        $distance = Request::instance()-> post('distance');                 //距离
+        $createTime = date('Y-m-d H:i:s');                                  //开始时间
 
         //获取用户当前经纬度
         $myLatitude = Request::instance()-> post('myLatitude');
         $myLongitude = Request::instance()-> post('myLongitude');
 
         $data = [
-            'open_id'=>$openid,
-            'ul_latitude'=>$myLatitude,
-            'ul_longitude'=>$myLongitude
+            'open_id'=>$openid,                 //微信开发ID
+            'ul_latitude'=>$myLatitude,        //当前经度
+            'ul_longitude'=>$myLongitude       //当前纬度
         ];
 
         Db::name('user_location')
@@ -184,8 +184,6 @@ class User extends Controller {
         $res = Db::name('order_handup')
             ->where('open_id',$openid)
             ->find();
-            /*echo count($res);
-            exit;*/
 
         //已挂起
         if(count($res)!=0){
