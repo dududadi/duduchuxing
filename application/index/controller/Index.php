@@ -14,9 +14,9 @@ class Index extends Controller {
 				->select();
 		for($i=0;$i<count($list);$i++)
 		{
-			$arry=explode("/index.php/public",$_SERVER['DOCUMENT_ROOT'].Request::instance()->root().$list[$i]['news_img']);  //字符串处理   将'/index.php'删除
+			$arry=explode("../public/",$list[$i]['news_img']);  //字符串处理   将'/index.php'删除
 			$string=implode("/",$arry);                                                       //重组为字符串
-			$list[$i]['news_img']=$string;                                                   //重新赋值
+			$list[$i]['news_img']=$string;                                           //重新赋值
 		}
 		$this->assign('list',$list);                                                            //再向页面传值
         return $this -> fetch();
