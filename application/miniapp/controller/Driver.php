@@ -16,15 +16,15 @@ class Driver extends Controller{
     }
     //获取用户openid
     public function getOpenId(){
-        $appid = 'wx0d68f07d877286f6';
-        $secret = '49513cc772b525486ac51e6bf998bb77';
+        $appid = 'wx0d68f07d877286f6';                  //小程序APPID
+        $secret = '49513cc772b525486ac51e6bf998bb77'; //小程序APPSECRET
         $js_code = Request::instance()-> post('code');
         $data = [];
         $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$appid .
                 '&secret='.$secret.
                 '&js_code='.$js_code.
                 '&grant_type=authorization_code';
-        $res =  json_decode(curlHttp($url, $data));
+        $res =  json_decode(curlHttp($url, $data));         //发送一个请求
 
         $session_key  = $res->session_key;
         $openid  = $res->openid;
@@ -48,23 +48,23 @@ class Driver extends Controller{
         //$province = $region[0];
         //$city = $region[1];
         //$area = $region[2];
-        $province = Request::instance()->post('province');
-        $city = Request::instance()->post('city');
-        $area = Request::instance()->post('area');
-        $psw = Request::instance()->post('psw');
-        $tel = Request::instance()->post('tel');
-        $cPsw = Request::instance()->post('cPsw');
-        $driverName = Request::instance()->post('driverName');
-        $idNum = Request::instance()->post('idNum');
-        $getDate = Request::instance()->post('getDate');
-        $carNum = Request::instance()->post('carNum');
-        $carType = Request::instance()->post('carType');
-        $carOwner = Request::instance()->post('carOwner');
-        $regDate = Request::instance()->post('regDate');
-        $btName = Request::instance()->post('btName');
-        $address = Request::instance()->post('address');
-        $openid = Request::instance()->post('openid');
-        $headImg = Request::instance()->post('headImg');
+        $province = Request::instance()->post('province');      //获取省份
+        $city = Request::instance()->post('city');              //获取地级市
+        $area = Request::instance()->post('area');              //获取区/县/县级市
+        $psw = Request::instance()->post('psw');                //密码
+        $tel = Request::instance()->post('tel');                //电话
+        $cPsw = Request::instance()->post('cPsw');              //确认密码
+        $driverName = Request::instance()->post('driverName');  //真实姓名
+        $idNum = Request::instance()->post('idNum');            //身份证
+        $getDate = Request::instance()->post('getDate');        //时间
+        $carNum = Request::instance()->post('carNum');           //车票号
+        $carType = Request::instance()->post('carType');        //车类型
+        $carOwner = Request::instance()->post('carOwner');      //车辆所有人
+        $regDate = Request::instance()->post('regDate');        //车辆注册时间
+        $btName = Request::instance()->post('btName');          //运营类型
+        $address = Request::instance()->post('address');        //详细地址
+        $openid = Request::instance()->post('openid');          //微信开发ID
+        $headImg = Request::instance()->post('headImg');        //头像
         //手机号验证
         if (!preg_match("/^1[3|4|5|8][0-9]\d{8}$/", $tel)) {
             echo 0;
@@ -179,28 +179,28 @@ class Driver extends Controller{
         $bt_id = $btIdArray['bt_id'];
         $psw = md5($psw);
         $data = [
-            'driv_psw'=>$psw,
-            'driv_reg_time' => date("Y-m-d H:i:s"),
-            'prov_num'      => $prov_num,
-            'city_num'      => $city_num,
-            'area_num'      => $area_num,
-            'driv_address'  => $address,
-            'driv_name'     => $driverName,
-            'driv_id_num'   => $idNum,
-            'driv_license_time'=> $getDate,
-            'driv_car_num'    => $carNum,
-            'driv_car_type'    => $carType,
-            'driv_owner'    => $carOwner,
-            'driv_car_reg_time'=>$regDate,
-            'driv_money'=>0,
-            'driv_tel'=>$tel,
-            'driv_status'   => '使用',
-            'driv_score'=>10,
-            'driv_head_img' => $headImg,
-            'bt_id'=>$bt_id,
-            'driv_bank_num'=>'',
-            'open_id'       => $openid,
-            'driv_head_img'=> $headImg
+            'driv_psw'=>$psw,                               //密码
+            'driv_reg_time' => date("Y-m-d H:i:s"),       //注册时间
+            'prov_num'      => $prov_num,                   //省份
+            'city_num'      => $city_num,                   //地级市
+            'area_num'      => $area_num,                   //区/县/县级市
+            'driv_address'  => $address,                    //详细地址
+            'driv_name'     => $driverName,                 //真实姓名
+            'driv_id_num'   => $idNum,                      //身份证
+            'driv_license_time'=> $getDate,                 //领证日期
+            'driv_car_num'    => $carNum,                   //车牌号
+            'driv_car_type'    => $carType,                 //车型（品牌@颜色）
+            'driv_owner'    => $carOwner,                   //车辆所有人
+            'driv_car_reg_time'=>$regDate,                  //车辆注册日期
+            'driv_money'=>0,                                 //余额
+            'driv_tel'=>$tel,                                //电话号码
+            'driv_status'   => '使用',                      //状态
+            'driv_score'=>10,                                //评分
+            'driv_head_img' => $headImg,                    //头像
+            'bt_id'=>$bt_id,                                 //运营类型
+            'driv_bank_num'=>'',                            //银行卡号
+            'open_id'       => $openid,                      //微信开放ID
+            'driv_head_img'=> $headImg                      //头像
         ];
         //数据写入
         $res = Db::name('driver')
