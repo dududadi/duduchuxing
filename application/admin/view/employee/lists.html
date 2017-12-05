@@ -95,12 +95,13 @@
                                     {/switch}
                                 </td>
                                 <td class="td-manage">
-                                    {switch $value.emp_status}
-                                        {case 锁定}
-                                    <a style="text-decoration:none" onClick="member_start(this,'{$value.emp_id}')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>
-                                        {/case}
-                                        {default /}<a style="text-decoration:none" onClick="member_stop(this,'{$value.emp_id}')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
-                                    {/switch}
+                                    {if condition="$value.role_id !== 1"}
+                                        {if condition="$value.emp_status === '锁定'"}
+                                            <a style="text-decoration:none" onClick="member_start(this,'{$value.emp_id}')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>
+                                        {else /}
+                                            <a style="text-decoration:none" onClick="member_stop(this,'{$value.emp_id}')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>
+                                        {/if}
+                                    {/if}
                                     <a title="编辑" href="javascript:;" onclick="member_edit('编辑','{$value.emp_id}','360','700')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
                                     <a title="删除" href="javascript:;" onclick="member_del(this,'{$value.emp_id}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                                 </td>

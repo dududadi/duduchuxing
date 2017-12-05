@@ -53,7 +53,7 @@ class Employee extends Controller{
             ->where(empty($whereDate)?[]:['emp_reg_time' => $whereDate])
             ->where('('.$whereKeyword_name.') or ('.$whereKeyword_nickname.')')
             ->order('t1.emp_id asc')
-            ->field('t1.emp_id,t1.emp_name,t1.emp_status,t2.role_name,t3.prov_name,t4.city_name,t5.area_name')
+            ->field('t1.emp_id,t1.emp_name,t1.emp_status,t2.role_id,t2.role_name,t3.prov_name,t4.city_name,t5.area_name')
             ->paginate($getPageSize , false , ['type'=>'Hui']);
         $this->assign('list',$data); //绑定列表数据
         $this->assign('pageSize',$getPageSize); //绑定分页数据
