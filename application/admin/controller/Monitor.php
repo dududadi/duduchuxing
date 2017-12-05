@@ -107,7 +107,7 @@ class Monitor extends Controller {
             ->alias('t1')
             ->join('d_order_list t2','t1.ol_id = t2.ol_id')
             ->where('t1.ol_id',$getOrderId)
-            ->order('t1.dis_time asc')
+            ->order('t1.dis_time asc,t1.dis_id asc')
             ->field('dis_longitude,dis_latitude')
             ->select();
             $data = json_encode($data);
