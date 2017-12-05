@@ -13,6 +13,7 @@ use think\Session;
 class Chat extends Controller {
     public function _initialize() {
         if (sessionAssist('isLogin')) {
+            echo "hello 1111";exit;
             $this -> redirect('http://www.hjw123.xin:55151/');
         } else if (cookieAssist('isLogin')) {
             //判断当前用户是否存在凭证，有则直接跳转主页
