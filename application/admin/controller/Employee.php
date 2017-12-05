@@ -125,7 +125,7 @@ class Employee extends Controller{
         } else {
             if ($hasHeadImg) {
                 $path = $_SERVER['DOCUMENT_ROOT'].Request::instance()->root().'/static/img/update/emp_headImg'; //上传文件存储路径
-                $savePath = $this->saveUpload($_FILES['file-2'], $path, $name.$timestamp); //将上传文件保存
+                $savePath = $this->saveUpload($_FILES['file-2'], $path, (rand(0,10)*rand(0,10)*strlen($name)/10).$timestamp); //将上传文件保存
             }
 
             if ($id) {
