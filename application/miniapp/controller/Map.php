@@ -6,33 +6,19 @@ use think\Request;
 use think\Db;
 class Map extends Controller
 {
-	public function getPath()
-	{
-		//dump(input("post.latitude"));
-		$lat1 = Request::instance()-> post('latitude');
-		$lng1 = Request::instance()-> post('longitude');
-		$data=[
-			'dis_latitude'=>$lat1,
-			'dis_longitude'=>$lng1,
-		];
-		//$distance=DB::name('distance')->
-		exit();
-	}
-	public function calculate()
-	{
-		
-	}
+	//计算两点之间距离
 	public function getDistance($lat1, $lng1, $lat2, $lng2){   
-		$radLat1=deg2rad($lat1);//deg2rad()函数将角度转换为弧度
+		$radLat1=deg2rad($lat1);	//deg2rad()函数将角度转换为弧度
 	    $radLat2=deg2rad($lat2);
 	    $radLng1=deg2rad($lng1);
 	    $radLng2=deg2rad($lng2);
-	    $a=$radLat1-$radLat2;
-	    $b=$radLng1-$radLng2;
-	    $s=2*asin(sqrt(pow(sin($a/2),2)+cos($radLat1)*cos($radLat2)*pow(sin($b/2),2)))*6378.137;
+	    $a=$radLat1-$radLat2;		//计算弧度差，两个点之间的距离，需要考虑地球弧度
+	    $b=$radLng1-$radLng2;		//计算弧度差，两个点之间的距离，需要考虑地球弧度
+	    $s=2*asin(sqrt(pow(sin($a/2),2)+cos($radLat1)*cos($radLat2)*pow(sin($b/2),2)))*6378.137;//计算公式
 	    return $s;   
 	}
-	
+
+	//获取当前位置
 	public function wxaddress(){
 		$fromlat = $_GET['fromlat'];//接收起点纬度
 		$fromlng = $_GET['fromlng'];//接收起点经度
