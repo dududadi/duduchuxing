@@ -22,7 +22,7 @@
 <title>新闻管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 新闻中心 <span class="c-gray en">&gt;</span> 新闻管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 新闻中心 <span class="c-gray en">&gt;</span> 新闻管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" onclick="refresh()";" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c"> 日期范围：
 		<form action="{:url('admin/news/edit')}" method="get">
@@ -33,7 +33,7 @@
 		</form>
 		
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加新闻','publish.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加新闻</a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"> <a href="javascript:;" onclick="member_add('添加新闻','publish.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加新闻</a></span> <span class="r"><strong>88</strong> </span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -58,7 +58,7 @@
 				<td class="text-l">{$vle.news_content}</td>
 				<td>{$vle.news_release_time}</td>
 				<td class="td-status"><span class="label label-success radius" id="state">{$vle.news_status}</span></td>
-				<td class="td-manage"><a style="text-decoration:none" onClick="member_stop(this,{$vle.news_id})" href="javascript:;" title="改变状态"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','newsEdit.html?id={$vle.news_id}','{$vle.news_id}','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a><a title="删除" href="javascript:;" onclick="member_del(this,{$vle.news_id})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td class="td-manage"><a style="text-decoration:none" onClick="member_stop(this,{$vle.news_id})" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','newsEdit.html?id={$vle.news_id}','{$vle.news_id}','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a><a title="删除" href="javascript:;" onclick="member_del(this,{$vle.news_id})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 			</tr>
 			{/volist}
 		</tbody>
@@ -148,6 +148,11 @@ function member_del(obj,id){
 			},
 		});		
 	});
+}
+//刷新
+function refresh()
+{
+	history.go(0)
 }
 </script> 
 </body>
