@@ -53,9 +53,9 @@ class Chart extends Controller {
             -> find();
             
             array_push($byDayCategories, substr($theDay, 5, 5));
-            array_push($byDayUserData, $oneUser['num']);
-            array_push($byDayFastDriverData, $oneFastDriver['num']);
-            array_push($byDayTaxiDriverData, $oneTaxiDriver['num']);
+            array_push($byDayUserData, intval($oneUser['num']));
+            array_push($byDayFastDriverData, intval($oneFastDriver['num']));
+            array_push($byDayTaxiDriverData, intval($oneTaxiDriver['num']));
         }
 
         //统计最近六个月的注册人数
@@ -82,9 +82,9 @@ class Chart extends Controller {
             -> find();
             
             array_push($byMonthCategories, $theMonth);
-            array_push($byMonthUserData, $oneUser['num']);
-            array_push($byMonthFastDriverData, $oneFastDriver['num']);
-            array_push($byMonthTaxiDriverData, $oneTaxiDriver['num']);
+            array_push($byMonthUserData, intval($oneUser['num']));
+            array_push($byMonthFastDriverData, intval($oneFastDriver['num']));
+            array_push($byMonthTaxiDriverData, intval($oneTaxiDriver['num']));
         }
 
         $this -> assign('byDayCategories', json_encode($byDayCategories));
@@ -148,11 +148,12 @@ class Chart extends Controller {
             -> find();
 
             array_push($byDayCategories, substr($theDay, 5, 5));
-            array_push($byDayFastCompletedData, $oneFastCompleted['num']);
-            array_push($byDayFastFailedData, $oneFastFailed['num']);
-            array_push($byDayTaxiCompletedData, $oneTaxiCompleted['num']);
-            array_push($byDayTaxiFailedData, $oneTaxiFailed['num']);
+            array_push($byDayFastCompletedData, intval($oneFastCompleted['num']));
+            array_push($byDayFastFailedData, intval($oneFastFailed['num']));
+            array_push($byDayTaxiCompletedData, intval($oneTaxiCompleted['num']));
+            array_push($byDayTaxiFailedData, intval($oneTaxiFailed['num']));
         }
+        
 
         //统计最近六个月的订单数量
         for ($i =0; $i < 6; $i++) {
@@ -187,14 +188,11 @@ class Chart extends Controller {
             -> find();
             
             array_push($byMonthCategories, $theMonth);
-            array_push($byMonthFastCompletedData, $oneFastCompleted['num']);
-            array_push($byMonthFastFailedData, $oneFastFailed['num']);
-            array_push($byMonthTaxiCompletedData, $oneTaxiCompleted['num']);
-            array_push($byMonthTaxiFailedData, $oneTaxiFailed['num']);
+            array_push($byMonthFastCompletedData, intval($oneFastCompleted['num']));
+            array_push($byMonthFastFailedData, intval($oneFastFailed['num']));
+            array_push($byMonthTaxiCompletedData, intval($oneTaxiCompleted['num']));
+            array_push($byMonthTaxiFailedData, intval($oneTaxiFailed['num']));
         }
-
-        dump($byMonthFastCompletedData);
-        exit;
 
         $this -> assign('byDayCategories', json_encode($byDayCategories));
         $this -> assign('byDayFastCompletedData', json_encode($byDayFastCompletedData));
