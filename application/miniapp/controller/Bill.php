@@ -33,13 +33,11 @@ class Bill extends Controller {
 		$list = DB::name('user')
 					->alias('u')//给表起别名
 			->join('user_money_record umr','umr.user_id = u.user_id')		//联表查询 司机钱包记录表
-            ->join('driver d','d.driv_id = umr.driv_id')
             ->where('u.open_id',$openid)			//将微信开放ID作为凭证向数据库查询信息
 			->where('umr_result','成功')			//获取结果为成功的钱包记录
             ->field([
-                'umr_time' => 'dmrTime',			//结款时间
-                'umr_money' => 'drivMoney',	//金额
-                'driv_name'	=>'drivName'		//支付时间
+                'umr_time' => 'dmrTime',			//支付时间
+                'umr_money' => 'drivMoney',	//金额		
             ])
 			->select();
 		echo json_encode($list);
