@@ -86,7 +86,7 @@ INSERT INTO d_smenu VALUES
 (null,'订单统计','admin/Chart/orderList',  8),
 (null,'用户统计','admin/Chart/user',       8),
 (null,'营销统计','admin/Chart/market',     8),
-(null,'客服聊天','admin/Chat/chat',9),
+(null,'客服聊天','admin/Chats/chats',9),
 (null,'快车规则','admin/Rule/car',10),
 (null,'出租车规则','admin/Rule/taxi',10);
 
