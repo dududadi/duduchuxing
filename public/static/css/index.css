@@ -113,7 +113,7 @@
     bottom: -25px;
 }
 #ljf .news .title{
-    padding: 30px 60px 0;
+    padding: 30px 60px;
 }
 #ljf .news .title hr{
     width: 80px;
@@ -167,22 +167,32 @@
 #ljf #download img{
     width: 130px;
 }
+#ljf footer >div:last-child{
+    margin-top: 120px;
+    margin-bottom: 50px;
+}
 #ljf .paddingTB60{
-    padding-top: 30px;
+    padding-top: 60px;
     padding-bottom: 30px;
+}
+#ljf footer h5{
+    padding-top: 0!important;
 }
 #ljf #download >div:nth-child(2) >h5{
     padding: 0;
 }
 
-@media screen and (min-width: 1367px) {
+@media screen and (min-width: 1366px) {
     #ljf #download img{
         width: 200px;
     }
 }
-@media screen and (min-width: 970px) and (max-width: 1367px) {
+@media screen and (min-width: 970px) and (max-width: 1366px) {
     #ljf #download img{
         width: 150px;
+    }
+    #ljf footer >div:last-child{
+        margin-top: 100px;
     }
 }
 @media screen and (max-width: 970px) {

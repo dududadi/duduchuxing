@@ -42,13 +42,11 @@
                 <input type="text" onfocus="WdatePicker()" id="datemax" name="datemax" class="input-text Wdate" style="width:120px;">
                 <input type="text" class="input-text" name="phone" style="width:250px" placeholder="输入姓名或昵称关键字" >
                 <button type="button" class="btn btn-success radius" name="search-emp"><i class="Hui-iconfont">&#xe665;</i> 搜员工</button>
-                <button type="button" class="btn btn-success radius" onclick="test()"><i class="Hui-iconfont">&#xe665;</i> 搜员工</button>
             </form>
             <div class="cl pd-5 bg-1 bk-gray mt-20" style="position: relative;">
                 <span class="l">
                     <a href="javascript:;" onclick="dataunlock(this)" class="btn btn-success radius"><i class="Hui-iconfont">&#xe605;</i> 批量解锁</a>
                     <a href="javascript:;" onclick="datalock(this)" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe60e;</i> 批量锁定</a>
-                    <a href="###" onclick="savePoint()">保存路径</a>
                 </span>
             <div class="changePageSize" style="position: absolute;top: 40px;left: 0;">
                 <span style="margin-left: 10px;">显示</span>
@@ -127,28 +125,6 @@
     <script type="text/javascript" src="__HUI__/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="__HUI__/lib/laypage/1.2/laypage.js"></script>
     <script type="text/javascript">
-        function test() {
-            $.ajax({
-
-                url: '{:url("miniapp/driver/verify")}',
-                type: 'POST',
-                data:{openId:123123},
-                success: function (res) {
-                    console.log(res);
-                    if (res.data) {
-                        //审核已通过
-                       console.log(res);
-                    }
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-
-
-
-
-            });
-        }
         function savePoint() {
             $.ajax({
                 url:'{:url("miniapp/TestPoint/index")}',
@@ -185,7 +161,7 @@
         });
 
         //返回拼接的查询条件
-        function searchData() {
+        function searchData(w) {
             var $dateMinNode = $('#datemin');
             var $dateMaxNode = $('#datemax');
             var $keywordNode = $('[name="phone"]');
@@ -196,10 +172,10 @@
             //关键字条件
             var keywordArr = unique($keywordNode.val().replace(/\s+/g,' ').split(' ')); //过滤关键字的空格和重复部分
             var keywordVal = keywordArr.join('@');
-            var condition = '?';
-            condition += dateMinVal?'dateMin='+dateMinVal:'';
-            condition += dateMaxVal?'&dateMax='+dateMaxVal:'';
-            condition += keywordVal?'&keyword='+keywordVal:'';
+            var condition = w;
+            condition += dateMinVal?'dateMin='+dateMinVal+'&':'';
+            condition += dateMaxVal?'dateMax='+dateMaxVal+'&':'';
+            condition += keywordVal?'keyword='+keywordVal:'';
             return condition;
         }
 
@@ -245,7 +221,7 @@
 
             $searchBtn.click(function (e) {
                 e.stopPropagation();
-                window.location.href = '{:url("admin/employee/lists")}' + searchData();
+                window.location.href = '{:url("admin/employee/lists")}' + searchData('?');
             });
 
             //点击翻页时
@@ -253,7 +229,7 @@
                 e.stopPropagation();
                 var $this = $(this);
                 var url = $this.attr('href');
-                $this.attr('href',url+searchData());
+                $this.attr('href',url+searchData('&'));
             });
 
             setSearchData();

@@ -15,13 +15,18 @@ class Monitor extends Controller {
 
     //显示司机正在进行的订单
     public function driver() {
-        $getProvince = input('post.province','');
-        $getCity = input('post.city','');
-        $getArea = input('post.area','');
+        $getProvince = input('param.province','');
+        $getCity = input('param.city','');
+        $getArea = input('param.area','');
 
         if ($getProvince && !$getCity && !$getArea) {
             $this->assign('alert','1');
+            $this->assign('area',json_encode([$getProvince,$getCity,$getArea])); //绑定省市区
             return $this->fetch();
+        } else if ($getCity || $getArea) {
+            $this->assign('area',json_encode([$getProvince,$getCity,$getArea]));
+        } else {
+            $this->assign('area',json_encode([]));
         }
 
         if ($getCity) {
@@ -56,13 +61,18 @@ class Monitor extends Controller {
 
     //显示已完成的订单
     public function history() {
-        $getProvince = input('post.province','');
-        $getCity = input('post.city','');
-        $getArea = input('post.area','');
+        $getProvince = input('param.province','');
+        $getCity = input('param.city','');
+        $getArea = input('param.area','');
 
         if ($getProvince && !$getCity && !$getArea) {
             $this->assign('alert','1');
+            $this->assign('area',json_encode([$getProvince,$getCity,$getArea])); //绑定省市区
             return $this->fetch();
+        } else if ($getCity || $getArea) {
+            $this->assign('area',json_encode([$getProvince,$getCity,$getArea]));
+        } else {
+            $this->assign('area',json_encode([]));
         }
 
         if ($getCity) {
@@ -118,15 +128,21 @@ class Monitor extends Controller {
         }
     }
 
+
     //显示乘客正在进行的订单
     public function user() {
-        $getProvince = input('post.province','');
-        $getCity = input('post.city','');
-        $getArea = input('post.area','');
+        $getProvince = input('param.province','');
+        $getCity = input('param.city','');
+        $getArea = input('param.area','');
 
         if ($getProvince && !$getCity && !$getArea) {
             $this->assign('alert','1');
+            $this->assign('area',json_encode([$getProvince,$getCity,$getArea])); //绑定省市区
             return $this->fetch();
+        } else if ($getCity || $getArea) {
+            $this->assign('area',json_encode([$getProvince,$getCity,$getArea]));
+        } else {
+            $this->assign('area',json_encode([]));
         }
 
         if ($getCity) {
@@ -182,13 +198,10 @@ class Monitor extends Controller {
     }
 
     public function getSelectVal() {
-        //获取角色下拉菜单
-        $roleData = db('role')->column('role_id,role_name');
-        $roleData = empty($roleData)?'0':$roleData;
         //获取省份下拉菜单
         $provinceData = db('province')->column('prov_num,prov_name');
         $provinceData = empty($provinceData)?'0':$provinceData;
-        $data = ['role' => $roleData,'province' => $provinceData];
+        $data = ['province' => $provinceData];
         return json($data);
     }
 
@@ -203,7 +216,7 @@ class Monitor extends Controller {
 
     //获取区/县下拉菜单
     public function getArea() {
-        $cityNum = input('post.cityNum','');
+        $cityNum = input('param.cityNum','');
         $areaData = db('area')->where('city_num',$cityNum)->column('area_num,area_name');
         $areaData = empty($areaData)?'0':$areaData;
         $data = ['area' => $areaData];
