@@ -10,7 +10,7 @@ namespace app\admin\controller;
 use think\Controller;           //引用官方封装的控制类
 use think\Db;
 use think\Session;
-class Chat extends Controller {
+class Chats extends Controller {
     public function _initialize() {
 //        if (sessionAssist('isLogin')) {
 //            echo "hello 1111";exit;
@@ -26,7 +26,7 @@ class Chat extends Controller {
 //        }
     }
 
-   public function chat(){
+   public function chats(){
 //        echo "hello word";exit;
         $this -> redirect('http://www.hjw123.xin:55151/',302);
     }
