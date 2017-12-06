@@ -39,7 +39,7 @@ class Bill extends Controller {
                 'dmr_money' => 'drivMoney',	//金额
                 'umr_time' =>'dmrTime',
                 'driv_name'	=>'drivName'		//支付时间
-            ])
+            ]);
 		echo json_encode($list);
 		exit;
 	}
