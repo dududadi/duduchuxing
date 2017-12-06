@@ -160,9 +160,50 @@ class Wexinpay extends Controller
 
 	public function notify_url()
 	{
-		echo "我求求你别报错了";
-		exit;
+		/*
+     * 给微信发送确认订单金额和签名正确，SUCCESS信息 -xzz0521
+     */
+		//获取xml信息
+        $postStr = post_data();
+		$postXml=xml($postStr);
+		//转成json
+		$postXml =json_encode($postXml);
+		//获取返回
+        if($postXml['return_code']=='SUCCESS'){
+            /*
+            * 判断是否success
+            */
+            $this->return_success();
+        }else{
+            echo '微信支付失败';
+        }
+        exit;
 	}
+	//接收异步回调的方法
+	function post_data(){
+		$receipt = $_REQUEST;
+		if($receipt==null){
+			//接收xml数据
+			$receipt = file_get_contents("php://input");
+			if($receipt == null){
+				//接收xml数据
+				$receipt = $GLOBALS['HTTP_RAW_POST_DATA'];
+			}
+		}
+		return $receipt;
+	}
+	/*
+     * 给微信发送确认订单金额和签名正确，SUCCESS信息 -xzz0521
+     */
+    private function return_success(){
+        $return['return_code'] = 'SUCCESS';
+        $return['return_msg'] = 'OK';
+        $xml_post = '<xml>
+                    <return_code>'.$return['return_code'].'</return_code>
+                    <return_msg>'.$return['return_msg'].'</return_msg>
+                    </xml>';
+        echo $xml_post;exit;
+    }
 	
 	//获取xml
 	private function xml($xml){
