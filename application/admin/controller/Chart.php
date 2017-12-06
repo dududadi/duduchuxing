@@ -193,6 +193,9 @@ class Chart extends Controller {
             array_push($byMonthTaxiFailedData, $oneTaxiFailed['num']);
         }
 
+        dump($byMonthFastCompletedData);
+        exit;
+
         $this -> assign('byDayCategories', json_encode($byDayCategories));
         $this -> assign('byDayFastCompletedData', json_encode($byDayFastCompletedData));
         $this -> assign('byDayFastFailedData',  json_encode($byDayFastFailedData));
