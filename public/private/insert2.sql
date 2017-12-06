@@ -80,13 +80,12 @@ INSERT INTO d_smenu VALUES
 (null,'过期订单','admin/OrderList/overdue',5),
 (null,'角色列表','admin/Role/lists',        6),
 (null,'添加角色','admin/Role/add',         6),
-(null,'推广信息','admin/News/spread',       7),
 (null,'新闻发布','admin/News/publish',      7),
 (null,'新闻编辑','admin/News/edit',         7),
 (null,'订单统计','admin/Chart/orderList',  8),
 (null,'用户统计','admin/Chart/user',       8),
 (null,'营销统计','admin/Chart/market',     8),
-(null,'客服聊天','admin/Chat/chat',9),
+(null,'客服聊天','admin/Chats/chats',9),
 (null,'快车规则','admin/Rule/car',10),
 (null,'出租车规则','admin/Rule/taxi',10);
 
@@ -112,8 +111,7 @@ INSERT INTO d_role_menu VALUES
 (null,1,18),
 (null,1,19),
 (null,1,20),
-(null,1,21),
-(null,1,22);
+(null,1,21);
 
 -- 员工表
 INSERT INTO d_employee VALUES
