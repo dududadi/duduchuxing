@@ -93,6 +93,7 @@
                                     {/switch}
                                 </td>
                                 <td class="td-manage">
+                                    <!--超级管理员不能被锁定-->
                                     {if condition="$value.role_id !== 1"}
                                         {if condition="$value.emp_status === '锁定'"}
                                             <a style="text-decoration:none" onClick="member_start(this,'{$value.emp_id}')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>
