@@ -44,6 +44,7 @@ class Order extends Controller{
                 'ol_id'=>'orderId',
                 'd.driv_id'=>'driverId'
             ])
+            ->order('ol_start_time desc')
             ->select();
         $ruleArr = Db::name('business_type')
             ->alias('bt')
@@ -97,6 +98,7 @@ class Order extends Controller{
                 'driv_head_img' => 'headImg',
                 'ol_id'=>'orderId'
             ])
+            ->order('ol_start_time desc')
             ->select();
         $ruleArr = Db::name('business_type')
             ->alias('bt')
